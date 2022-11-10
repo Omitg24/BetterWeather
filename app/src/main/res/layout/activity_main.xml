@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewTemperaturaMain"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewPrincipal"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.334" />
+
+    <ImageButton
+        android:id="@+id/imageButtonSearch"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewUnidades"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.411"
+        app:layout_constraintStart_toEndOf="@+id/editTextPlaceSearch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807"
+        app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <Spinner
+        android:id="@+id/spinnerUnits"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:backgroundTint="#000000"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <TextView
+        android:id="@+id/textViewFechaSistema"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center_vertical"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.145" />
+
+    <TextView
+        android:id="@+id/textViewUnidades"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="right|center_vertical"
+        android:text="@string/textoUnidades"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerUnits"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.601"
+        app:layout_constraintStart_toEndOf="@+id/textViewFechaSistema"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.935" />
+
+    <EditText
+        android:id="@+id/editTextPlaceSearch"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center_vertical"
+        android:hint="@string/textoBuscarHint"
+        android:inputType="textPersonName"
+        android:text="@string/textoBuscarEjemplo"
+        android:textColor="#FFFFFF"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewFechaSistema"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.267"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="350dp"
+        android:layout_height="209dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:alpha="0.8"
+        android:background="@drawable/rounded"
+        android:backgroundTint="@color/cardview_light_background"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.921"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gridLayoutDays"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:rowCount="1" />
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/imageViewPrincipal"
+        android:layout_width="131dp"
+        android:layout_height="114dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDescripcion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965" />
+
+    <TextView
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="110dp"
+        android:layout_height="38dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="clip_horizontal|center"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.727" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

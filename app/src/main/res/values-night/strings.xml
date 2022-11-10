@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="textoBuscar">London</string>
+    <string name="textoBuscarHint">Lugar</string>
+    <string name="textoDescripcion">Sol y nubes</string>
+</resources>

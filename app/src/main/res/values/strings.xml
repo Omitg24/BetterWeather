@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BetterWeather</string>
+    <string name="textoBuscarEjemplo">Londres</string>
+    <string name="textoBuscarHint">Lugar</string>
+    <string name="textoUnidades">Unidades</string>
+    <string name="textoDescripcion">Sol y nubes</string>
+
+    <string-array name="units_array">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fahrenheit</item>
+    </string-array>
+</resources>
