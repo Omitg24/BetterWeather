@@ -16,7 +16,7 @@ Este proyecto se ha desarrollado conjuntamente entre Israel Solís Iglesias y Om
 se ha cumplido con la funcion de implementar el programa definido mediante la técnica de SCRUM.
 </p>
 
-### *Información sobre el proyecto*
+### *Descripción del proyecto*
 ---
 <p align="justify">
 Se trata de una aplicación enfocada al tiempo atmosférico, mostrando la temperatura y temporal en la zona seleccionada 
