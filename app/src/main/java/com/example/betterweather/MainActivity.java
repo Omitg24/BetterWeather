@@ -1,4 +1,4 @@
-package com.example.BetterWeather;
+package com.example.betterweather;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.BetterWeather.R;
+import com.example.betterweather.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.example.BetterWeather;
+package com.example.betterweather;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.sdm_proyecto", appContext.getPackageName());
+        assertEquals("com.example.betterweather", appContext.getPackageName());
     }
 }

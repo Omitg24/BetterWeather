@@ -1,4 +1,4 @@
-package com.example.BetterWeather;
+package com.example.betterweather;
 
 import android.graphics.Color;
 import android.view.View;
@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
 
-import com.example.BetterWeather.apiUtils.WeatherAPI;
-import com.example.BetterWeather.modelo.TemperaturaData;
-import com.example.BetterWeather.R;
+import com.example.betterweather.apiUtils.WeatherAPI;
+import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
