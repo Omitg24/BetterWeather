@@ -1,6 +1,10 @@
 package com.example.betterweather;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -8,15 +12,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.betterweather.R;
-
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,33 +28,33 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewSystemTime;
 
+    private ImageButton imageButtonVistaMapa;
+
     private EditText placeSearch;
 
-    private ImageButton btnSearch;
-
     private Spinner spinnerUnits;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private Timer timer = new Timer();
+
+    private final long DELAY = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         apiManager = new ApiManager();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         placeSearch = (EditText) findViewById(R.id.editTextPlaceSearch);
         textViewSystemTime = (TextView) findViewById(R.id.textViewFechaSistema);
-        btnSearch = (ImageButton) findViewById(R.id.imageButtonSearch);
+        imageButtonVistaMapa = (ImageButton) findViewById(R.id.imageButtonVistaMapa);
         spinnerUnits = (Spinner) findViewById(R.id.spinnerUnits);
 
         Date currentTime = Calendar.getInstance().getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
         textViewSystemTime.setText(sdf.format(currentTime));
-
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateWeather();
-            }
-        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.units_array, android.R.layout.simple_spinner_item);
@@ -66,15 +70,28 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        updateWeather();
+        findLocationAndSetText();
+
+        placeSearch.addTextChangedListener(getListenerBusqueda());
+
+
+        findViewById(R.id.imageButtonVistaMapa).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri uriUrl = Uri.parse("https://openweathermap.org/weathermap?basemap=map&cities=false&layer=precipitation&lat="+ apiManager.getLat() +"&lon="+apiManager.getLon() +"&zoom=5");
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }
+        });
+    }
+
+    private void findLocationAndSetText() {
+       apiManager.findLocationAndSetText(this,placeSearch,fusedLocationClient);
     }
 
     private void updateWeather() {
-        if (placeSearch.getText().length() < 2) {
-            Toast.makeText(this, "Debes ser mas especifico con el lugar :(", Toast.LENGTH_SHORT).show();
-        } else {
-            apiManager.getWeather(this, placeSearch.getText().toString(), getUnit(spinnerUnits.getSelectedItem().toString()));
-        }
+        apiManager.getWeather(this, placeSearch.getText().toString(), getUnit(spinnerUnits.getSelectedItem().toString()));
     }
 
     private String getUnit(String unit) {
@@ -101,6 +118,34 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivity getActivity() {
         return this;
+    }
+
+    private TextWatcher getListenerBusqueda(){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                timer.cancel();
+                timer = new Timer();
+                //Anadiendo delay para que no saturar la api
+                timer.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                updateWeather();
+                            }
+                        },DELAY);
+            }
+        };
     }
 
     /*

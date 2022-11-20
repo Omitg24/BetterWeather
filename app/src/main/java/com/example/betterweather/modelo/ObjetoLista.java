@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ObjetoLista {
 
     private String name;
+    private Coord coord;
     private MainData main;
     private Wind wind;
     private Rain rain;
@@ -18,6 +19,24 @@ public class ObjetoLista {
         this.rain = rain;
         this.clouds = clouds;
         this.weather = weather;
+    }
+
+    public ObjetoLista(String name, Coord coord, MainData main, Wind wind, Rain rain, Clouds clouds, ArrayList<Weather> weather) {
+        this.name = name;
+        this.coord = coord;
+        this.main = main;
+        this.wind = wind;
+        this.rain = rain;
+        this.clouds = clouds;
+        this.weather = weather;
+    }
+
+    public Coord getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coord coord) {
+        this.coord = coord;
     }
 
     public String getName() {

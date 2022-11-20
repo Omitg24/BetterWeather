@@ -1,20 +1,35 @@
 package com.example.betterweather;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.net.Uri;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +45,11 @@ public class ApiManager {
     private TemperaturaData result;
 
     private String urlBase = "https://api.openweathermap.org/data/2.5/";
+
+    private String urlMapa = "https://tile.openweathermap.org/map/";
+
+    private double lat;
+    private double lon;
 
     private Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBase).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -50,17 +70,68 @@ public class ApiManager {
                         imageViewPrincipal.setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
                         TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
                         textViewPrincipal.setText(getIdOfTextView(result.getList().get(0).getWeather().get(0).getDescription()));
+                        lon = result.getList().get(0).getCoord().getLon();
+                        lat = result.getList().get(0).getCoord().getLat();
                     } else {
-                        Toast.makeText(activity, "No se ha podido realizar la solicitud, intenta ser mas especifico con el lugar :(", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "No se ha podido encontrar el lugar, intenta ser más especifico", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<TemperaturaData> call, Throwable t) {
-                Toast.makeText(activity, "No se ha podido realizar la solicitud :(", Toast.LENGTH_SHORT).show();
+                Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "No se ha podido realizar la solicitud :(", Snackbar.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void findLocationAndSetText(MainActivity activity,EditText placeSearch,FusedLocationProviderClient fusedLocationClient){
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La aplicación no tiene permisos para acceder a tu ubicación", Snackbar.LENGTH_SHORT).show();
+            placeSearch.setText("Londres");
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            Geocoder geoCoder = new Geocoder(activity.getApplicationContext(), Locale.getDefault());
+                            List<Address> dir;
+                            try {
+                                dir = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                lat = dir.get(0).getLatitude();
+                                lon = dir.get(0).getLongitude();
+                            } catch (IOException e) {
+                                placeSearch.setText("Londres");
+                                return;
+                            }
+                            placeSearch.setText(dir.get(0).getPostalCode());
+                        } else {
+                            placeSearch.setText("Londres");
+                            return;
+                        }
+                    }
+                });
+
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 
     private void updateInfoViewDays(MainActivity activity) {

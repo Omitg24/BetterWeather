@@ -25,17 +25,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.334" />
 
-    <ImageButton
-        android:id="@+id/imageButtonSearch"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewUnidades"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
-        app:layout_constraintStart_toEndOf="@+id/editTextPlaceSearch"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.807"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/imageButtonSearch"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/textViewUnidades"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.411"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/editTextPlaceSearch"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.807"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_search" />-->
 
     <Spinner
         android:id="@+id/spinnerUnits"
@@ -95,7 +95,7 @@
         android:foregroundGravity="center_vertical"
         android:hint="@string/textoBuscarHint"
         android:inputType="textPersonName"
-        android:text="@string/textoBuscarEjemplo"
+        android:text=""
         android:textColor="#FFFFFF"
         android:textSize="22dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewFechaSistema"
@@ -155,5 +155,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.727" />
+
+    <ImageButton
+        android:id="@+id/imageButtonVistaMapa"
+        android:layout_width="59dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054"
+        app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
