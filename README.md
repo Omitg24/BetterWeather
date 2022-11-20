@@ -5,7 +5,7 @@
 
 |    Titulo     |            Autores            |         UOs        |
 | ------------- |:-----------------------------:|:------------------:|
-|   **Better**  |    Israel Solís Iglesias      | UO282168@uniovi.es |
+|   **Better**  |    Israel Solís Iglesias      | UO282162@uniovi.es |
 |  **Weather**  |    Omar Teixeira González     | UO281847@uniovi.es |
 
 ### *Información sobre el proyecto*
