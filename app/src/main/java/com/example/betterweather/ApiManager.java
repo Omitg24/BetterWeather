@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,11 +23,14 @@ import androidx.gridlayout.widget.GridLayout;
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.R;
+import com.example.betterweather.modelo.ui.LineaReciclerFav;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -47,6 +52,8 @@ public class ApiManager {
     private String urlBase = "https://api.openweathermap.org/data/2.5/";
 
     private String urlMapa = "https://tile.openweathermap.org/map/";
+
+    public final static String URL = "http://openweathermap.org/img/wn/";
 
     private double lat;
     private double lon;
@@ -134,6 +141,26 @@ public class ApiManager {
         this.lon = lon;
     }
 
+    public TemperaturaData callApi(String city,String units){
+        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
+        Call<TemperaturaData> call = weatherAPI.getCourse(city, units);
+        call.enqueue(new Callback<TemperaturaData>() {
+            @Override
+            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
+                if (response.isSuccessful()) {
+                    result = response.body();
+                    Log.i("aasd","aasdasdasdasdsadsa");
+                }
+                Log.i("aasd","erigweruywetryuetgruywer");
+            }
+            @Override
+            public void onFailure(Call<TemperaturaData> call, Throwable t) {
+                Log.i("aasd","ooeriuweoriuweori");
+            }
+        });
+        return result;
+    }
+
     private void updateInfoViewDays(MainActivity activity) {
         GridLayout grid = (GridLayout) activity.findViewById(R.id.gridLayoutDays);
         grid.removeAllViews();
@@ -166,23 +193,14 @@ public class ApiManager {
         }
     }
 
-    private int getIdOfImageView(String description) {
-        if (description.contains("nubes")) {
-            return R.mipmap.ic_launcher_nubes_foreground;
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
         }
-        if (description.contains("sol")) {
-            return R.mipmap.ic_sol;
-        }
-        if (description.contains("lluvia")) {
-            return R.mipmap.ic_launcher_lluvia_foreground;
-        }
-        if (description.contains("nieve")) {
-            return R.mipmap.ic_launcher_nieve_foreground;
-        }
-        if (description.contains("tormenta")) {
-            return R.mipmap.ic_launcher_tormenta_foreground;
-        }
-        return R.mipmap.ic_launcher_solnubes_foreground;
     }
 
     private String getIdOfTextView(String description) {
@@ -204,6 +222,25 @@ public class ApiManager {
         return "Sol y Nubes";
     }
 
+    private int getIdOfImageView(String description) {
+        if (description.contains("nubes")) {
+            return R.mipmap.ic_launcher_nubes_foreground;
+        }
+        if (description.contains("sol")) {
+            return R.mipmap.ic_sol;
+        }
+        if (description.contains("lluvia")) {
+            return R.mipmap.ic_launcher_lluvia_foreground;
+        }
+        if (description.contains("nieve")) {
+            return R.mipmap.ic_launcher_nieve_foreground;
+        }
+        if (description.contains("tormenta")) {
+            return R.mipmap.ic_launcher_tormenta_foreground;
+        }
+        return R.mipmap.ic_launcher_solnubes_foreground;
+    }
+
     private String getFechaString(int i) {
         if (i == 0) {
             return "Hoy";
@@ -214,4 +251,22 @@ public class ApiManager {
         return sdf.format(fecha.getTime());
     }
 
+    public void getWeather(LineaReciclerFav lineaReciclerFav, String identificadorLugar, String units) {
+        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
+        Call<TemperaturaData> call = weatherAPI.getCourse(identificadorLugar, units);
+        call.enqueue(new Callback<TemperaturaData>() {
+            @Override
+            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
+                if (response.isSuccessful()) {
+                    result = response.body();
+                    lineaReciclerFav.getLugar().setText(identificadorLugar);
+                    lineaReciclerFav.getTemperatura().setText(result.getList().get(0).getMain().getTemp());
+                    lineaReciclerFav.getImagen().setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
+                }
+            }
+            @Override
+            public void onFailure(Call<TemperaturaData> call, Throwable t) {
+            }
+        });
+    }
 }

@@ -1,10 +1,13 @@
 package com.example.betterweather;
 
+import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +17,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.betterweather.db.LugaresDataSource;
+import com.example.betterweather.modelo.Lugar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import java.text.SimpleDateFormat;
@@ -44,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+
         apiManager = new ApiManager();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         placeSearch = (EditText) findViewById(R.id.editTextPlaceSearch);
@@ -70,7 +79,13 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        findLocationAndSetText();
+        if(intent.getExtras()==null){
+            findLocationAndSetText();
+        }else{
+            placeSearch.setText(((Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO)).getIdentificadorLugar());
+            updateWeather();
+        }
+
 
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
@@ -84,7 +99,34 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(launchBrowser);
             }
         });
+
+        findViewById(R.id.botonFav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click();
+            }
+        });
+
+        findViewById(R.id.addFav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add();
+            }
+        });
     }
+
+    private void add(){
+        LugaresDataSource l = new LugaresDataSource(getApplicationContext());
+        l.open();
+        l.createLugar(new Lugar(placeSearch.getText().toString()));
+        l.close();
+    }
+
+    private void click(){
+        Intent intentSettingsActivity=new Intent(this, MainRecycler.class);
+        startActivity(intentSettingsActivity);
+    }
+
 
     private void findLocationAndSetText() {
        apiManager.findLocationAndSetText(this,placeSearch,fusedLocationClient);
@@ -94,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         apiManager.getWeather(this, placeSearch.getText().toString(), getUnit(spinnerUnits.getSelectedItem().toString()));
     }
 
-    private String getUnit(String unit) {
+    public String getUnit(String unit) {
         if (unit.equalsIgnoreCase("celsius")) {
             return "metric";
         } else if (unit.equalsIgnoreCase("Fahrenheit")) {
