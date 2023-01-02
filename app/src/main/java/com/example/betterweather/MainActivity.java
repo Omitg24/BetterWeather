@@ -2,6 +2,7 @@ package com.example.betterweather;
 
 import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -79,16 +81,14 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        if(intent.getExtras()==null){
+        Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
+        if(intent.getExtras()==null || lugar ==null){
             findLocationAndSetText();
         }else{
-            placeSearch.setText(((Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO)).getIdentificadorLugar());
-            updateWeather();
+            placeSearch.setText((lugar).getIdentificadorLugar());
         }
 
-
         placeSearch.addTextChangedListener(getListenerBusqueda());
-
 
         findViewById(R.id.imageButtonVistaMapa).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 updateWeather();
+                                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                             }
                         },DELAY);
             }
