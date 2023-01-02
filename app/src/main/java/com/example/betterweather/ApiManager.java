@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
+import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -79,25 +80,22 @@ public class ApiManager {
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
                     } else {
-                        Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "No se ha podido encontrar el lugar, intenta ser más especifico", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<TemperaturaData> call, Throwable t) {
-                Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "No se ha podido realizar la solicitud :(", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La solicitud no se ha podido realizar", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
 
-
-
     public void findLocationAndSetText(MainActivity activity,EditText placeSearch,FusedLocationProviderClient fusedLocationClient){
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La aplicación no tiene permisos para acceder a tu ubicación", Snackbar.LENGTH_SHORT).show();
-            placeSearch.setText("Londres");
+            Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La aplicación no tiene los permisos necesarios (Ubicación)", Snackbar.LENGTH_SHORT).show();
+            placeSearch.setText("Madrid");
             return;
         }
         fusedLocationClient.getLastLocation()
@@ -113,12 +111,12 @@ public class ApiManager {
                             lat = dir.get(0).getLatitude();
                             lon = dir.get(0).getLongitude();
                         } catch (IOException e) {
-                            placeSearch.setText("Londres");
+                            placeSearch.setText("Madrid");
                             return;
                         }
                         placeSearch.setText(dir.get(0).getLocality());
                     } else {
-                        placeSearch.setText("Londres");
+                        placeSearch.setText("Madrid");
                         return;
                     }
                 }
@@ -293,7 +291,7 @@ public class ApiManager {
         }
         Calendar fecha = Calendar.getInstance();
         fecha.add(Calendar.DATE, i);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(fecha.getTime());
     }
 

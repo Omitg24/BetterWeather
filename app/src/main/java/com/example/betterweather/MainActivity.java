@@ -2,8 +2,14 @@ package com.example.betterweather;
 
 import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,8 +23,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
@@ -26,9 +35,11 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                apiManager.getWeather(getActivity(), placeSearch.getText().toString(), getUnit(parent.getItemAtPosition(position).toString()));
+                apiManager.getWeather(getActivity(), placeSearch.getText().toString(),
+                        getUnit(parent.getItemAtPosition(position).toString()));
             }
 
             @Override
@@ -96,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Uri uriUrl = Uri.parse("https://openweathermap.org/weathermap?basemap=map&cities=false&layer=precipitation&lat="+ apiManager.getLat() +"&lon="+apiManager.getLon() +"&zoom=5");
+                Uri uriUrl = Uri.parse("https://openweathermap.org/weathermap?basemap=map&cities=false&layer=precipitation&lat=" +
+                        apiManager.getLat() +"&lon="+apiManager.getLon() +"&zoom=5");
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
             }
@@ -115,13 +128,61 @@ public class MainActivity extends AppCompatActivity {
                 add();
             }
         });
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+
+                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+
+                        String ciudad = null;
+                        try {
+                            ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        placeSearch.setText(ciudad);
+                        apiManager.getWeather(this, ciudad, getUnit(spinnerUnits.getSelectedItem().toString()));
+                    }
+                } else {
+                    Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
     private void add(){
         LugaresDataSource l = new LugaresDataSource(getApplicationContext());
         Lugar lugarToAdd = new Lugar(placeSearch.getText().toString());
         if(l.findPlace(lugarToAdd)){
-            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Ya está añadido este lugar", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Este lugar ya se encuentra en favoritos",
+                    Snackbar.LENGTH_SHORT).show();
         }else{
             l.open();
             l.createLugar(lugarToAdd);
@@ -147,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     public String getUnit(String unit) {
         if (unit.equalsIgnoreCase("celsius")) {
             return "metric";
-        } else if (unit.equalsIgnoreCase("Fahrenheit")) {
+        } else if (unit.equalsIgnoreCase("fahrenheit")) {
             return "imperial";
         }
         return "standard";
@@ -156,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     public String getUnitLetter(String unit) {
         if (unit.equalsIgnoreCase("celsius")) {
             return "ºC";
-        } else if (unit.equalsIgnoreCase("Fahrenheit")) {
+        } else if (unit.equalsIgnoreCase("fahrenheit")) {
             return "ºF";
         }
         return "ºK";
@@ -170,16 +231,14 @@ public class MainActivity extends AppCompatActivity {
         return this;
     }
 
-    private TextWatcher getListenerBusqueda(){
+    private TextWatcher getListenerBusqueda() {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -192,30 +251,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 updateWeather();
-                                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                InputMethodManager imm = (InputMethodManager)
+                                        getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                             }
-                        },DELAY);
+                        }, DELAY);
             }
         };
     }
-
-    /*
-    private void obtainLocationAndRefreshSearch(String ciudad) {
-
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }else {
-            location = new Location("");
-            location.setAltitude(51.509865);
-            location.setLongitude(-0.118092);
-        }
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-
-        apiManager.getWeather(this,ciudad,"metric");
-    }
-    */
 }
