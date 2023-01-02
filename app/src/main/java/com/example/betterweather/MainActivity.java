@@ -24,6 +24,8 @@ import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -117,9 +119,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void add(){
         LugaresDataSource l = new LugaresDataSource(getApplicationContext());
-        l.open();
-        l.createLugar(new Lugar(placeSearch.getText().toString()));
-        l.close();
+        Lugar lugarToAdd = new Lugar(placeSearch.getText().toString());
+        if(l.findPlace(lugarToAdd)){
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Ya está añadido este lugar", Snackbar.LENGTH_SHORT).show();
+        }else{
+            l.open();
+            l.createLugar(lugarToAdd);
+            l.close();
+        }
+
     }
 
     private void click(){

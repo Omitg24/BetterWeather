@@ -77,6 +77,19 @@ public class LugaresDataSource {
         return insertId;
     }
 
+    public boolean findPlace(Lugar lugar){
+        open();
+        List<Lugar> lugares = getAllPlaces();
+        for(int i=0;i<lugares.size();i++){
+            if (lugares.get(i).getIdentificadorLugar().toLowerCase().equals(lugar.getIdentificadorLugar().toLowerCase())){
+                close();
+                return true;
+            }
+        }
+        close();
+        return false;
+    }
+
     public List<Lugar> getAllPlaces() {
         // Lista que almacenara el resultado
         List<Lugar> lugarList = new ArrayList<Lugar>();
