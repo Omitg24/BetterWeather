@@ -12,7 +12,7 @@ public interface WeatherAPI {
     // so we are displaying GET as annotation.
     // and inside we are passing
     // last parameter for our url.
-    @GET("find?mode=json&lang=es&APPID=43659c6dc1582c2ec51e7a6ce96d6c7d")
+    @GET("find?mode=json&lang=en&APPID=43659c6dc1582c2ec51e7a6ce96d6c7d")
 
     // as we are calling data from array
     // so we are calling it with json object

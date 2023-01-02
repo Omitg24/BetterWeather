@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/clear_sky"
     tools:context=".MainActivity">
 
     <TextView
@@ -25,22 +26,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.334" />
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/imageButtonSearch"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/textViewUnidades"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.411"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/editTextPlaceSearch"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.807"-->
-<!--        app:srcCompat="@android:drawable/ic_menu_search" />-->
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imageButtonSearch"-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/textViewUnidades"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.411"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/editTextPlaceSearch"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.807"-->
+    <!--        app:srcCompat="@android:drawable/ic_menu_search" />-->
 
     <Spinner
         android:id="@+id/spinnerUnits"
         android:layout_width="130dp"
-        android:layout_height="30dp"
+        android:layout_height="48dp"
         android:backgroundTint="#000000"
         android:fontFamily="sans-serif-condensed-medium"
         android:foregroundGravity="center_vertical"
@@ -177,13 +178,12 @@
         app:layout_constraintHorizontal_bias="0.914"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintVertical_bias="0.061"/>
 
     <ImageButton
         android:id="@+id/addFav"
-        android:layout_width="60dp"
-        android:layout_height="52dp"
+        android:layout_width="59dp"
+        android:layout_height="57dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.914"

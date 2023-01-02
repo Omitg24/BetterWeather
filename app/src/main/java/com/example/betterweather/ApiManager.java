@@ -1,28 +1,24 @@
 package com.example.betterweather;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.modelo.TemperaturaData;
-import com.example.betterweather.R;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,10 +69,13 @@ public class ApiManager {
                         TextView textViewTemperaturaMain = activity.findViewById(R.id.textViewTemperaturaMain);
                         String unit = activity.getUnitLetter(activity.getSpinnerUnits().getSelectedItem().toString());
                         textViewTemperaturaMain.setText(result.getList().get(0).getMain().getTemp() + " " + unit);
+
+                        View background = activity.findViewById(R.id.main_layout);
                         ImageView imageViewPrincipal = activity.findViewById(R.id.imageViewPrincipal);
-                        imageViewPrincipal.setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
                         TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
-                        textViewPrincipal.setText(getIdOfTextView(result.getList().get(0).getWeather().get(0).getDescription()));
+                        updateWeather(background, imageViewPrincipal, textViewPrincipal, result.getList().get(0).getWeather().get(0).getDescription());
+                        //imageViewPrincipal.setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
+
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
                     } else {
@@ -91,6 +90,8 @@ public class ApiManager {
             }
         });
     }
+
+
 
     public void findLocationAndSetText(MainActivity activity,EditText placeSearch,FusedLocationProviderClient fusedLocationClient){
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -166,18 +167,23 @@ public class ApiManager {
         grid.removeAllViews();
         for (int i = 0; i < result.getList().size(); i++) {
             LinearLayout auxLayout = new LinearLayout(grid.getContext());
+
             TextView textoDia = new TextView(grid.getContext());
             textoDia.setText(getFechaString(i));
             textoDia.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
             TextView textoMinima = new TextView(grid.getContext());
             textoMinima.setText("Min: " + result.getList().get(i).getMain().getTemp_min());
             textoMinima.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
             TextView textoMaxima = new TextView(grid.getContext());
             textoMaxima.setText("Max: " + result.getList().get(i).getMain().getTemp_max());
             textoMaxima.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
             ImageView imagenTiempo = new ImageView(grid.getContext());
-            imagenTiempo.setImageResource(getIdOfImageView(result.getList().get(i).getWeather().get(0).getDescription()));
             imagenTiempo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            updateImage(imagenTiempo, result.getList().get(i).getWeather().get(0).getDescription());
+
             auxLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             auxLayout.setOrientation(LinearLayout.VERTICAL);
             auxLayout.addView(textoDia);
@@ -203,42 +209,82 @@ public class ApiManager {
         }
     }
 
-    private String getIdOfTextView(String description) {
-        if (description.contains("nubes")) {
-            return "Nuboso";
-        }
-        if (description.contains("sol")) {
-            return "Soleado";
-        }
-        if (description.contains("lluvia")) {
-            return "Lluvia";
-        }
-        if (description.contains("nieve")) {
-            return "Nieve";
-        }
-        if (description.contains("tormenta")) {
-            return "Tormentas";
-        }
-        return "Sol y Nubes";
+    private void updateWeather(View background, ImageView imageViewPrincipal, TextView textViewPrincipal, String weather) {
+        updateBackground(background, weather);
+        updateImage(imageViewPrincipal, weather);
+        updateText(textViewPrincipal, weather);
     }
 
-    private int getIdOfImageView(String description) {
-        if (description.contains("nubes")) {
-            return R.mipmap.ic_launcher_nubes_foreground;
+    private void updateBackground(View background, String weather) {
+        if (weather.equals("clear sky")) {
+            background.setBackgroundResource(R.drawable.clear_sky);
+        } else if (weather.equals("few clouds")) {
+            background.setBackgroundResource(R.drawable.few_clouds);
+        } else if (weather.equals("broken clouds")) {
+            background.setBackgroundResource(R.drawable.broken_clouds);
+        } else if (weather.contains("cloud")) {
+            background.setBackgroundResource(R.drawable.scattered_clouds);
+        } else if (weather.equals("shower rain")) {
+            background.setBackgroundResource(R.drawable.shower_rain);
+        } else if (weather.contains("rain")) {
+            background.setBackgroundResource(R.drawable.rain);
+        } else if (weather.equals("thunderstorm")) {
+            background.setBackgroundResource(R.drawable.thunderstorm);
+        } else if (weather.equals("snow")) {
+            background.setBackgroundResource(R.drawable.snow);
+        } else if (weather.equals("mist")) {
+            background.setBackgroundResource(R.drawable.mist);
+        } else {
+            background.setBackgroundResource(R.drawable.few_clouds);
         }
-        if (description.contains("sol")) {
-            return R.mipmap.ic_sol;
+    }
+
+    private void updateImage(ImageView imageView, String weather) {
+        if (weather.equals("clear sky")) {
+            imageView.setImageResource(R.mipmap.ic_clear_sky_foreground);
+        } else if (weather.equals("few clouds")) {
+            imageView.setImageResource(R.mipmap.ic_few_clouds_foreground);
+        } else if (weather.equals("broken clouds")) {
+            imageView.setImageResource(R.mipmap.ic_broken_clouds_foreground);
+        } else if (weather.contains("cloud")) {
+            imageView.setImageResource(R.mipmap.ic_scattered_clouds_foreground);
+        } else if (weather.equals("shower rain")) {
+            imageView.setImageResource(R.mipmap.ic_shower_rain_foreground);
+        } else if (weather.contains("rain")) {
+            imageView.setImageResource(R.mipmap.ic_rain_foreground);
+        } else if (weather.equals("thunderstorm")) {
+            imageView.setImageResource(R.mipmap.ic_thunderstorm_foreground);
+        } else if (weather.equals("snow")) {
+            imageView.setImageResource(R.mipmap.ic_snow_foreground);
+        } else if (weather.equals("mist")) {
+            imageView.setImageResource(R.mipmap.ic_mist_foreground);
+        } else {
+            imageView.setImageResource(R.mipmap.ic_few_clouds_foreground);
         }
-        if (description.contains("lluvia")) {
-            return R.mipmap.ic_launcher_lluvia_foreground;
+    }
+
+    private void updateText(TextView textView, String weather) {
+        if (weather.equals("clear sky")) {
+            textView.setText("Soleado");
+        } else if (weather.equals("few clouds")) {
+            textView.setText("Sol y nubes");
+        } else if (weather.equals("broken clouds")) {
+            textView.setText("Nuboso");
+        } else if (weather.contains("cloud")) {
+            textView.setText("Nubes leves");
+        } else if (weather.equals("shower rain")) {
+            textView.setText("Lluvia leve");
+        } else if (weather.contains("rain")) {
+            textView.setText("Lluvioso");
+        } else if (weather.equals("thunderstorm")) {
+            textView.setText("Tormenta");
+        } else if (weather.equals("snow")) {
+            textView.setText("Nieve");
+        } else if (weather.equals("mist")) {
+            textView.setText("Nublado");
+        } else {
+            textView.setText("Sol y nubes");
         }
-        if (description.contains("nieve")) {
-            return R.mipmap.ic_launcher_nieve_foreground;
-        }
-        if (description.contains("tormenta")) {
-            return R.mipmap.ic_launcher_tormenta_foreground;
-        }
-        return R.mipmap.ic_launcher_solnubes_foreground;
     }
 
     private String getFechaString(int i) {
@@ -261,7 +307,7 @@ public class ApiManager {
                     result = response.body();
                     lineaReciclerFav.getLugar().setText(identificadorLugar);
                     lineaReciclerFav.getTemperatura().setText(result.getList().get(0).getMain().getTemp());
-                    lineaReciclerFav.getImagen().setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
+                    updateImage(lineaReciclerFav.getImagen(), result.getList().get(0).getWeather().get(0).getDescription());
                 }
             }
             @Override

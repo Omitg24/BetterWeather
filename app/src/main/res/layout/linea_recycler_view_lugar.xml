@@ -12,8 +12,7 @@
         android:id="@+id/imagenReciclerLinea"
         android:layout_width="48dp"
         android:layout_height="72dp"
-        android:contentDescription="@string/app_name"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:contentDescription="@string/app_name" />
 
     <LinearLayout
         android:layout_width="match_parent"
