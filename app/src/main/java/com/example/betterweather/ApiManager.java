@@ -101,29 +101,29 @@ public class ApiManager {
             return;
         }
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            Geocoder geoCoder = new Geocoder(activity.getApplicationContext(), Locale.getDefault());
-                            List<Address> dir;
-                            try {
-                                dir = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                lat = dir.get(0).getLatitude();
-                                lon = dir.get(0).getLongitude();
-                            } catch (IOException e) {
-                                placeSearch.setText("Londres");
-                                return;
-                            }
-                            placeSearch.setText(dir.get(0).getPostalCode());
-                        } else {
+            .addOnSuccessListener(activity, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        Geocoder geoCoder = new Geocoder(activity.getApplicationContext(), Locale.getDefault());
+                        List<Address> dir;
+                        try {
+                            dir = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            lat = dir.get(0).getLatitude();
+                            lon = dir.get(0).getLongitude();
+                        } catch (IOException e) {
                             placeSearch.setText("Londres");
                             return;
                         }
+                        placeSearch.setText(dir.get(0).getLocality());
+                    } else {
+                        placeSearch.setText("Londres");
+                        return;
                     }
-                });
-
+                }
+            }
+        );
     }
 
     public double getLat() {
