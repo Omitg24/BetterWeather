@@ -79,13 +79,12 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        if(intent.getExtras()==null){
+        Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
+        if(intent.getExtras()==null || lugar ==null){
             findLocationAndSetText();
         }else{
-            placeSearch.setText(((Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO)).getIdentificadorLugar());
-            updateWeather();
+            placeSearch.setText((lugar).getIdentificadorLugar());
         }
-
 
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
