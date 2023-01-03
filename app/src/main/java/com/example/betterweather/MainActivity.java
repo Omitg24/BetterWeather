@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -45,6 +44,8 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final long DELAY = 2000;
+
     private ApiManager apiManager;
 
     private TextView textViewSystemTime;
@@ -55,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Spinner spinnerUnits;
 
+    private ImageButton favButton;
+
     private FusedLocationProviderClient fusedLocationClient;
 
     private Timer timer = new Timer();
 
-    private final long DELAY = 2000;
+    private LugaresDataSource lds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +75,16 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         placeSearch = (EditText) findViewById(R.id.editTextPlaceSearch);
         textViewSystemTime = (TextView) findViewById(R.id.textViewFechaSistema);
-        imageButtonVistaMapa = (ImageButton) findViewById(R.id.imageButtonVistaMapa);
+        imageButtonVistaMapa = (ImageButton) findViewById(R.id.botonMapa);
         spinnerUnits = (Spinner) findViewById(R.id.spinnerUnits);
+        favButton = (ImageButton) findViewById(R.id.addFav);
 
         Date currentTime = Calendar.getInstance().getTime();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         textViewSystemTime.setText(sdf.format(currentTime));
+
+        lds = new LugaresDataSource(getApplicationContext());
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.units_array, android.R.layout.simple_spinner_item);
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
         if(intent.getExtras()==null || lugar ==null){
             findLocationAndSetText();
@@ -104,7 +111,11 @@ public class MainActivity extends AppCompatActivity {
 
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
-        findViewById(R.id.imageButtonVistaMapa).setOnClickListener(new View.OnClickListener() {
+        if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){
+            favButton.setBackgroundResource(R.drawable.favourite);
+        }
+
+        findViewById(R.id.botonMapa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.addFav).setOnClickListener(new View.OnClickListener() {
+        favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 add();
@@ -178,17 +189,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void add(){
-        LugaresDataSource l = new LugaresDataSource(getApplicationContext());
-        Lugar lugarToAdd = new Lugar(placeSearch.getText().toString());
-        if(l.findPlace(lugarToAdd)){
-            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Este lugar ya se encuentra en favoritos",
+        Lugar lugar = new Lugar(placeSearch.getText().toString());
+        if(lds.findPlace(lugar)){
+            lds.open();
+            lds.removePlace(lugar);
+            lds.close();
+            favButton.setBackgroundResource(R.drawable.add_favourite);
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha borrado de favoritos",
                     Snackbar.LENGTH_SHORT).show();
-        }else{
-            l.open();
-            l.createLugar(lugarToAdd);
-            l.close();
+        } else {
+            lds.open();
+            lds.createPlace(lugar);
+            lds.close();
+            favButton.setBackgroundResource(R.drawable.favourite);
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
+                    Snackbar.LENGTH_SHORT).show();
         }
-
     }
 
     private void click(){
@@ -198,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void findLocationAndSetText() {
-       apiManager.findLocationAndSetText(this,placeSearch,fusedLocationClient);
+        apiManager.findLocationAndSetText(this, placeSearch, fusedLocationClient);
     }
 
     private void updateWeather() {
@@ -256,6 +272,11 @@ public class MainActivity extends AppCompatActivity {
                                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                             }
                         }, DELAY);
+                if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){
+                    favButton.setBackgroundResource(R.drawable.favourite);
+                } else {
+                    favButton.setBackgroundResource(R.drawable.add_favourite);
+                }
             }
         };
     }

@@ -3,9 +3,12 @@
     <string name="textoBuscarEjemplo">Londres</string>
     <string name="textoBuscarHint">Lugar</string>
     <string name="textoUnidades">Unidades</string>
-    <string name="textoDescripcion">Sol y nubes</string>
     <string name="identificadorLugar">Lugar:</string>
     <string name="temperaturaLugar">Temperatura: </string>
+    <string name="temperatura">TMP</string>
+    <string name="clima">Clima</string>
+    <string name="datos">Datos</string>
+    <string name="fecha">01/01/2023</string>
     <string name="action_settings">Ajustes</string>
 
     <string-array name="units_array">
@@ -17,4 +20,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="favDescrip">Acceder al panel de favoritos</string>
+    <string name="addDescrip">Añadir el lugar a favoritos</string>
+    <string name="iconDescrip">Icono de la condición del tiempo</string>
 </resources>

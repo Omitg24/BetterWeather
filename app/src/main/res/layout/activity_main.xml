@@ -8,24 +8,6 @@
     android:background="@drawable/clear_sky"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViewTemperaturaMain"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewPrincipal"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.334" />
-
     <!--    <ImageButton-->
     <!--        android:id="@+id/imageButtonSearch"-->
     <!--        android:layout_width="50dp"-->
@@ -38,90 +20,104 @@
     <!--        app:layout_constraintVertical_bias="0.807"-->
     <!--        app:srcCompat="@android:drawable/ic_menu_search" />-->
 
+    <TextView
+        android:id="@+id/textViewTemperaturaMain"
+        android:layout_width="89dp"
+        android:layout_height="85dp"
+        android:alpha="0.95"
+        android:background="@drawable/rounded_icon"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="@string/temperatura"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/panelDatosGenerales"
+        app:layout_constraintEnd_toStartOf="@+id/iconWeatherCondition"
+        app:layout_constraintHorizontal_bias="0.854"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaSistema"
+        app:layout_constraintVertical_bias="0.357" />
+
     <Spinner
         android:id="@+id/spinnerUnits"
-        android:layout_width="130dp"
+        android:layout_width="131dp"
         android:layout_height="48dp"
-        android:backgroundTint="#000000"
+        android:alpha="0.95"
+        android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
         android:foregroundGravity="center_vertical"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/panelDatosGenerales"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.198" />
+        app:layout_constraintVertical_bias="0.345"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textViewFechaSistema"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
+        android:layout_width="101dp"
+        android:layout_height="51dp"
+        android:alpha="0.95"
+        android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
         android:foregroundGravity="center_vertical"
         android:gravity="center_vertical"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="1dp"
+        android:text="@string/fecha"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerUnits"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.145" />
-
-    <TextView
-        android:id="@+id/textViewUnidades"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="right|center_vertical"
-        android:text="@string/textoUnidades"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerUnits"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.601"
-        app:layout_constraintStart_toEndOf="@+id/textViewFechaSistema"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
+        app:layout_constraintVertical_bias="0.151" />
 
     <EditText
         android:id="@+id/editTextPlaceSearch"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
+        android:alpha="0.95"
+        android:autofillHints=""
+        android:background="@drawable/rounded_icon"
         android:ems="10"
         android:fontFamily="sans-serif-condensed-medium"
         android:foregroundGravity="center_vertical"
         android:hint="@string/textoBuscarHint"
         android:inputType="textPersonName"
+        android:paddingStart="16dp"
+        android:paddingEnd="1dp"
         android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:textColorHint="#78909C"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewFechaSistema"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.267"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.807" />
+        app:layout_constraintVertical_bias="0.789" />
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="350dp"
-        android:layout_height="209dp"
+        android:id="@+id/panelDatosSemana"
+        android:layout_width="380dp"
+        android:layout_height="200dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:alpha="0.8"
+        android:alpha="0.9"
         android:background="@drawable/rounded"
-        android:backgroundTint="@color/cardview_light_background"
+        android:foregroundGravity="center"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.921"
+        app:layout_constraintVertical_bias="0.847"
         tools:ignore="SpeakableTextPresentCheck">
 
         <androidx.gridlayout.widget.GridLayout
@@ -132,64 +128,141 @@
     </HorizontalScrollView>
 
     <ImageView
-        android:id="@+id/imageViewPrincipal"
+        android:id="@+id/iconWeatherCondition"
         android:layout_width="131dp"
         android:layout_height="114dp"
+        android:alpha="0.95"
+        android:background="@drawable/rounded"
+        android:backgroundTint="@color/black"
+        android:clickable="false"
+        android:contentDescription="@string/iconDescrip"
         app:layout_constraintBottom_toTopOf="@+id/textViewDescripcion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.965" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceSearch"
+        app:layout_constraintVertical_bias="0.946" />
 
     <TextView
         android:id="@+id/textViewDescripcion"
         android:layout_width="110dp"
         android:layout_height="38dp"
+        android:alpha="0.95"
+        android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="clip_horizontal|center"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
-
-    <ImageButton
-        android:id="@+id/imageButtonVistaMapa"
-        android:layout_width="59dp"
-        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="@string/clima"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.911"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.359"
-        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+        app:layout_constraintVertical_bias="0.437" />
 
     <ImageButton
         android:id="@+id/botonFav"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
+        android:layout_width="60dp"
+        android:layout_height="57dp"
+        android:adjustViewBounds="false"
+        android:background="@drawable/fav_menu"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/favDescrip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.103"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061"/>
+        app:layout_constraintVertical_bias="0.983"
+        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+    <ImageButton
+        android:id="@+id/botonHome"
+        android:layout_width="60dp"
+        android:layout_height="57dp"
+        android:adjustViewBounds="false"
+        android:background="@drawable/ic_home_black_24dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/favDescrip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/botonMapa"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toEndOf="@+id/botonFav"
+        app:layout_constraintTop_toBottomOf="@+id/panelDatosSemana"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/botonMapa"
+        android:layout_width="59dp"
+        android:layout_height="55dp"
+        android:background="@drawable/mapa"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.905"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:contentDescription="TODO" />
 
     <ImageButton
         android:id="@+id/addFav"
-        android:layout_width="59dp"
-        android:layout_height="57dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/add_favourite"
+        android:contentDescription="@string/addDescrip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.059"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ScrollView
+        android:id="@+id/panelDatosGenerales"
+        android:layout_width="380dp"
+        android:layout_height="80dp"
+        android:alpha="0.9"
+        android:background="@drawable/rounded"
+        app:layout_constraintBottom_toTopOf="@+id/panelDatosSemana"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceSearch"
+        app:layout_constraintVertical_bias="0.966">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/datosGeneralesIzda"
+                android:layout_width="189dp"
+                android:layout_height="79dp"
+                android:clickable="false"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="1dp"
+                android:text="@string/datos"
+                android:textAlignment="viewStart"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/datosGeneralesDcha"
+                android:layout_width="190dp"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:gravity="center"
+                android:paddingStart="1dp"
+                android:paddingEnd="16dp"
+                android:text="@string/datos"
+                android:textAlignment="textEnd"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
