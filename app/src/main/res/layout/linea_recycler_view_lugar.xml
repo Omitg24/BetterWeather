@@ -10,12 +10,12 @@
 
     <ImageView
         android:id="@+id/imagenReciclerLinea"
-        android:layout_width="48dp"
-        android:layout_height="72dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:contentDescription="@string/app_name" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/spacing_xlarge"
         android:layout_marginRight="@dimen/spacing_xlarge"
@@ -29,16 +29,22 @@
 
             <TextView
                 android:id="@+id/identificadorLugar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
                 android:text="@string/identificadorLugar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/valorLugar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="1dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic" />
 
         </LinearLayout>
 
@@ -49,16 +55,22 @@
 
             <TextView
                 android:id="@+id/temperaturaLugar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
                 android:text="@string/temperaturaLugar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/valorTemperatura"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="1dp"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

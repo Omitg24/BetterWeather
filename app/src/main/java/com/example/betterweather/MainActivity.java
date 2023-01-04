@@ -169,6 +169,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.home);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -226,17 +232,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void showMap() {
-        Intent intentSettingsActivity=new Intent(this, MapsActivity.class);
-        startActivity(intentSettingsActivity);
-    }
-
-    private void showFavourites(){
-        Intent intentSettingsActivity=new Intent(this, MainRecycler.class);
-        startActivityForResult(intentSettingsActivity,SOLICITUD_TIEMPO);
-    }
-
 
     private void findLocationAndSetText() {
         apiManager.findLocationAndSetText(this, placeSearch, fusedLocationClient);

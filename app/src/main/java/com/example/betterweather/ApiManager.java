@@ -7,11 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,7 +76,6 @@ public class ApiManager {
                         ImageView imageViewPrincipal = activity.findViewById(R.id.iconWeatherCondition);
                         TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
                         updateWeather(activity, imageViewPrincipal, textViewPrincipal, result.getList().get(0).getWeather().get(0).getDescription());
-                        //iconWeatherCondition.setImageResource(getIdOfImageView(result.getList().get(0).getWeather().get(0).getDescription()));
 
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
@@ -90,6 +86,36 @@ public class ApiManager {
                         Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
                         //No se puede añadir a favoritos
                         exists=false;
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<TemperaturaData> call, Throwable t) {
+                Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La solicitud no se ha podido realizar", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getWeatherForMapInfo(MapsActivity activity, String city) {
+        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
+        Call<TemperaturaData> call = weatherAPI.getCourse(city, "Celsius");
+        call.enqueue(new Callback<TemperaturaData>() {
+            @Override
+            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
+                if (response.isSuccessful()) {
+                    result = response.body();
+                    if (result.getList().size() != 0) {
+
+                        String tmp = result.getList().get(0).getMain().getTemp() + " ºC";
+
+                        ImageView imageViewPrincipal = activity.findViewById(R.id.iconWeatherCondition);
+                        TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
+
+
+                        lon = result.getList().get(0).getCoord().getLon();
+                        lat = result.getList().get(0).getCoord().getLat();
+                    } else {
+                        Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
