@@ -23,4 +23,5 @@
     <string name="favDescrip">Acceder al panel de favoritos</string>
     <string name="addDescrip">Añadir el lugar a favoritos</string>
     <string name="iconDescrip">Icono de la condición del tiempo</string>
+    <string name="title_activity_maps">Mapa del tiempo</string>
 </resources>

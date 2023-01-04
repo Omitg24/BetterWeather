@@ -48,6 +48,8 @@ public class ApiManager {
 
     private TemperaturaData result;
 
+    private boolean exists;
+
     private String urlBase = "https://api.openweathermap.org/data/2.5/";
 
     private String urlMapa = "https://tile.openweathermap.org/map/";
@@ -81,8 +83,13 @@ public class ApiManager {
 
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
+
+                        //Se puede añadir a favoritos
+                        exists=true;
                     } else {
                         Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
+                        //No se puede añadir a favoritos
+                        exists=false;
                     }
                 }
             }
@@ -150,13 +157,10 @@ public class ApiManager {
             public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
                 if (response.isSuccessful()) {
                     result = response.body();
-                    Log.i("aasd","aasdasdasdasdsadsa");
                 }
-                Log.i("aasd","erigweruywetryuetgruywer");
             }
             @Override
             public void onFailure(Call<TemperaturaData> call, Throwable t) {
-                Log.i("aasd","ooeriuweoriuweori");
             }
         });
         return result;
@@ -344,5 +348,9 @@ public class ApiManager {
             public void onFailure(Call<TemperaturaData> call, Throwable t) {
             }
         });
+    }
+
+    public boolean getExists(){
+        return exists;
     }
 }

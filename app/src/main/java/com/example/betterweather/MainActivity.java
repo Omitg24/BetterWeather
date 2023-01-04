@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LugaresDataSource lds;
 
+    public static final int SOLICITUD_TIEMPO = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,12 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
-        if(intent.getExtras()==null || lugar ==null){
-            findLocationAndSetText();
-        }else{
-            placeSearch.setText((lugar).getIdentificadorLugar());
-        }
+        findLocationAndSetText();
 
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
@@ -117,26 +114,20 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.botonMapa).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                Uri uriUrl = Uri.parse("https://openweathermap.org/weathermap?basemap=map&cities=false&layer=precipitation&lat=" +
-                        apiManager.getLat() +"&lon="+apiManager.getLon() +"&zoom=5");
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
-            }
+            public void onClick(View v) {showMap();}
         });
 
         findViewById(R.id.botonFav).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                click();
+                showFavourites();
             }
         });
 
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add();
+                addFavourite();
             }
         });
 
@@ -149,6 +140,21 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SOLICITUD_TIEMPO) {
+            if (resultCode == RESULT_OK) {
+                Lugar lugar = (Lugar) data.getParcelableExtra(LUGAR_SELECCIONADO);
+                if(data.getExtras()==null || lugar ==null){
+                    findLocationAndSetText();
+                }else{
+                    placeSearch.setText((lugar).getIdentificadorLugar());
+                }
             }
         }
     }
@@ -188,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void add(){
+    private void addFavourite(){
         Lugar lugar = new Lugar(placeSearch.getText().toString());
         if(lds.findPlace(lugar)){
             lds.open();
@@ -198,18 +204,28 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha borrado de favoritos",
                     Snackbar.LENGTH_SHORT).show();
         } else {
-            lds.open();
-            lds.createPlace(lugar);
-            lds.close();
-            favButton.setBackgroundResource(R.drawable.favourite);
-            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
-                    Snackbar.LENGTH_SHORT).show();
+            if(apiManager.getExists()){
+                lds.open();
+                lds.createPlace(lugar);
+                lds.close();
+                favButton.setBackgroundResource(R.drawable.favourite);
+                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
+                        Snackbar.LENGTH_SHORT).show();
+            }else{
+                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "No se ha podido añadir a favoritos ya que el lugar no existe",
+                        Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private void click(){
-        Intent intentSettingsActivity=new Intent(this, MainRecycler.class);
+    private void showMap() {
+        Intent intentSettingsActivity=new Intent(this, MapsActivity.class);
         startActivity(intentSettingsActivity);
+    }
+
+    private void showFavourites(){
+        Intent intentSettingsActivity=new Intent(this, MainRecycler.class);
+        startActivityForResult(intentSettingsActivity,SOLICITUD_TIEMPO);
     }
 
 
@@ -267,9 +283,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 updateWeather();
-                                InputMethodManager imm = (InputMethodManager)
-                                        getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                View view = getCurrentFocus();
+                                if(view!=null){
+                                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                }
                             }
                         }, DELAY);
                 if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){

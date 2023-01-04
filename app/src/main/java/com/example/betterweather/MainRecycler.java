@@ -119,10 +119,10 @@ public class MainRecycler extends AppCompatActivity {
     // Click del item del adapter
     public void clickonItem(Lugar lugar) {
         //Paso el modo de apertura
-        Intent intent = new Intent(MainRecycler.this, MainActivity.class);
+        Intent intent = new Intent();
         intent.putExtra(LUGAR_SELECCIONADO, lugar);
-        //Transacion de barrido
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
 
