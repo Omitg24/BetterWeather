@@ -1,11 +1,12 @@
 package com.example.betterweather;
 
-import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -25,17 +27,19 @@ public class MainRecycler extends AppCompatActivity {
 
     private static final int GESTION_ACTIVITY = 1;
 
-    List<Lugar> listaLugaresFavoritos;      // lista favoritas de la BD
-    Lugar lugar;
+    private List<Lugar> listaLugaresFavoritos;      // lista favoritas de la BD
+    private Lugar lugar;
 
-    RecyclerView listaLugarView;
+    private RecyclerView listaLugarView;
+
+    private BottomNavigationView bottomNav;
 
     //SharedPreference de la MainRecycler
-    SharedPreferences sharedPreferencesMainRecycler;
+    private SharedPreferences sharedPreferencesMainRecycler;
 
     //Objetos para las notificaciones
-    NotificationCompat.Builder mBuilder;
-    NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
+    private NotificationManager mNotificationManager;
 
     /**
      * Boolean que indica si es la primera ejecución. Sirve para evitar que el onResume cargue el RecyclerView antes que la base de datos.
@@ -49,6 +53,28 @@ public class MainRecycler extends AppCompatActivity {
 
         listaLugarView = (RecyclerView) findViewById(R.id.reciclerView);
         listaLugarView.setHasFixedSize(true);
+        bottomNav = findViewById(R.id.navigation_menu);
+        bottomNav.setSelectedItemId(R.id.favourites);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.favourites:
+                        return true;
+                    case R.id.home:
+                        Intent intentHome = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intentHome);
+                        return true;
+                    case R.id.map:
+                        Intent intentMap = new Intent(getApplicationContext(), MapsActivity.class);
+                        startActivity(intentMap);
+                        return true;
+                }
+                return false;
+            }
+        });
+
         cargarView();
     }
 

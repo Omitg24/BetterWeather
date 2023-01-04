@@ -3,17 +3,16 @@ package com.example.betterweather;
 import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -24,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,6 +32,7 @@ import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
@@ -48,17 +49,17 @@ public class MainActivity extends AppCompatActivity {
 
     private ApiManager apiManager;
 
-    private TextView textViewSystemTime;
-
-    private ImageButton imageButtonVistaMapa;
+    private FusedLocationProviderClient fusedLocationClient;
 
     private EditText placeSearch;
+
+    private TextView textViewSystemTime;
 
     private Spinner spinnerUnits;
 
     private ImageButton favButton;
 
-    private FusedLocationProviderClient fusedLocationClient;
+    private BottomNavigationView bottomNav;
 
     private Timer timer = new Timer();
 
@@ -77,9 +78,29 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         placeSearch = (EditText) findViewById(R.id.editTextPlaceSearch);
         textViewSystemTime = (TextView) findViewById(R.id.textViewFechaSistema);
-        imageButtonVistaMapa = (ImageButton) findViewById(R.id.botonMapa);
         spinnerUnits = (Spinner) findViewById(R.id.spinnerUnits);
         favButton = (ImageButton) findViewById(R.id.addFav);
+        bottomNav = findViewById(R.id.navigation_menu);
+        bottomNav.setSelectedItemId(R.id.home);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.favourites:
+                        Intent intentFavourites = new Intent(getApplicationContext(), MainRecycler.class);
+                        startActivityForResult(intentFavourites,SOLICITUD_TIEMPO);
+                        return true;
+                    case R.id.home:
+                        return true;
+                    case R.id.map:
+                        Intent intentMap = new Intent(getApplicationContext(), MapsActivity.class);
+                        startActivity(intentMap);
+                        return true;
+                }
+                return false;
+            }
+        });
 
         Date currentTime = Calendar.getInstance().getTime();
 
@@ -109,20 +130,8 @@ public class MainActivity extends AppCompatActivity {
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
         if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){
-            favButton.setBackgroundResource(R.drawable.favourite);
+            favButton.setBackgroundResource(R.drawable.ic_favorite_24);
         }
-
-        findViewById(R.id.botonMapa).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {showMap();}
-        });
-
-        findViewById(R.id.botonFav).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFavourites();
-            }
-        });
 
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             lds.open();
             lds.removePlace(lugar);
             lds.close();
-            favButton.setBackgroundResource(R.drawable.add_favourite);
+            favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
             Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha borrado de favoritos",
                     Snackbar.LENGTH_SHORT).show();
         } else {
@@ -208,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 lds.open();
                 lds.createPlace(lugar);
                 lds.close();
-                favButton.setBackgroundResource(R.drawable.favourite);
+                favButton.setBackgroundResource(R.drawable.ic_favorite_24);
                 Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
                         Snackbar.LENGTH_SHORT).show();
             }else{
@@ -291,9 +300,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }, DELAY);
                 if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){
-                    favButton.setBackgroundResource(R.drawable.favourite);
+                    favButton.setBackgroundResource(R.drawable.ic_favorite_24);
                 } else {
-                    favButton.setBackgroundResource(R.drawable.add_favourite);
+                    favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
                 }
             }
         };

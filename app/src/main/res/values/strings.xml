@@ -16,6 +16,7 @@
         <item>Kelvin</item>
         <item>Fahrenheit</item>
     </string-array>
+
     <string name="title_activity_asdasdas">asdasdas</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -23,5 +24,9 @@
     <string name="favDescrip">Acceder al panel de favoritos</string>
     <string name="addDescrip">Añadir el lugar a favoritos</string>
     <string name="iconDescrip">Icono de la condición del tiempo</string>
-    <string name="title_activity_maps">Mapa del tiempo</string>
+    <string name="title_activity_maps">Mapa meteorológico</string>
+
+    <string name="home">Home</string>
+    <string name="favourites">Favoritos</string>
+    <string name="map">Mapa meteorológico</string>
 </resources>

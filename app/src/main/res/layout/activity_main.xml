@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/textViewTemperaturaMain"
-        android:layout_width="89dp"
-        android:layout_height="85dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:alpha="0.95"
         android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
@@ -33,34 +33,17 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/panelDatosGenerales"
-        app:layout_constraintEnd_toStartOf="@+id/iconWeatherCondition"
-        app:layout_constraintHorizontal_bias="0.854"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFechaSistema"
-        app:layout_constraintVertical_bias="0.357" />
-
-    <Spinner
-        android:id="@+id/spinnerUnits"
-        android:layout_width="131dp"
-        android:layout_height="48dp"
-        android:alpha="0.95"
-        android:background="@drawable/rounded_icon"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:foregroundGravity="center_vertical"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/panelDatosGenerales"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0.313" />
 
     <TextView
         android:id="@+id/textViewFechaSistema"
-        android:layout_width="101dp"
-        android:layout_height="51dp"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
         android:alpha="0.95"
         android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
@@ -72,36 +55,11 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerUnits"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.151" />
-
-    <EditText
-        android:id="@+id/editTextPlaceSearch"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:alpha="0.95"
-        android:autofillHints=""
-        android:background="@drawable/rounded_icon"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:foregroundGravity="center_vertical"
-        android:hint="@string/textoBuscarHint"
-        android:inputType="textPersonName"
-        android:paddingStart="16dp"
-        android:paddingEnd="1dp"
-        android:text=""
-        android:textColor="@color/black"
-        android:textColorHint="#78909C"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewFechaSistema"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789" />
+        app:layout_constraintVertical_bias="0.164" />
 
     <HorizontalScrollView
         android:id="@+id/panelDatosSemana"
@@ -136,12 +94,11 @@
         android:backgroundTint="@color/black"
         android:clickable="false"
         android:contentDescription="@string/iconDescrip"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDescripcion"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceSearch"
-        app:layout_constraintVertical_bias="0.946" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304" />
 
     <TextView
         android:id="@+id/textViewDescripcion"
@@ -157,69 +114,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
-
-    <ImageButton
-        android:id="@+id/botonFav"
-        android:layout_width="60dp"
-        android:layout_height="57dp"
-        android:adjustViewBounds="false"
-        android:background="@drawable/fav_menu"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/favDescrip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.983"
-        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
-
-    <ImageButton
-        android:id="@+id/botonHome"
-        android:layout_width="60dp"
-        android:layout_height="57dp"
-        android:adjustViewBounds="false"
-        android:background="@drawable/ic_home_black_24dp"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/favDescrip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/botonMapa"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toEndOf="@+id/botonFav"
-        app:layout_constraintTop_toBottomOf="@+id/panelDatosSemana"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/botonMapa"
-        android:layout_width="59dp"
-        android:layout_height="55dp"
-        android:background="@drawable/mapa"
-        android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.905"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:contentDescription="TODO" />
-
-    <ImageButton
-        android:id="@+id/addFav"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/add_favourite"
-        android:contentDescription="@string/addDescrip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.948"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.059"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0.447" />
 
     <ScrollView
         android:id="@+id/panelDatosGenerales"
@@ -230,7 +128,7 @@
         app:layout_constraintBottom_toTopOf="@+id/panelDatosSemana"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPlaceSearch"
+        app:layout_constraintTop_toBottomOf="@+id/panelBusqueda"
         app:layout_constraintVertical_bias="0.966">
 
         <LinearLayout
@@ -247,7 +145,8 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="1dp"
                 android:text="@string/datos"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
@@ -259,10 +158,104 @@
                 android:paddingStart="1dp"
                 android:paddingEnd="16dp"
                 android:text="@string/datos"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
-
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:itemBackground="@color/black"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu" />
+
+    <HorizontalScrollView
+        android:id="@+id/panelBusqueda"
+        android:layout_width="375dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="582dp"
+        android:background="@drawable/rounded_icon"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.666">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextPlaceSearch"
+                android:layout_width="312dp"
+                android:layout_height="match_parent"
+                android:alpha="0.95"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:foregroundGravity="center_vertical"
+                android:hint="@string/textoBuscarHint"
+                android:inputType="textPersonName"
+                android:paddingStart="16dp"
+                android:paddingEnd="1dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/addFav"
+                android:layout_width="63dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_favorite_border_24"
+                android:contentDescription="@string/addDescrip"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/panelUnidades"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.164">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinnerUnits"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:alpha="0.95"
+                android:backgroundTint="@color/turquoise"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:foregroundGravity="center_vertical"
+                android:textSize="16sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
