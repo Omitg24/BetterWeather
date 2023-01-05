@@ -3,11 +3,8 @@ package com.example.betterweather;
 import static com.example.betterweather.MainActivity.SOLICITUD_TIEMPO;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,17 +18,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.IOException;
-import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ApiManager apiManager;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private Marker currentMarker;
 
     private BottomNavigationView bottomNav;
 
@@ -39,7 +35,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        apiManager = new ApiManager();
+
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -66,7 +62,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mapFragment.getMapAsync(this);
     }
 
@@ -83,36 +78,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(43.3548057, -5.8534646);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marcador en la Escuela de Ingeniería Informática"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        LatLng eii = new LatLng(43.3548057, -5.8534646);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(eii));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
+        mMap.setInfoWindowAdapter(new WeatherInfoWindowAdapter(getLayoutInflater()));
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
-                showInfo(latLng);
+                if (currentMarker != null){
+                    currentMarker.remove();
+                }
+                double latitude = latLng.latitude;
+                double longitude = latLng.longitude;
+                addMarker(latitude, longitude);
             }
         });
     }
 
-    private void showInfo(LatLng latLng) {
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        double longitude = latLng.longitude;
-        double latitude = latLng.latitude;
-
-        String ciudad = null;
-        try {
-            ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        apiManager.getWeatherForMapInfo(this, ciudad);
+    private void addMarker(double latitude, double longitude) {
+        LatLng coords = new LatLng(latitude, longitude);
+        currentMarker = mMap.addMarker(new MarkerOptions().position(coords).title("Marcador personalizado"));
+        currentMarker.showInfoWindow();
     }
 }
