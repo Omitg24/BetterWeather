@@ -96,7 +96,7 @@ public class ApiManager {
         });
     }
 
-    public void getWeatherForMapInfo(MapsActivity activity, String city) {
+    public void getWeatherForMapInfo(ImageView condicion, TextView estado, TextView temperatura, String city) {
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
         Call<TemperaturaData> call = weatherAPI.getCourse(city, "Celsius");
         call.enqueue(new Callback<TemperaturaData>() {
@@ -105,24 +105,19 @@ public class ApiManager {
                 if (response.isSuccessful()) {
                     result = response.body();
                     if (result.getList().size() != 0) {
-
                         String tmp = result.getList().get(0).getMain().getTemp() + " ºC";
 
-                        ImageView imageViewPrincipal = activity.findViewById(R.id.iconWeatherCondition);
-                        TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
-
+                        temperatura.setText(tmp);
+                        updateImage(condicion, result.getList().get(0).getWeather().get(0).getDescription());
+                        updateText(estado, result.getList().get(0).getWeather().get(0).getDescription());
 
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
-                    } else {
-                        Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
             @Override
-            public void onFailure(Call<TemperaturaData> call, Throwable t) {
-                Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "La solicitud no se ha podido realizar", Snackbar.LENGTH_SHORT).show();
-            }
+            public void onFailure(Call<TemperaturaData> call, Throwable t) {}
         });
     }
 
