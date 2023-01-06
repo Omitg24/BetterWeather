@@ -32,4 +32,7 @@
     <string name="latitud">Latitud:</string>
     <string name="longitud">Longitud:</string>
     <string name="estado">Condición metereologica:</string>
+
+    <string name="tituloNotificationChannel1">Temperatura localización</string>
+    <string name="descripcionNotificationChannel1">Notificación que indica la temperatura de la localización del dispositivo</string>
 </resources>

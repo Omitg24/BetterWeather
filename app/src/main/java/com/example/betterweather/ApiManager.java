@@ -1,6 +1,7 @@
 package com.example.betterweather;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,9 @@ import androidx.gridlayout.widget.GridLayout;
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
+import com.example.betterweather.location.LocationHandler;
+import com.example.betterweather.weather.WeatherCallInfo;
+import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -126,6 +130,31 @@ public class ApiManager {
         });
     }
 
+    public void getWeather(WeatherCallInfo weatherCallInfo, WeatherHandler weatherHandler){
+        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
+        Call<TemperaturaData> call = weatherAPI.getCourse(weatherCallInfo.getCity(), weatherCallInfo.getUnits());
+        call.enqueue(new Callback<TemperaturaData>() {
+            @Override
+            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
+                if (response.isSuccessful()) {
+                    result = response.body();
+                    if (result.getList().size() != 0) {
+                        weatherHandler.handleSuccess(result);
+                        exists=true;
+                    } else {
+                        weatherHandler.handleNotExists();
+                        //No se puede añadir a favoritos
+                        exists=false;
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<TemperaturaData> call, Throwable t) {
+                weatherHandler.handleFailure();
+            }
+        });
+    }
+
     public void findLocationAndSetText(MainActivity activity,EditText placeSearch,FusedLocationProviderClient fusedLocationClient){
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -159,6 +188,26 @@ public class ApiManager {
         );
     }
 
+    public static void findLocation(Context context, FusedLocationProviderClient fusedLocationClient, LocationHandler locationHandler){
+        if (ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationHandler.handleNoPermission();
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                   locationHandler.handleSuccess(location);
+                                } else {
+                                    locationHandler.handleFailure();
+                                }
+                            }
+                        }
+                );
+    }
+
     public double getLat() {
         return lat;
     }
@@ -175,22 +224,7 @@ public class ApiManager {
         this.lon = lon;
     }
 
-    public TemperaturaData callApi(String city,String units){
-        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
-        Call<TemperaturaData> call = weatherAPI.getCourse(city, units);
-        call.enqueue(new Callback<TemperaturaData>() {
-            @Override
-            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
-                if (response.isSuccessful()) {
-                    result = response.body();
-                }
-            }
-            @Override
-            public void onFailure(Call<TemperaturaData> call, Throwable t) {
-            }
-        });
-        return result;
-    }
+
 
     private void updateInfoViewData(MainActivity activity) {
         TextView datosIzda = (TextView) activity.findViewById(R.id.datosGeneralesIzda);
