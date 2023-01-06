@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
+import com.example.betterweather.notification.AlarmReceiver;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -187,16 +188,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "CANAL";
-            String description = "DESCRIPCION CANAL";
+            CharSequence name = getString(R.string.tituloNotificationChannel1);
+            String description = getString(R.string.descripcionNotificationChannel1);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("M_CH_ID", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -206,19 +203,18 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR, 14);
-        calendar.set(Calendar.MINUTE, 1);
-        calendar.set(Calendar.SECOND, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 13);
+        calendar.set(Calendar.MINUTE,9);
+        calendar.set(Calendar.SECOND,1);
         Intent intent1 = new Intent(getApplicationContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,intent1, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,intent1, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (pendingIntent != null && am != null) {
-            am.cancel(pendingIntent);
+            //am.cancel(pendingIntent);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent );
-        }else{
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),6000, pendingIntent );
+            //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_HOUR, pendingIntent );
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent );
         }
     }
 

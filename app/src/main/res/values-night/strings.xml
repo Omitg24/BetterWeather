@@ -4,4 +4,7 @@
     <string name="textoBuscarHint">Lugar</string>
     <string name="action_settings">Ajustes</string>
     <string name="title_activity_maps">Mapa del tiempo</string>
+
+    <string name="tituloNotificationChannel1">Temperatura localización</string>
+    <string name="descripcionNotificationChannel1">Notificación que indica la temperatura de la localización del dispositivo</string>
 </resources>
