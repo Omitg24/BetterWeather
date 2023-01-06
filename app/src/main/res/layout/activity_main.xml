@@ -223,6 +223,7 @@
                 android:layout_width="63dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/ic_favorite_border_24"
+                android:backgroundTint="@color/turquoise"
                 android:contentDescription="@string/addDescrip"
                 tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>

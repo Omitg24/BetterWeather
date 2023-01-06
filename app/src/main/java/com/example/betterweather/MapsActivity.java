@@ -95,15 +95,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (currentMarker != null){
                     currentMarker.remove();
                 }
-                double latitude = latLng.latitude;
-                double longitude = latLng.longitude;
-                addMarker(latitude, longitude);
+                addMarker(latLng);
+            }
+        });
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                if (currentMarker != null){
+                    currentMarker.remove();
+                }
             }
         });
     }
 
-    private void addMarker(double latitude, double longitude) {
-        LatLng coords = new LatLng(latitude, longitude);
+    private void addMarker(LatLng latLng) {
+        LatLng coords = new LatLng(latLng.latitude, latLng.longitude);
         currentMarker = mMap.addMarker(new MarkerOptions().position(coords).title("Marcador personalizado"));
         currentMarker.showInfoWindow();
     }

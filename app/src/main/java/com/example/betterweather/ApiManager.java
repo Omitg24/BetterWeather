@@ -108,8 +108,13 @@ public class ApiManager {
                         String tmp = result.getList().get(0).getMain().getTemp() + " ºC";
 
                         temperatura.setText(tmp);
+
                         updateImage(condicion, result.getList().get(0).getWeather().get(0).getDescription());
                         updateText(estado, result.getList().get(0).getWeather().get(0).getDescription());
+
+                        temperatura.postInvalidate();
+                        condicion.postInvalidate();
+                        estado.postInvalidate();
 
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();
