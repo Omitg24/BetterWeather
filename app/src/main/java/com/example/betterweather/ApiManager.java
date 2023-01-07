@@ -19,9 +19,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
+import com.example.betterweather.location.LocationHandler;
 import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
-import com.example.betterweather.location.LocationHandler;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -102,7 +102,7 @@ public class ApiManager {
 
     public void getWeatherForMapInfo(ImageView condicion, TextView estado, TextView temperatura, String city) {
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
-        Call<TemperaturaData> call = weatherAPI.getCourse(city, "Celsius");
+        Call<TemperaturaData> call = weatherAPI.getCourse(city, "metric");
         call.enqueue(new Callback<TemperaturaData>() {
             @Override
             public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
@@ -115,10 +115,6 @@ public class ApiManager {
 
                         updateImage(condicion, result.getList().get(0).getWeather().get(0).getDescription());
                         updateText(estado, result.getList().get(0).getWeather().get(0).getDescription());
-
-                        temperatura.postInvalidate();
-                        condicion.postInvalidate();
-                        estado.postInvalidate();
 
                         lon = result.getList().get(0).getCoord().getLon();
                         lat = result.getList().get(0).getCoord().getLat();

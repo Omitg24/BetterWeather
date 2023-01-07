@@ -6,7 +6,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,24 +25,71 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.maps.model.TileProvider;
+import com.google.android.gms.maps.model.UrlTileProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ApiManager apiManager;
+    private String tileType = "clouds";
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private Marker currentMarker;
+    private TileOverlay tileOver;
 
+    private Spinner spinnerTipos;
     private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        spinnerTipos = (Spinner) findViewById(R.id.spinnerTipos);
+
+        ArrayAdapter<CharSequence> adpt = ArrayAdapter.createFromResource(this,
+                R.array.layers, android.R.layout.simple_spinner_item);
+
+        spinnerTipos.setAdapter(adpt);
+        spinnerTipos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Check click
+                switch (position) {
+                    case 0:
+                        tileType = "clouds_new";
+                        break;
+                    case 1:
+                        tileType = "temp_new";
+                        break;
+                    case 2:
+                        tileType = "precipitation_new";
+                        break;
+                    case 3:
+                        tileType = "wind_new";
+                        break;
+                    case 4:
+                        tileType = "pressure_new";
+                        break;
+                }
+                if (mMap != null) {
+                    if (tileOver != null) {
+                        tileOver.remove();
+                    }
+                    setUpMap();
+                }
+            }
+        });
 
         bottomNav = findViewById(R.id.navigation_menu);
         bottomNav.setSelectedItemId(R.id.map);
@@ -78,6 +130,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        WeatherInfoWindowAdapter infoWindow = new WeatherInfoWindowAdapter(getLayoutInflater());
+
         LatLng eii = new LatLng(43.3548057, -5.8534646);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(eii));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -88,16 +142,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
-        mMap.setInfoWindowAdapter(new WeatherInfoWindowAdapter(getLayoutInflater()));
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
                 if (currentMarker != null){
                     currentMarker.remove();
                 }
-                addMarker(latLng);
+                currentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Marcador personalizado"));
+                infoWindow.getInfoWindow(currentMarker).invalidate();
+                if (currentMarker != null){
+                    currentMarker.showInfoWindow();
+                }
             }
         });
+        mMap.setInfoWindowAdapter(infoWindow);
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -108,9 +166,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void addMarker(LatLng latLng) {
-        LatLng coords = new LatLng(latLng.latitude, latLng.longitude);
-        currentMarker = mMap.addMarker(new MarkerOptions().position(coords).title("Marcador personalizado"));
-        currentMarker.showInfoWindow();
+
+    private void setUpMap() {
+        tileOver = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(createTileProvider()));
+    }
+
+    private TileProvider createTileProvider() {
+        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                String fUrl = "https://tile.openweathermap.org/map/" + (tileType == null ? "clouds_new" : tileType) + "/"
+                        + zoom + "/" + x + "/" + y + ".png?appid=43659c6dc1582c2ec51e7a6ce96d6c7d";
+                Log.i("Result", fUrl);
+                URL url = null;
+                try {
+                    url = new URL(fUrl);
+                }
+                catch(MalformedURLException mfe) {
+                    mfe.printStackTrace();
+                }
+                return url;
+            }
+        };
+        return tileProvider;
     }
 }

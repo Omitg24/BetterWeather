@@ -33,6 +33,14 @@
     <string name="longitud">Longitud:</string>
     <string name="estado">Condición metereologica:</string>
 
+    <string-array name="layers">
+        <item>Nubes</item>
+        <item>Temperatura</item>
+        <item>Precipitaciones</item>
+        <item>Viento</item>
+        <item>Presión</item>
+    </string-array>
+
     <string name="tituloNotificationChannel1">Temperatura localización</string>
     <string name="descripcionNotificationChannel1">Notificación que indica la temperatura de la localización del dispositivo</string>
 </resources>
