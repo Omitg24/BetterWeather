@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +26,8 @@ import com.example.betterweather.location.LocationHandler;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -357,6 +360,30 @@ public class ApiManager {
         }
     }
 
+    public static String getSpanishText(String weather){
+        if (weather.equals("clear sky")) {
+            return "Soleado";
+        } else if (weather.equals("few clouds")) {
+            return "Sol y nubes";
+        } else if (weather.equals("broken clouds")) {
+            return "Nuboso";
+        } else if (weather.contains("cloud")) {
+            return "Nubes leves";
+        } else if (weather.equals("shower rain")) {
+            return "Lluvia leve";
+        } else if (weather.contains("rain")) {
+            return "Lluvioso";
+        } else if (weather.equals("thunderstorm")) {
+            return "Tormenta";
+        } else if (weather.equals("snow")) {
+            return "Nieve";
+        } else if (weather.equals("mist")) {
+            return "Nublado";
+        } else {
+            return "Sol y nubes";
+        }
+    }
+
     private void updateText(TextView textView, String weather) {
         if (weather.equals("clear sky")) {
             textView.setText("Soleado");
@@ -393,14 +420,14 @@ public class ApiManager {
 
     public void getWeather(LineaReciclerFav lineaReciclerFav, String identificadorLugar, String units) {
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
-        Call<TemperaturaData> call = weatherAPI.getCourse(identificadorLugar, units);
+        Call<TemperaturaData> call = weatherAPI.getCourse(identificadorLugar, MainActivity.getUnit(units));
         call.enqueue(new Callback<TemperaturaData>() {
             @Override
             public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
                 if (response.isSuccessful()) {
                     result = response.body();
                     lineaReciclerFav.getLugar().setText(identificadorLugar);
-                    lineaReciclerFav.getTemperatura().setText(result.getList().get(0).getMain().getTemp());
+                    lineaReciclerFav.getTemperatura().setText(result.getList().get(0).getMain().getTemp() + MainActivity.getUnitLetter(units));
                     updateImage(lineaReciclerFav.getImagen(), result.getList().get(0).getWeather().get(0).getDescription());
                 }
             }

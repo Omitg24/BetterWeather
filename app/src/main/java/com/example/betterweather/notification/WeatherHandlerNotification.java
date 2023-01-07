@@ -8,6 +8,7 @@ import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.betterweather.ApiManager;
 import com.example.betterweather.R;
 import com.example.betterweather.weather.WeatherHandler;
 import com.example.betterweather.modelo.TemperaturaData;
@@ -39,10 +40,10 @@ public class WeatherHandlerNotification implements WeatherHandler {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationManager.notify(001,new NotificationCompat.Builder(context, "M_CH_ID")
                 .setSmallIcon(R.mipmap.ic_few_clouds_foreground)
-                .setContentTitle("BetterWeather")
+                .setContentTitle("Tiempo en "+temperaturaData.getList().get(0).getName())
                 .setSound(alarmSound)
                 .setAutoCancel(true)
-                .setContentText(temperaturaData.getList().get(0).getName()+description + temp)
+                .setContentText(ApiManager.getSpanishText(description) + temp)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT).build());
     }

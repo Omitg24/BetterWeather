@@ -1,6 +1,8 @@
 package com.example.betterweather;
 
 import android.location.Geocoder;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +33,6 @@ public class WeatherInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(final Marker m) {
-        //Carga layout personalizado.
         View v = inflater.inflate(R.layout.info_window, null);
         lugar = v.findViewById(R.id.valorLugarInfo);
         condicion = v.findViewById(R.id.condicionInfo);
@@ -39,7 +40,10 @@ public class WeatherInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         temperatura = v.findViewById(R.id.valorTemperaturaInfo);
         latitud = v.findViewById(R.id.valorLatitudInfo);
         longitud = v.findViewById(R.id.valorLongitudInfo);
-        getInfo(m.getPosition().latitude, m.getPosition().longitude);
+        getInfo(m.getPosition().latitude, m.getPosition().longitude,m);
+
+
+        //Carga layout personalizado.
         return v;
     }
 
@@ -48,7 +52,7 @@ public class WeatherInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         return null;
     }
 
-    private void getInfo(double latitude, double longitude) {
+    private void getInfo(double latitude, double longitude,Marker m) {
         Geocoder geocoder = new Geocoder(inflater.getContext(), Locale.getDefault());
 
         String ciudad = null;
