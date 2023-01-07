@@ -110,7 +110,7 @@ public class MainRecycler extends AppCompatActivity {
         lugaresDataSource.close();
     }
 
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,9 +138,8 @@ public class MainRecycler extends AppCompatActivity {
                 listaLugarView.setAdapter(listaPeliculasAdapter);
             }
         }
-
-
     }
+    */
 
     // Click del item del adapter
     public void clickonItem(Lugar lugar) {

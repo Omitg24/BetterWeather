@@ -32,8 +32,6 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
     private List<Lugar> listaLugares;
     private final OnItemClickListener listener;
 
-    private String units = "metric";
-
     public ListaLugaresAdapter(List<Lugar> listaPeli, OnItemClickListener listener) {
         this.listaLugares = listaPeli;
         this.listener = listener;
@@ -60,7 +58,7 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
         Lugar lugar= listaLugares.get(position);
         // llama al método de nuestro holder para asignar valores a los componentes
         // además, pasamos el listener del evento onClick
-        holder.bindUser(lugar,units, listener);
+        holder.bindUser(lugar, listener);
     }
 
     @Override
@@ -86,9 +84,9 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
         }
 
         // asignar valores a los componentes
-        public void bindUser(final Lugar lugara,String units, final OnItemClickListener listener) {
+        public void bindUser(final Lugar lugara, final OnItemClickListener listener) {
             ApiManager manager = new ApiManager();
-            manager.getWeather(lineaReciclerFav,lugara.getIdentificadorLugar(),units);
+            manager.getWeather(lineaReciclerFav,lugara.getIdentificadorLugar(),MainActivity.getSpinnerUnits().getSelectedItem().toString());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {

@@ -1,6 +1,8 @@
 package com.example.betterweather;
 
 import android.location.Geocoder;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,10 +34,14 @@ public class WeatherInfoWindowAdapter extends AppCompatActivity implements Googl
     }
 
     @Override
+<<<<<<< HEAD
     public View getInfoContents(final Marker m) {return null;}
 
     @Override
     public View getInfoWindow(Marker m) {
+=======
+    public View getInfoContents(final Marker m) {
+>>>>>>> 43c57f7af04b008f838c847766cb07323c4b44f9
         View v = inflater.inflate(R.layout.info_window, null);
         lugar = v.findViewById(R.id.valorLugarInfo);
         condicion = v.findViewById(R.id.condicionInfo);
@@ -43,11 +49,27 @@ public class WeatherInfoWindowAdapter extends AppCompatActivity implements Googl
         temperatura = v.findViewById(R.id.valorTemperaturaInfo);
         latitud = v.findViewById(R.id.valorLatitudInfo);
         longitud = v.findViewById(R.id.valorLongitudInfo);
+<<<<<<< HEAD
         updateInfo(m);
         return v;
     }
 
     private void updateInfo(Marker m) {
+=======
+        getInfo(m.getPosition().latitude, m.getPosition().longitude,m);
+
+
+        //Carga layout personalizado.
+        return v;
+    }
+
+    @Override
+    public View getInfoWindow(Marker m) {
+        return null;
+    }
+
+    private void getInfo(double latitude, double longitude,Marker m) {
+>>>>>>> 43c57f7af04b008f838c847766cb07323c4b44f9
         Geocoder geocoder = new Geocoder(inflater.getContext(), Locale.getDefault());
 
         String ciudad = null;

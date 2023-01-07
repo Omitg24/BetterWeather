@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewSystemTime;
 
-    private Spinner spinnerUnits;
+    private static Spinner spinnerUnits;
 
     private ImageButton favButton;
 
@@ -203,9 +203,9 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 13);
-        calendar.set(Calendar.MINUTE,9);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         Intent intent1 = new Intent(getApplicationContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,intent1, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_HOUR, pendingIntent );
-            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent );
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent );
         }
     }
 
@@ -232,16 +232,21 @@ public class MainActivity extends AppCompatActivity {
                         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        double longitude = location.getLongitude();
-                        double latitude = location.getLatitude();
-
                         String ciudad = null;
-                        try {
-                            ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        if(location!=null){
+                            double longitude = location.getLongitude();
+                            double latitude = location.getLatitude();
 
+
+                            try {
+                                ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            Toast.makeText(this, "No hemos podido obtener una ubicación", Toast.LENGTH_SHORT).show();
+                            ciudad = "Madrid";
+                        }
                         placeSearch.setText(ciudad);
                         apiManager.getWeather(this, ciudad, getUnit(spinnerUnits.getSelectedItem().toString()));
                     }
@@ -285,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         apiManager.getWeather(this, placeSearch.getText().toString(), getUnit(spinnerUnits.getSelectedItem().toString()));
     }
 
-    public String getUnit(String unit) {
+    public static String getUnit(String unit) {
         if (unit.equalsIgnoreCase("celsius")) {
             return "metric";
         } else if (unit.equalsIgnoreCase("fahrenheit")) {
@@ -294,16 +299,16 @@ public class MainActivity extends AppCompatActivity {
         return "standard";
     }
 
-    public String getUnitLetter(String unit) {
-        if (unit.equalsIgnoreCase("celsius")) {
+    public static String getUnitLetter(String unit) {
+        if (unit.equalsIgnoreCase("celsius") || unit.equalsIgnoreCase("metric")) {
             return "ºC";
-        } else if (unit.equalsIgnoreCase("fahrenheit")) {
+        } else if (unit.equalsIgnoreCase("fahrenheit") || unit.equalsIgnoreCase("imperial")) {
             return "ºF";
         }
         return "ºK";
     }
 
-    public Spinner getSpinnerUnits() {
+    public static Spinner getSpinnerUnits() {
         return spinnerUnits;
     }
 
