@@ -6,6 +6,11 @@ public class WeatherCallInfo {
 
     private String units;
 
+    public WeatherCallInfo(String city, String units) {
+        this.city = city;
+        this.units = units;
+    }
+
     public WeatherCallInfo(String city) {
         this.city = city;
         this.units="metric";

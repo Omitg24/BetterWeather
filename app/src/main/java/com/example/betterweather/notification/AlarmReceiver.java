@@ -11,7 +11,6 @@ import com.example.betterweather.MainActivity;
 import com.example.betterweather.notification.CustomWeatherNotificationBuilder;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    private static final String CHANNEL_ID = "CANAL";
     private int mid = 0;
 
     @Override

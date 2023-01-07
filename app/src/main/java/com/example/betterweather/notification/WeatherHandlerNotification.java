@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.betterweather.ApiManager;
 import com.example.betterweather.R;
+import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
 import com.example.betterweather.modelo.TemperaturaData;
 
@@ -20,8 +21,6 @@ public class WeatherHandlerNotification implements WeatherHandler {
     private String description;
 
     private String temp;
-
-    private boolean notificable;
 
     private Context context;
 
@@ -43,30 +42,16 @@ public class WeatherHandlerNotification implements WeatherHandler {
                 .setContentTitle("Tiempo en "+temperaturaData.getList().get(0).getName())
                 .setSound(alarmSound)
                 .setAutoCancel(true)
-                .setContentText(ApiManager.getSpanishText(description) + temp)
+                .setContentText(WeatherUtil.getSpanishText(description) + temp)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT).build());
     }
 
     @Override
     public void handleFailure() {
-        notificable=false;
     }
 
     @Override
     public void handleNotExists() {
-        notificable=false;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getTemp() {
-        return temp;
-    }
-
-    public boolean isNotificable() {
-        return notificable;
     }
 }

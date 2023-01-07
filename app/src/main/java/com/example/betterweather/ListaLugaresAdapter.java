@@ -1,8 +1,5 @@
 package com.example.betterweather;
 
-import static com.example.betterweather.ApiManager.URL;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.betterweather.modelo.Lugar;
-import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
-import com.google.android.gms.common.api.Api;
-
-import org.w3c.dom.Text;
+import com.example.betterweather.weather.WeatherCallInfo;
+import com.example.betterweather.handler.weatherHandler.RecyclerWeatherHandler;
 
 import java.util.List;
 
@@ -86,7 +81,9 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
         // asignar valores a los componentes
         public void bindUser(final Lugar lugara, final OnItemClickListener listener) {
             ApiManager manager = new ApiManager();
-            manager.getWeather(lineaReciclerFav,lugara.getIdentificadorLugar(),MainActivity.getSpinnerUnits().getSelectedItem().toString());
+            WeatherCallInfo weatherCallInfo = new WeatherCallInfo(lugara.getIdentificadorLugar(),
+                                    MainActivity.getSpinnerUnits().getSelectedItem().toString());
+            manager.getWeather(weatherCallInfo,new RecyclerWeatherHandler(lineaReciclerFav,weatherCallInfo));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {

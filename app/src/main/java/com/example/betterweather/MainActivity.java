@@ -15,8 +15,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,8 +36,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.betterweather.db.LugaresDataSource;
+import com.example.betterweather.handler.locationHandler.LocationHandlerAndSetInitialText;
 import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
+import com.example.betterweather.weather.WeatherCallInfo;
+import com.example.betterweather.handler.weatherHandler.MainWeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,6 +48,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private LugaresDataSource lds;
 
     public static final int SOLICITUD_TIEMPO = 0;
+
+    public static final int SOLICITUD_VOZ = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                apiManager.getWeather(getActivity(), placeSearch.getText().toString(),
-                        getUnit(parent.getItemAtPosition(position).toString()));
+                apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(parent.getItemAtPosition(position).toString())),new MainWeatherHandler(getActivity()));
             }
 
             @Override
@@ -144,6 +151,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addFavourite();
+            }
+        });
+
+        ImageButton buttonListen = (ImageButton) findViewById(R.id.bescuchar);
+        buttonListen.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                escuchar();
             }
         });
 
@@ -171,6 +188,11 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     placeSearch.setText((lugar).getIdentificadorLugar());
                 }
+            }
+        }else if(requestCode == SOLICITUD_VOZ) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                placeSearch.setText(matches.get(0).toString());
             }
         }
     }
@@ -248,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                             ciudad = "Madrid";
                         }
                         placeSearch.setText(ciudad);
-                        apiManager.getWeather(this, ciudad, getUnit(spinnerUnits.getSelectedItem().toString()));
+                        apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(spinnerUnits.getSelectedItem().toString())),new MainWeatherHandler(getActivity()));
                     }
                 } else {
                     Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
@@ -283,11 +305,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findLocationAndSetText() {
-        apiManager.findLocationAndSetText(this, placeSearch, fusedLocationClient);
+        apiManager.findLocation(this, fusedLocationClient, new LocationHandlerAndSetInitialText(getActivity(),placeSearch,fusedLocationClient));
     }
 
     private void updateWeather() {
-        apiManager.getWeather(this, placeSearch.getText().toString(), getUnit(spinnerUnits.getSelectedItem().toString()));
+        apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(spinnerUnits.getSelectedItem().toString())),new MainWeatherHandler(getActivity()));
     }
 
     public static String getUnit(String unit) {
@@ -350,5 +372,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void escuchar() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "¿Qué lugar está buscando?");
+        startActivityForResult(intent, 1);
     }
 }

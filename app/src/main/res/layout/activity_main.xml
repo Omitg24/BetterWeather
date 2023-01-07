@@ -202,7 +202,7 @@
 
             <EditText
                 android:id="@+id/editTextPlaceSearch"
-                android:layout_width="312dp"
+                android:layout_width="257dp"
                 android:layout_height="match_parent"
                 android:alpha="0.95"
                 android:autofillHints=""
@@ -217,6 +217,16 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/bescuchar"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:layout_constraintBottom_toBottomOf="@+id/texto"
+                app:layout_constraintLeft_toRightOf="@+id/texto" />
 
             <ImageButton
                 android:id="@+id/addFav"
