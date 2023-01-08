@@ -3,6 +3,7 @@ package com.example.betterweather;
 import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,6 +42,8 @@ import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.handler.weatherHandler.MainWeatherHandler;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -160,7 +163,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                escuchar();
+                if(isGooglePlayServicesAvailable(getActivity())){
+                    escuchar();
+                }else {
+                    Snackbar.make(findViewById(R.id.editTextPlaceSearch),
+                            "No se puede acceder a los servicios de Google Play",
+                            Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -175,6 +184,23 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.RECORD_AUDIO},1);
+
+        }
+    }
+
+    public boolean isGooglePlayServicesAvailable(Activity activity) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
+        if(status != ConnectionResult.SUCCESS) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -232,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,intent1, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (pendingIntent != null && am != null) {
-            //am.cancel(pendingIntent);
+            am.cancel(pendingIntent);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_HOUR, pendingIntent );
