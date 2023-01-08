@@ -1,5 +1,6 @@
 package com.example.betterweather;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
+import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.handler.weatherHandler.RecyclerWeatherHandler;
 
@@ -82,7 +84,7 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
         public void bindUser(final Lugar lugara, final OnItemClickListener listener) {
             ApiManager manager = new ApiManager();
             WeatherCallInfo weatherCallInfo = new WeatherCallInfo(lugara.getIdentificadorLugar(),
-                                    MainActivity.getSpinnerUnits().getSelectedItem().toString());
+                    MainActivity.getUnit(MainActivity.getSpinnerUnits().getSelectedItem().toString()));
             manager.getWeather(weatherCallInfo,new RecyclerWeatherHandler(lineaReciclerFav,weatherCallInfo));
 
             itemView.setOnClickListener(new View.OnClickListener() {
