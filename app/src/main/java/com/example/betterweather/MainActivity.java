@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -38,10 +37,10 @@ import androidx.core.content.ContextCompat;
 
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.handler.locationHandler.LocationHandlerAndSetInitialText;
+import com.example.betterweather.handler.weatherHandler.MainWeatherHandler;
 import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
 import com.example.betterweather.weather.WeatherCallInfo;
-import com.example.betterweather.handler.weatherHandler.MainWeatherHandler;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -134,12 +133,10 @@ public class MainActivity extends AppCompatActivity {
         spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(parent.getItemAtPosition(position).toString())),new MainWeatherHandler(getActivity()));
+                apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(parent.getItemAtPosition(position).toString())), new MainWeatherHandler(getActivity()));
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         findLocationAndSetText();
@@ -367,12 +364,10 @@ public class MainActivity extends AppCompatActivity {
     private TextWatcher getListenerBusqueda() {
         return new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {

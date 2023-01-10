@@ -42,8 +42,8 @@
 
     <TextView
         android:id="@+id/textViewFechaSistema"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="51dp"
         android:alpha="0.95"
         android:background="@drawable/rounded_icon"
         android:fontFamily="sans-serif-condensed-medium"
@@ -52,11 +52,12 @@
         android:paddingStart="16dp"
         android:paddingEnd="1dp"
         android:text="@string/fecha"
+        android:textAlignment="textStart"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.164" />
@@ -226,7 +227,8 @@
                 android:background="#00FFFFFF"
                 android:src="@android:drawable/ic_btn_speak_now"
                 app:layout_constraintBottom_toBottomOf="@+id/texto"
-                app:layout_constraintLeft_toRightOf="@+id/texto" />
+                app:layout_constraintLeft_toRightOf="@+id/texto"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <ImageButton
                 android:id="@+id/addFav"

@@ -1,20 +1,19 @@
 package com.example.betterweather;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.betterweather.handler.weatherHandler.RecyclerWeatherHandler;
 import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
-import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherCallInfo;
-import com.example.betterweather.handler.weatherHandler.RecyclerWeatherHandler;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
     // Interfaz para manejar el evento click sobre un elemento
     public interface OnItemClickListener {
         void onItemClick(Lugar item);
+        void onDeleteItem(Lugar item);
     }
 
     private List<Lugar> listaLugares;
@@ -77,20 +77,24 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
                     (ImageView)itemView.findViewById(R.id.imagenReciclerLinea),
                     (TextView)itemView.findViewById(R.id.valorLugar),
                     (TextView)itemView.findViewById(R.id.valorTemperatura));
-
         }
 
         // asignar valores a los componentes
-        public void bindUser(final Lugar lugara, final OnItemClickListener listener) {
+        public void bindUser(final Lugar lugar, final OnItemClickListener listener) {
             ApiManager manager = new ApiManager();
-            WeatherCallInfo weatherCallInfo = new WeatherCallInfo(lugara.getIdentificadorLugar(),
+            WeatherCallInfo weatherCallInfo = new WeatherCallInfo(lugar.getIdentificadorLugar(),
                     MainActivity.getUnit(MainActivity.getSpinnerUnits().getSelectedItem().toString()));
             manager.getWeather(weatherCallInfo,new RecyclerWeatherHandler(lineaReciclerFav,weatherCallInfo));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    listener.onItemClick(lugara);
+                    listener.onItemClick(lugar);
                 }
+            });
+
+            Button botonBorrar = (Button) itemView.findViewById(R.id.botonBorrar);
+            botonBorrar.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) { listener.onDeleteItem(lugar); }
             });
         }
     }

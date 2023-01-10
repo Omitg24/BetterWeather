@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.modelo.Lugar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -78,6 +78,12 @@ public class MainRecycler extends AppCompatActivity {
         cargarView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.favourites);
+    }
+
     /**
      * Usaremos este método para cargar el RecyclerView, la lista de películas y el Adapter.
      * Este método se invoca desde onResume (especialmente
@@ -92,6 +98,12 @@ public class MainRecycler extends AppCompatActivity {
                     @Override
                     public void onItemClick(Lugar lugar) {
                         clickonItem(lugar);
+                    }
+
+                    @Override
+                    public void onDeleteItem(Lugar lugar) {
+                        deleteItem(lugar);
+                        cargarView();
                     }
                 });
 
@@ -110,37 +122,6 @@ public class MainRecycler extends AppCompatActivity {
         lugaresDataSource.close();
     }
 
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Comprobamos a qué petición se está respondiendo
-        if (requestCode == GESTION_ACTIVITY) {
-            // Nos aseguramos que el resultado fue OK
-            if (resultCode == RESULT_OK) {
-                lugar = data.getParcelableExtra(LUGAR_CREADO);
-
-
-                // Refrescar el ReciclerView
-                //Añadimos a la lista de peliculas la peli nueva
-                listaLugaresFavoritos.add(lugar);
-
-                //creamos un nuevo adapter que le pasamos al recyclerView
-                ListaLugaresAdapter listaPeliculasAdapter = new ListaLugaresAdapter(listaLugaresFavoritos,
-                        new ListaLugaresAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(Lugar lugar) {
-                                clickonItem(lugar);
-                            }
-                        });
-
-
-                listaLugarView.setAdapter(listaPeliculasAdapter);
-            }
-        }
-    }
-    */
-
     // Click del item del adapter
     public void clickonItem(Lugar lugar) {
         //Paso el modo de apertura
@@ -150,17 +131,14 @@ public class MainRecycler extends AppCompatActivity {
         finish();
     }
 
-
-    // Creamos la lista de peliculas
-    // EN la versiçon de la BD, desaparace*/
-   /* private void rellenarLista() {
-        listaPeli = new ArrayList<Pelicula>();
-        Categoria cataccion = new Categoria("Acción", "PelisAccion");
-        Pelicula peli = new Pelicula("Tenet", "Una acción épica que gira en torno al espionaje internacional, los viajes en el tiempo y la evolución, en la que un agente secreto debe prevenir la Tercera Guerra Mundial.",
-                cataccion, "150", "26/8/2020","","","");
-        listaPeli.add(peli);
-
-    }*/
+    public void deleteItem(Lugar lugar) {
+        LugaresDataSource lds = new LugaresDataSource(getApplicationContext());
+        lds.open();
+        lds.removePlace(lugar);
+        lds.close();
+        Snackbar.make(findViewById(R.id.reciclerView), "Se ha borrado " + lugar.getIdentificadorLugar(),
+                Snackbar.LENGTH_SHORT).show();
+    }
 }
 
 

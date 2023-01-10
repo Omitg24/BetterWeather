@@ -3,42 +3,23 @@ package com.example.betterweather;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.os.Handler;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
-import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.location.LocationHandler;
 import com.example.betterweather.modelo.TemperaturaData;
-import com.example.betterweather.modelo.ui.LineaReciclerFav;
-import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.TileProvider;
+import com.google.android.gms.maps.model.UrlTileProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,9 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiManager {
-
-    private String paramsUrl;
-
     private TemperaturaData result;
 
     private boolean exists;
@@ -61,30 +39,9 @@ public class ApiManager {
 
     public final static String URL = "http://openweathermap.org/img/wn/";
 
+    private String tileType = "clouds";
+
     private Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBase).addConverterFactory(GsonConverterFactory.create()).build();
-
-    public void getWeatherForMapInfo(ImageView condicion, TextView estado, TextView temperatura, String city) {
-        WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
-        Call<TemperaturaData> call = weatherAPI.getCourse(city, "metric");
-        call.enqueue(new Callback<TemperaturaData>() {
-            @Override
-            public void onResponse(Call<TemperaturaData> call, Response<TemperaturaData> response) {
-                if (response.isSuccessful()) {
-                    result = response.body();
-                    if (result.getList().size() != 0) {
-                        String tmp = result.getList().get(0).getMain().getTemp() + " ºC";
-
-                        temperatura.setText(tmp);
-
-                        WeatherUtil.updateImage(condicion, result.getList().get(0).getWeather().get(0).getDescription());
-                        WeatherUtil.updateText(estado, result.getList().get(0).getWeather().get(0).getDescription());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<TemperaturaData> call, Throwable t) {}
-        });
-    }
 
     public void getWeather(WeatherCallInfo weatherCallInfo, WeatherHandler weatherHandler){
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
@@ -118,18 +75,58 @@ public class ApiManager {
             return;
         }
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(Location location) {
-                                // Got last known location. In some rare situations this can be null.
-                                if (location != null) {
-                                   locationHandler.handleSuccess(location);
-                                } else {
-                                    locationHandler.handleFailure();
-                                }
-                            }
+            .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                           locationHandler.handleSuccess(location);
+                        } else {
+                            locationHandler.handleFailure();
                         }
-                );
+                    }
+                }
+            );
+    }
+
+    public TileProvider createTileProvider() {
+        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+            @Override
+            public java.net.URL getTileUrl(int x, int y, int zoom) {
+                String fUrl = urlMapa + (tileType == null ? "clouds_new" : tileType) + "/"
+                        + zoom + "/" + x + "/" + y + ".png?appid=43659c6dc1582c2ec51e7a6ce96d6c7d";
+                Log.i("Result", fUrl);
+                URL url = null;
+                try {
+                    url = new URL(fUrl);
+                }
+                catch(MalformedURLException mfe) {
+                    mfe.printStackTrace();
+                }
+                return url;
+            }
+        };
+        return tileProvider;
+    }
+
+    public void checkTileType(int position) {
+        switch (position) {
+            case 0:
+                tileType = "clouds_new";
+                break;
+            case 1:
+                tileType = "temp_new";
+                break;
+            case 2:
+                tileType = "precipitation_new";
+                break;
+            case 3:
+                tileType = "wind_new";
+                break;
+            case 4:
+                tileType = "pressure_new";
+                break;
+        }
     }
 
     public boolean getExists(){

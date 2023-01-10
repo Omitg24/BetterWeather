@@ -4,7 +4,7 @@
     <string name="textoBuscarHint">Lugar</string>
     <string name="textoUnidades">Unidades</string>
     <string name="identificadorLugar">Lugar:</string>
-    <string name="temperaturaLugar">Temperatura (ºC):</string>
+    <string name="temperaturaLugar">Temperatura:</string>
     <string name="temperatura">TMP</string>
     <string name="clima">Clima</string>
     <string name="datos">Datos</string>

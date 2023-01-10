@@ -5,12 +5,13 @@ import static com.example.betterweather.MainActivity.SOLICITUD_TIEMPO;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.betterweather.databinding.ActivityMapsBinding;
+import com.example.betterweather.handler.weatherHandler.MapWeatherHandler;
+import com.example.betterweather.weather.WeatherCallInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,32 +30,35 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.maps.model.TileProvider;
-import com.google.android.gms.maps.model.UrlTileProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String tileType = "clouds";
+    private ApiManager apiManager;
+
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private Marker currentMarker;
     private TileOverlay tileOver;
 
     private Spinner spinnerTipos;
+    private HorizontalScrollView panelInfo;
     private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        apiManager = new ApiManager();
+
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         spinnerTipos = (Spinner) findViewById(R.id.spinnerTipos);
+        panelInfo = (HorizontalScrollView) findViewById(R.id.info);
 
         ArrayAdapter<CharSequence> adpt = ArrayAdapter.createFromResource(this,
                 R.array.layers, android.R.layout.simple_spinner_item);
@@ -64,24 +70,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Check click
-                switch (position) {
-                    case 0:
-                        tileType = "clouds_new";
-                        break;
-                    case 1:
-                        tileType = "temp_new";
-                        break;
-                    case 2:
-                        tileType = "precipitation_new";
-                        break;
-                    case 3:
-                        tileType = "wind_new";
-                        break;
-                    case 4:
-                        tileType = "pressure_new";
-                        break;
-                }
+                apiManager.checkTileType(position);
                 if (mMap != null) {
                     if (tileOver != null) {
                         tileOver.remove();
@@ -117,6 +106,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        bottomNav.setSelectedItemId(R.id.map);
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -129,8 +124,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        WeatherInfoWindowAdapter infoWindow = new WeatherInfoWindowAdapter(getLayoutInflater());
 
         LatLng eii = new LatLng(43.3548057, -5.8534646);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(eii));
@@ -148,46 +141,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (currentMarker != null){
                     currentMarker.remove();
                 }
+                panelInfo.setVisibility(View.INVISIBLE);
                 currentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Marcador personalizado"));
-                infoWindow.getInfoWindow(currentMarker).invalidate();
-                if (currentMarker != null){
-                    currentMarker.showInfoWindow();
-                }
+                addMarker(currentMarker);
             }
         });
-        mMap.setInfoWindowAdapter(infoWindow);
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
                 if (currentMarker != null){
                     currentMarker.remove();
                 }
+                panelInfo.setVisibility(View.INVISIBLE);
             }
         });
     }
 
+    private void addMarker(Marker m) {
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
-    private void setUpMap() {
-        tileOver = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(createTileProvider()));
+        String ciudad = null;
+        try {
+            if (!geocoder.getFromLocation(m.getPosition().latitude, m.getPosition().longitude, 1).isEmpty()) {
+                ciudad = geocoder.getFromLocation(m.getPosition().latitude, m.getPosition().longitude, 1).get(0).getLocality();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (ciudad != null) {
+            //apiManager.getWeatherForMapInfo(lugar, condicion, estado, temperatura, latitud, longitud, ciudad);
+            apiManager.getWeather(new WeatherCallInfo(ciudad), new MapWeatherHandler(getActivity()));
+            panelInfo.setVisibility(View.VISIBLE);
+        }
     }
 
-    private TileProvider createTileProvider() {
-        TileProvider tileProvider = new UrlTileProvider(256, 256) {
-            @Override
-            public URL getTileUrl(int x, int y, int zoom) {
-                String fUrl = "https://tile.openweathermap.org/map/" + (tileType == null ? "clouds_new" : tileType) + "/"
-                        + zoom + "/" + x + "/" + y + ".png?appid=43659c6dc1582c2ec51e7a6ce96d6c7d";
-                Log.i("Result", fUrl);
-                URL url = null;
-                try {
-                    url = new URL(fUrl);
-                }
-                catch(MalformedURLException mfe) {
-                    mfe.printStackTrace();
-                }
-                return url;
-            }
-        };
-        return tileProvider;
+    private void setUpMap() {
+        tileOver = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(apiManager.createTileProvider()));
+    }
+
+    private MapsActivity getActivity() {
+        return this;
     }
 }

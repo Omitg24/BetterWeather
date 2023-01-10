@@ -8,11 +8,10 @@ import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.betterweather.ApiManager;
 import com.example.betterweather.R;
+import com.example.betterweather.modelo.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
-import com.example.betterweather.modelo.TemperaturaData;
 
 public class WeatherHandlerNotification implements WeatherHandler {
 
@@ -34,12 +33,12 @@ public class WeatherHandlerNotification implements WeatherHandler {
 
     @Override
     public void handleSuccess(TemperaturaData temperaturaData) {
-        temp =temperaturaData.getList().get(0).getMain().getTemp() + "ºC" ;
+        temp = temperaturaData.getList().get(0).getMain().getTemp() + " ºC" ;
         description = temperaturaData.getList().get(0).getWeather().get(0).getDescription();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationManager.notify(001,new NotificationCompat.Builder(context, "M_CH_ID")
                 .setSmallIcon(R.mipmap.ic_few_clouds_foreground)
-                .setContentTitle("Tiempo en "+temperaturaData.getList().get(0).getName())
+                .setContentTitle("Tiempo en " + temperaturaData.getList().get(0).getName())
                 .setSound(alarmSound)
                 .setAutoCancel(true)
                 .setContentText(WeatherUtil.getSpanishText(description) + temp)
