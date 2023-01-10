@@ -67,7 +67,7 @@ public class LugaresDataSource {
         // Borramos el lugar
         long removeId =
                 database.delete(MyDBHelper.TABLA_LUGARES, "id_lugar=?",
-                        new String[]{lugarToRemove.getIdentificadorLugar()});
+                        new String[]{lugarToRemove.getIdentificadorLugar().toLowerCase()});
 
         return removeId;
     }
@@ -76,7 +76,7 @@ public class LugaresDataSource {
         // Establecemos los valores que se insertaran
         ContentValues values = new ContentValues();
 
-        values.put(MyDBHelper.COLUMNA_ID_LUGAR, lugarToInsert.getIdentificadorLugar());
+        values.put(MyDBHelper.COLUMNA_ID_LUGAR, lugarToInsert.getIdentificadorLugar().toLowerCase());
 
         // Insertamos el lugar
         long insertId =
