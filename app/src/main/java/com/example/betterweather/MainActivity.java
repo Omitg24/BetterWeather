@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateWeather() {
-        apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),getUnit(spinnerUnits.getSelectedItem().toString())),new MainWeatherHandler(getActivity()));
+        apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString().trim(),getUnit(spinnerUnits.getSelectedItem().toString())),new MainWeatherHandler(getActivity()));
     }
 
     public static String getUnit(String unit) {
