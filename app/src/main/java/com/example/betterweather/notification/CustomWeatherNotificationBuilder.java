@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.betterweather.ApiManager;
 import com.example.betterweather.location.LocationInfo;
@@ -20,7 +21,7 @@ import java.util.Locale;
 
 public class CustomWeatherNotificationBuilder {
 
-    public static void createNotificationByLocationAndWeather(Context context, PendingIntent pendingIntent, NotificationManager notificationManager) {
+    public static void createNotificationByLocationAndWeather(Context context, PendingIntent pendingIntent, NotificationManagerCompat notificationManager) {
 
         LocationInfo locationInfo = new LocationInfo();
 

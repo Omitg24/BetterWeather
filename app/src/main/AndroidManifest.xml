@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -19,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BetterWeather"
-        tools:targetApi="31" >
+        tools:targetApi="30" >
         <activity
             android:name=".SplashActivity"
             android:exported="true" >
@@ -51,12 +52,14 @@
         <activity
             android:name=".MapsActivity"
             android:exported="false"
-            android:screenOrientation="locked" />
+            android:screenOrientation="locked"
+            />
         <activity
             android:name=".MainRecycler"
             android:exported="false"
             android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan"
+            >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -65,7 +68,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan"
+            >
 
             <meta-data
                 android:name="android.app.lib_name"

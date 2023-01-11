@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -89,10 +90,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (item.getItemId()) {
                     case R.id.favourites:
                         Intent intentFavourites = new Intent(getApplicationContext(), MainRecycler.class);
-                        startActivityForResult(intentFavourites, SOLICITUD_TIEMPO);
+                        intentFavourites.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intentFavourites);
                         return true;
                     case R.id.home:
                         Intent intentHome = new Intent(getApplicationContext(), MainActivity.class);
+                        intentHome.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intentHome);
                         return true;
                     case R.id.map:

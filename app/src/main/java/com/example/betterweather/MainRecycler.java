@@ -1,9 +1,12 @@
 package com.example.betterweather;
 
+import static com.example.betterweather.MainActivity.SOLICITUD_TIEMPO;
+
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -64,10 +67,12 @@ public class MainRecycler extends AppCompatActivity {
                         return true;
                     case R.id.home:
                         Intent intentHome = new Intent(getApplicationContext(), MainActivity.class);
+                        intentHome.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intentHome);
                         return true;
                     case R.id.map:
                         Intent intentMap = new Intent(getApplicationContext(), MapsActivity.class);
+                        intentMap.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intentMap);
                         return true;
                 }
@@ -125,10 +130,21 @@ public class MainRecycler extends AppCompatActivity {
     // Click del item del adapter
     public void clickonItem(Lugar lugar) {
         //Paso el modo de apertura
-        Intent intent = new Intent();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra(LUGAR_SELECCIONADO, lugar);
         setResult(RESULT_OK,intent);
-        finish();
+        if(getCallingActivity()!=null){
+            if(getCallingActivity().getClassName().contains("MainActivity")){
+                finish();
+            }else{
+                startActivity(intent);
+                MainActivity.procesaCambio(lugar);
+            }
+        }else{
+            startActivity(intent);
+            MainActivity.procesaCambio(lugar);
+        }
     }
 
     public void deleteItem(Lugar lugar) {

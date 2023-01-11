@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
 
-    private EditText placeSearch;
+    private static EditText placeSearch;
 
     private TextView textViewSystemTime;
 
@@ -86,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         establecerAlarma();
         setContentView(R.layout.activity_main);
-
-        Intent intent = getIntent();
 
         apiManager = new ApiManager();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -106,12 +107,14 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.favourites:
                         Intent intentFavourites = new Intent(getApplicationContext(), MainRecycler.class);
+                        intentFavourites.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivityForResult(intentFavourites,SOLICITUD_TIEMPO);
                         return true;
                     case R.id.home:
                         return true;
                     case R.id.map:
                         Intent intentMap = new Intent(getApplicationContext(), MapsActivity.class);
+                        intentMap.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intentMap);
                         return true;
                 }
@@ -123,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         textViewSystemTime.setText(sdf.format(currentTime));
+
+        Intent intent = getIntent();
 
         lds = new LugaresDataSource(getApplicationContext());
 
@@ -223,7 +228,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Intent intent = getIntent();
+
+        if(intent.getExtras()!=null){
+            Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
+            if(lugar !=null) {
+                placeSearch.setText((lugar).getIdentificadorLugar());
+                updateWeather();
+            }
+        }
+
         bottomNav.setSelectedItemId(R.id.home);
+    }
+
+    public static void procesaCambio(Lugar lugar) {
+        if(lugar !=null) {
+            placeSearch.setText((lugar).getIdentificadorLugar());
+        }
     }
 
     @Override
@@ -244,15 +265,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void establecerAlarma() {
+    public void establecerAlarma() {
         createNotificationChannel();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        Intent intent1 = new Intent(getApplicationContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,intent1, PendingIntent.FLAG_IMMUTABLE);
+        Intent intent1 = new Intent(this, AlarmReceiver.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (pendingIntent != null && am != null) {
             am.cancel(pendingIntent);

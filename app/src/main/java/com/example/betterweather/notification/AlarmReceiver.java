@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationManagerCompat;
+
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.notification.CustomWeatherNotificationBuilder;
 
@@ -15,8 +17,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
