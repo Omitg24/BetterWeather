@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/91057639/211689730-a31760df-76da-4ee6-bc6b-8aa34fb7bf3c.png" alt="Logo de BetterWeather" width="800" height="400">
+# <img src="https://user-images.githubusercontent.com/91057639/211689730-a31760df-76da-4ee6-bc6b-8aa34fb7bf3c.png" alt="Logo de BetterWeather" width="900" height="400">
 
 ## *Desarrolladores del proyecto*
 
@@ -41,10 +41,16 @@ Respecto a las notificaciones, el usuario podrá recibir notificaciones sobre la
 </p>
 
 ## *Permisos requeridos*
-Para poder utilizar la app correctamente, debe de permitirse el uso de la ubicación actual del dispositivo.
+<p align="justify">
+Para poder utilizar la app correctamente, debe de permitirse el uso de la ubicación actual del dispositivo, así como el permiso de utilizar el micrófono.
+</p>
    
 ## *APIs empleadas*
 Para la realización del proyecto se han utilizado las siguientes API:
 
    - OpenWeatherMap API.
    - Google Maps API.
+   - Windy Webcam API.
+
+## *Enlace a las Pruebas de Usabilidad*
+<a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad">https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad</a>
