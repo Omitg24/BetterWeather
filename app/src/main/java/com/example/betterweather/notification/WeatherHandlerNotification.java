@@ -41,7 +41,7 @@ public class WeatherHandlerNotification implements WeatherHandler {
                 .setContentTitle("Tiempo en " + temperaturaData.getList().get(0).getName())
                 .setSound(alarmSound)
                 .setAutoCancel(true)
-                .setContentText(WeatherUtil.getSpanishText(description) + temp)
+                .setContentText(WeatherUtil.getSpanishText(description) + " " + temp)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT).build());
     }

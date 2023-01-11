@@ -6,8 +6,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -29,14 +31,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SearchPlaceDoesntExists {
+public class WriteTextAndCheckWrittenTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void searchPlaceDoesntExists() {
+    public void writeTextAndCheckWritten() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editTextPlaceSearch), withText("Langreo"),
                         childAtPosition(
@@ -72,7 +74,13 @@ public class SearchPlaceDoesntExists {
                                         withId(R.id.panelBusqueda),
                                         0),
                                 0)));
-        appCompatEditText4.perform(scrollTo(), replaceText("noexiste"), closeSoftKeyboard());
+        appCompatEditText4.perform(scrollTo(), replaceText("londres"), closeSoftKeyboard());
+
+        ViewInteraction editText = onView(
+                allOf(withId(R.id.editTextPlaceSearch), withText("londres"),
+                        withParent(withParent(withId(R.id.panelBusqueda))),
+                        isDisplayed()));
+        editText.check(matches(withText("londres")));
     }
 
     private static Matcher<View> childAtPosition(
