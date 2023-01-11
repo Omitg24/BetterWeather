@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/91057639/211689730-a31760df-76da-4ee6-bc6b-8aa34fb7bf3c.png" alt="Logo de BetterWeather" width="800" height="400">
+# <img src="https://user-images.githubusercontent.com/91057639/211689730-a31760df-76da-4ee6-bc6b-8aa34fb7bf3c.png" alt="Logo de BetterWeather" width="900" height="400">
 
 ## Pruebas de Usabilidad
 
