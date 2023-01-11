@@ -42,7 +42,7 @@ public class InfoMapOnClickTest {
     @Test
     public void infoMapOnClickTest() {
         ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.map), withContentDescription("Mapa meteorol�gico"),
+                allOf(withId(R.id.map), withContentDescription("Mapa meteorologico"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.navigation_menu),
@@ -52,7 +52,7 @@ public class InfoMapOnClickTest {
         bottomNavigationItemView.perform(click());
 
         ViewInteraction imageView = onView(
-                allOf(withContentDescription("Mi ubicaci�n"),
+                allOf(withContentDescription("Mi ubicacion"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.FrameLayout")),

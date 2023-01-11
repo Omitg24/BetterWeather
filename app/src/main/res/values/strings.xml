@@ -24,23 +24,22 @@
     <string name="favDescrip">Acceder al panel de favoritos</string>
     <string name="addDescrip">Añadir el lugar a favoritos</string>
     <string name="iconDescrip">Icono de la condición del tiempo</string>
-    <string name="title_activity_maps">Mapa meteorológico</string>
 
     <string name="home">Home</string>
     <string name="favourites">Favoritos</string>
-    <string name="map">Mapa meteorológico</string>
+    <string name="map">Mapa meteorologico</string>
     <string name="latitud">Latitud:</string>
     <string name="longitud">Longitud:</string>
-    <string name="estado">Condición metereologica:</string>
+    <string name="estado">Condicion metereologica:</string>
 
     <string-array name="layers">
         <item>Nubes</item>
         <item>Temperatura</item>
         <item>Precipitaciones</item>
         <item>Viento</item>
-        <item>Presión</item>
+        <item>Presion</item>
     </string-array>
 
-    <string name="tituloNotificationChannel1">Temperatura localización</string>
-    <string name="descripcionNotificationChannel1">Notificación que indica la temperatura de la localización del dispositivo</string>
+    <string name="tituloNotificationChannel1">Temperatura</string>
+    <string name="descripcionNotificationChannel1">Notificacion que indica la temperatura de la localizacion del dispositivo</string>
 </resources>
