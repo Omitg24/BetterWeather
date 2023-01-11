@@ -31,14 +31,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class WriteTextAndCheckWrittenTest {
+public class SearchPlaceExistsTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<SplashActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(SplashActivity.class);
 
     @Test
-    public void writeTextAndCheckWritten() {
+    public void searchPlaceExistsTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editTextPlaceSearch), withText("Langreo"),
                         childAtPosition(
@@ -74,13 +74,75 @@ public class WriteTextAndCheckWrittenTest {
                                         withId(R.id.panelBusqueda),
                                         0),
                                 0)));
-        appCompatEditText4.perform(scrollTo(), replaceText("londres"), closeSoftKeyboard());
+        appCompatEditText4.perform(scrollTo(), replaceText("Madrid"), closeSoftKeyboard());
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.editTextPlaceSearch), withText("londres"),
+                allOf(withId(R.id.editTextPlaceSearch), withText("Madrid"),
                         withParent(withParent(withId(R.id.panelBusqueda))),
                         isDisplayed()));
-        editText.check(matches(withText("londres")));
+        editText.check(matches(withText("Madrid")));
+
+        ViewInteraction scrollView = onView(
+                allOf(withId(R.id.panelDatosGenerales),
+                        withParent(allOf(withId(R.id.main_layout),
+                                withParent(withId(android.R.id.content)))),
+                        isDisplayed()));
+        scrollView.check(matches(isDisplayed()));
+
+        ViewInteraction horizontalScrollView = onView(
+                allOf(withId(R.id.panelDatosSemana),
+                        withParent(allOf(withId(R.id.main_layout),
+                                withParent(withId(android.R.id.content)))),
+                        isDisplayed()));
+        horizontalScrollView.check(matches(isDisplayed()));
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.editTextPlaceSearch), withText("Madrid"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.panelBusqueda),
+                                        0),
+                                0)));
+        appCompatEditText5.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText6 = onView(
+                allOf(withId(R.id.editTextPlaceSearch), withText("Madrid"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.panelBusqueda),
+                                        0),
+                                0)));
+        appCompatEditText6.perform(scrollTo(), replaceText("Oviedo"));
+
+        ViewInteraction appCompatEditText7 = onView(
+                allOf(withId(R.id.editTextPlaceSearch), withText("Oviedo"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.panelBusqueda),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatEditText7.perform(closeSoftKeyboard());
+
+        ViewInteraction editText2 = onView(
+                allOf(withId(R.id.editTextPlaceSearch), withText("Oviedo"),
+                        withParent(withParent(withId(R.id.panelBusqueda))),
+                        isDisplayed()));
+        editText2.check(matches(withText("Oviedo")));
+
+        ViewInteraction scrollView2 = onView(
+                allOf(withId(R.id.panelDatosGenerales),
+                        withParent(allOf(withId(R.id.main_layout),
+                                withParent(withId(android.R.id.content)))),
+                        isDisplayed()));
+        scrollView2.check(matches(isDisplayed()));
+
+        ViewInteraction horizontalScrollView2 = onView(
+                allOf(withId(R.id.panelDatosSemana),
+                        withParent(allOf(withId(R.id.main_layout),
+                                withParent(withId(android.R.id.content)))),
+                        isDisplayed()));
+        horizontalScrollView2.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

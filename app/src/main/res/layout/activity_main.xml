@@ -83,6 +83,7 @@
             android:id="@+id/gridLayoutDays"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:foregroundGravity="center_vertical"
             app:rowCount="1" />
     </HorizontalScrollView>
 

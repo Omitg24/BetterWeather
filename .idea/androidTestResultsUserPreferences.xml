@@ -17,6 +17,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-77571629">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="81e6cc78" value="120" />
+                  <entry key="Duration" value="100" />
+                  <entry key="Tests" value="370" />
+                  <entry key="Xiaomi&#10; Redmi K20 Pro" value="129" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-33859788">
           <value>
             <AndroidTestResultsTableState>
