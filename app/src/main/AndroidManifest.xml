@@ -23,7 +23,9 @@
         tools:targetApi="30" >
         <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,6 +55,7 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".MainRecycler"
