@@ -7,4 +7,23 @@
 
     <string name="tituloNotificationChannel1">Temperatura localización</string>
     <string name="descripcionNotificationChannel1">Notificación que indica la temperatura de la localización del dispositivo</string>
+
+    <string name="noUbicacion">No hemos podido obtener una ubicación</string>
+
+    <string name="noPermisosAceptados">No se ha podido realizar ya que no has aceptado los permisos</string>
+
+    <string name="marcadorPersonalizado">Marcador personalizado</string>
+
+    <string name="microfonoBuscar">¿Qué lugar está buscando?</string>
+
+    <string name="borradoFavoritos">Se ha borrado de favoritos</string>
+    <string name="anadidoFavoritos">Se ha añadido a favoritos</string>
+    <string name="noPodidoFavoritos">No se ha podido añadir a favoritos ya que el lugar no existe</string>
+
+    <string name="permisoGooglePlayNoDisponible">No se ha podido acceder a los servicios de Google Play</string>
+
+    <string name="permisoUbicacionAceptado">Permiso de ubicación de voz aceptado</string>
+    <string name="permisoGrabacionAceptado">Permiso de grabación de voz aceptado</string>
+    <string name="permisoUbicacionRechazado">Permiso de ubicación de voz rechazado</string>
+    <string name="permisoGrabacionRechazado">Permiso de grabación de voz rechazado</string>
 </resources>

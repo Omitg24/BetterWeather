@@ -50,6 +50,8 @@
     <string name="logo">Logo de BetterWeather</string>
     <string name="microfono">Microfono para uso por voz</string>
 
+    <string name="noUbicacion">No hemos podido obtener una ubicación</string>
+
     <string name="noPermisosAceptados">No se ha podido realizar ya que no has aceptado los permisos</string>
 
     <string name="marcadorPersonalizado">Marcador personalizado</string>

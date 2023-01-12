@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(MainActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permisoUbicacionAceptado), Toast.LENGTH_SHORT).show();
 
                     Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                     LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else {
-                        Toast.makeText(this, "No hemos podido obtener una ubicación", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.noUbicacion), Toast.LENGTH_SHORT).show();
                         ciudad = "Madrid";
                     }
                     placeSearch.setText(ciudad);
