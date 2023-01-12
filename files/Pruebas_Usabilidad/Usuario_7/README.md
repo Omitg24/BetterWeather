@@ -6,17 +6,17 @@
 
 |             Categorías              |                    Resultados                     |
 |:-----------------------------------:|:-------------------------------------------------:|
-|                Edad                 |                                                20 |
+|                Edad                 |                                                24 |
 |                Sexo                 |                                         Masculino |
-|     Nivel o pericia informática     |                                                 7 |
+|     Nivel o pericia informática     |                                                10 |
 |     Tiempo invertido en Tarea 1     |                                              1,25 |
-|     Tiempo invertido en Tarea 2     |                                              0,52 |
-|     Tiempo invertido en Tarea 3     |                                              1,27 |
-|        Tiempo medio invertido       |                                              1,01 |
+|     Tiempo invertido en Tarea 2     |                                              1,44 |
+|     Tiempo invertido en Tarea 3     |                                              0,43 |
+|        Tiempo medio invertido       |                                              1,04 |
 | Realización correcta de las pruebas |                                                Sí |
-|      Comentarios del usuario        | Al buscar una ubicación no hay aviso de que se esté buscando |
-| Mejoras solicitadas por el usuario  | Mensaje o muestra de que está buscando los datos de la ubicación introducida |
-|       Valoración del usuario        |                                               9,5 |
+|      Comentarios del usuario        | Problemas de solapamiento en su dispositivo y al cambiar la ciudad |
+| Mejoras solicitadas por el usuario  |                        Corrección de solapamiento |
+|       Valoración del usuario        |                                                 8 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
-Ha realizado las 3 pruebas con éxito, teniendo algun problema al realizar la búsqueda, por falta de notificación de ésta.
+Ha realizado las 3 pruebas con éxito.
