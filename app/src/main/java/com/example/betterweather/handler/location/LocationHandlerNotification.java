@@ -6,10 +6,10 @@ import android.location.Geocoder;
 import android.location.Location;
 
 import com.example.betterweather.ApiManager;
-import com.example.betterweather.location.LocationHandler;
-import com.example.betterweather.location.LocationInfo;
-import com.example.betterweather.weather.WeatherCallInfo;
-import com.example.betterweather.weather.WeatherHandler;
+import com.example.betterweather.handler.LocationHandler;
+import com.example.betterweather.modelo.info.location.LocationInfo;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
+import com.example.betterweather.handler.WeatherHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +33,7 @@ public class LocationHandlerNotification implements LocationHandler {
     public void handleSuccess(Location location) {
         Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
         List<Address> dir=null;
+        //Seteamos la localizacion a la obtenida mediante la consulta, si hay error indicamos Madrid
         try {
             dir = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             locationInfo.setLocation(dir.get(0).getLocality());

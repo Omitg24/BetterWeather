@@ -10,16 +10,16 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.betterweather.apiutils.WeatherAPI;
-import com.example.betterweather.apiutils.WebcamIdAPI;
-import com.example.betterweather.apiutils.WebcamMainAPI;
-import com.example.betterweather.location.LocationHandler;
+import com.example.betterweather.api.WeatherAPI;
+import com.example.betterweather.api.WebcamIdAPI;
+import com.example.betterweather.api.WebcamMainAPI;
+import com.example.betterweather.handler.LocationHandler;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.modelo.webcam.webcamid.Result;
 import com.example.betterweather.modelo.webcam.webcamid.WebcamID;
 import com.example.betterweather.modelo.webcam.webcammain.WebcamMain;
-import com.example.betterweather.weather.WeatherCallInfo;
-import com.example.betterweather.weather.WeatherHandler;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
+import com.example.betterweather.handler.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;
@@ -36,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiManager {
+
     private TemperaturaData result;
 
     private boolean exists;
@@ -46,14 +47,18 @@ public class ApiManager {
 
     private String urlMapa = "https://tile.openweathermap.org/map/";
 
-    public final static String URL = "http://openweathermap.org/img/wn/";
-
     private String tileType = "clouds";
 
     private static String webcamId = null;
 
     private Retrofit retrofit;
 
+    /**
+     * Metodo que gestiona la operacion con la API openweathermap para obtener los datos
+     * meteorologicos de un lugar pasado por parametro
+     * @param weatherCallInfo la informacion del lugar del que queremos obtener los datos (unidades incluidas)
+     * @param weatherHandler el manejador de la operacion en funcion del resultado de la llamada
+     */
     public void getWeather(WeatherCallInfo weatherCallInfo, WeatherHandler weatherHandler){
         retrofit = new Retrofit.Builder().baseUrl(urlBase).addConverterFactory(GsonConverterFactory.create()).build();
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
@@ -65,6 +70,7 @@ public class ApiManager {
                     result = response.body();
                     if (result.getList().size() != 0) {
                         weatherHandler.handleSuccess(result);
+                        //Se puede aniadir a favoritos
                         exists=true;
                     } else {
                         weatherHandler.handleNotExists();
@@ -80,6 +86,12 @@ public class ApiManager {
         });
     }
 
+    /**
+     * Metodo que obtiene la ultima localizacion registrada en el dispositivo
+     * @param context el contexto de la aplicacion
+     * @param fusedLocationClient
+     * @param locationHandler el manejador de la operacion en funcion del resultado
+     */
     public static void findLocation(Context context, FusedLocationProviderClient fusedLocationClient, LocationHandler locationHandler){
         if (ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +102,7 @@ public class ApiManager {
             .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
+                        // Obtener ultima localizacion, en algunos casos puede ser null
                         if (location != null) {
                             locationHandler.handleSuccess(location);
                         } else {
@@ -101,6 +113,10 @@ public class ApiManager {
             );
     }
 
+    /**
+     * Metodo que crea la capa propuesta del mapa meteorologico en funcion del tipo
+     * @return
+     */
     public TileProvider createTileProvider() {
         TileProvider tileProvider = new UrlTileProvider(256, 256) {
             @Override
@@ -121,6 +137,10 @@ public class ApiManager {
         return tileProvider;
     }
 
+    /**
+     * Metodo que comprueba el tipo de capa
+     * @param position
+     */
     public void checkTileType(int position) {
         switch (position) {
             case 0:
@@ -141,6 +161,14 @@ public class ApiManager {
         }
     }
 
+    /**
+     * Metodo que obtiene un identificador por cercania de la webcam mas cercana para posteriormente
+     * ser utilizado a la hora de cargar la camara
+     * @param lat
+     * @param lon
+     * @param radius el radio que indica el area en el que estamos buscando la camara, si no encuentra
+     *               va aumentando
+     */
     public static void findWebcam(double lat, double lon, int radius) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBaseWebcam).addConverterFactory(GsonConverterFactory.create()).build();
         WebcamIdAPI webcamIdAPI = retrofit.create(WebcamIdAPI.class);
@@ -164,6 +192,10 @@ public class ApiManager {
         });
     }
 
+    /**
+     * Metodo que carga la camara para que sea visualizada en la UI
+     * @param webcamId identificador de la camara que queremos visualizar.
+     */
     private static void loadWebcam(String webcamId) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBaseWebcam).addConverterFactory(GsonConverterFactory.create()).build();
         WebcamMainAPI webcamMainAPI = retrofit.create(WebcamMainAPI.class);

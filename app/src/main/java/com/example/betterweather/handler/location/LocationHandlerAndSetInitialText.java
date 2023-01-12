@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
-import com.example.betterweather.location.LocationHandler;
+import com.example.betterweather.handler.LocationHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,18 +20,17 @@ public class LocationHandlerAndSetInitialText implements LocationHandler {
     private MainActivity activity;
 
     private EditText placeSearch;
-    private FusedLocationProviderClient fusedLocationClient;
 
-    public LocationHandlerAndSetInitialText(MainActivity activity, EditText placeSearch, FusedLocationProviderClient fusedLocationClient){
+    public LocationHandlerAndSetInitialText(MainActivity activity, EditText placeSearch){
         this.activity=activity;
         this.placeSearch=placeSearch;
-        this.fusedLocationClient=fusedLocationClient;
     }
 
     @Override
     public void handleSuccess(Location location) {
         Geocoder geoCoder = new Geocoder(activity.getApplicationContext(), Locale.getDefault());
         List<Address> dir;
+        //Seteamos la localizacion a la obtenida mediante la consulta, si hay error indicamos Madrid
         try {
             dir = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         } catch (IOException e) {

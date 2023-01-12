@@ -1,4 +1,4 @@
-package com.example.betterweather.apiutils;
+package com.example.betterweather.api;
 
 import com.example.betterweather.modelo.webcam.webcamid.WebcamID;
 

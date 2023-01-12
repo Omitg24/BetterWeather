@@ -7,7 +7,7 @@ import com.example.betterweather.MapsActivity;
 import com.example.betterweather.R;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
-import com.example.betterweather.weather.WeatherHandler;
+import com.example.betterweather.handler.WeatherHandler;
 
 public class MapWeatherHandler implements WeatherHandler {
 

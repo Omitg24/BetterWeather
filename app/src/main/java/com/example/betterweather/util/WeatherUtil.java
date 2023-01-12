@@ -111,4 +111,22 @@ public class WeatherUtil {
             return "Sol y nubes";
         }
     }
+
+    public static String getUnit(String unit) {
+        if (unit.equalsIgnoreCase("celsius")) {
+            return "metric";
+        } else if (unit.equalsIgnoreCase("fahrenheit")) {
+            return "imperial";
+        }
+        return "standard";
+    }
+
+    public static String getUnitLetter(String unit) {
+        if (unit.equalsIgnoreCase("celsius") || unit.equalsIgnoreCase("metric")) {
+            return "ºC";
+        } else if (unit.equalsIgnoreCase("fahrenheit") || unit.equalsIgnoreCase("imperial")) {
+            return "ºF";
+        }
+        return "ºK";
+    }
 }

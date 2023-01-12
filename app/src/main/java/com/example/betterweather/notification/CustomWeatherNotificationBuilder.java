@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.betterweather.ApiManager;
 import com.example.betterweather.handler.location.LocationHandlerNotification;
 import com.example.betterweather.handler.weather.WeatherHandlerNotification;
-import com.example.betterweather.location.LocationInfo;
+import com.example.betterweather.modelo.info.location.LocationInfo;
 import com.google.android.gms.location.LocationServices;
 
 public class CustomWeatherNotificationBuilder {

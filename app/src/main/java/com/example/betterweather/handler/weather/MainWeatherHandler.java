@@ -15,7 +15,7 @@ import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
-import com.example.betterweather.weather.WeatherHandler;
+import com.example.betterweather.handler.WeatherHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +34,7 @@ public class MainWeatherHandler implements WeatherHandler {
         updateInfoViewDays(result);
         updateInfoViewData(result);
         TextView textViewTemperaturaMain = activity.findViewById(R.id.textViewTemperaturaMain);
-        String unit = activity.getUnitLetter(activity.getSpinnerUnits().getSelectedItem().toString());
+        String unit = WeatherUtil.getUnitLetter(activity.getSpinnerUnits().getSelectedItem().toString());
         textViewTemperaturaMain.setText(result.getList().get(0).getMain().getTemp() + " " + unit);
 
         double lat = result.getList().get(0).getCoord().getLat();

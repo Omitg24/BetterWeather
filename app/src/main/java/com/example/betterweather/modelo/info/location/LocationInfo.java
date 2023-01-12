@@ -1,4 +1,4 @@
-package com.example.betterweather.location;
+package com.example.betterweather.modelo.info.location;
 
 public class LocationInfo {
 

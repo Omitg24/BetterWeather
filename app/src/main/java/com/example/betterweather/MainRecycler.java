@@ -1,14 +1,11 @@
 package com.example.betterweather;
 
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,31 +18,14 @@ import java.util.List;
 
 public class MainRecycler extends AppCompatActivity {
 
-    // identificador de intent
     public static final String LUGAR_SELECCIONADO = "lugar_seleccionado";
-    public static final String LUGAR_CREADO = "lugar_creado";
-
-    private static final int GESTION_ACTIVITY = 1;
 
     private List<Lugar> listaLugaresFavoritos;      // lista favoritas de la BD
-    private Lugar lugar;
 
     private RecyclerView listaLugarView;
 
     private BottomNavigationView bottomNav;
 
-    //SharedPreference de la MainRecycler
-    private SharedPreferences sharedPreferencesMainRecycler;
-
-    //Objetos para las notificaciones
-    private NotificationCompat.Builder mBuilder;
-    private NotificationManager mNotificationManager;
-
-    /**
-     * Boolean que indica si es la primera ejecución. Sirve para evitar que el onResume cargue el RecyclerView antes que la base de datos.
-     * Una vez cargada la base de datos, primeraEjecucion toma el valor false.
-     */
-    //  private boolean primeraEjecucion = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +33,16 @@ public class MainRecycler extends AppCompatActivity {
 
         listaLugarView = (RecyclerView) findViewById(R.id.reciclerView);
         listaLugarView.setHasFixedSize(true);
+
+        loadMenu();
+
+        cargarView();
+    }
+
+    /**
+     * Metodo que carga el menu de navegacion
+     */
+    private void loadMenu() {
         bottomNav = findViewById(R.id.navigation_menu);
         bottomNav.setSelectedItemId(R.id.favourites);
 
@@ -76,8 +66,6 @@ public class MainRecycler extends AppCompatActivity {
                 return false;
             }
         });
-
-        cargarView();
     }
 
     @Override
@@ -88,8 +76,7 @@ public class MainRecycler extends AppCompatActivity {
     }
 
     /**
-     * Usaremos este método para cargar el RecyclerView, la lista de películas y el Adapter.
-     * Este método se invoca desde onResume (especialmente
+     * Usaremos este método para cargar el RecyclerView, la lista de lugares y el Adapter.
      */
     protected void cargarView() {
         recuperarLugaresFavoritosDb();
@@ -114,8 +101,8 @@ public class MainRecycler extends AppCompatActivity {
     }
 
     /**
-     * Recupera todas ls peliculas de la tabla peliculas (favoritas) de la BD
-     * y las carga en la lista: listaPeliFavoritas
+     * Recupera todas los lugares de la tabla lugares de la BD
+     * y las carga en la lista: listaLugaresFavoritos
      */
     private void recuperarLugaresFavoritosDb() {
         LugaresDataSource lugaresDataSource = new LugaresDataSource(getApplicationContext());
@@ -125,9 +112,11 @@ public class MainRecycler extends AppCompatActivity {
         lugaresDataSource.close();
     }
 
-    // Click del item del adapter
+    /**
+     * Metodo que abre la actividad principal con el lugar pasado por parametro
+     * @param lugar el lugar con el que abriremos la actividad principal
+     */
     public void clickonItem(Lugar lugar) {
-        //Paso el modo de apertura
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra(LUGAR_SELECCIONADO, lugar);
@@ -145,6 +134,10 @@ public class MainRecycler extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo que elimina un lugar de la bbdd
+     * @param lugar
+     */
     public void deleteItem(Lugar lugar) {
         LugaresDataSource lds = new LugaresDataSource(getApplicationContext());
         lds.open();

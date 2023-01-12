@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.betterweather.handler.weather.RecyclerWeatherHandler;
 import com.example.betterweather.modelo.weatherpojos.Lugar;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
-import com.example.betterweather.weather.WeatherCallInfo;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
+import com.example.betterweather.util.WeatherUtil;
 
 import java.util.List;
 
@@ -29,13 +30,11 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
     private List<Lugar> listaLugares;
     private final OnItemClickListener listener;
 
-    public ListaLugaresAdapter(List<Lugar> listaPeli, OnItemClickListener listener) {
-        this.listaLugares = listaPeli;
+    public ListaLugaresAdapter(List<Lugar> listaLugares, OnItemClickListener listener) {
+        this.listaLugares = listaLugares;
         this.listener = listener;
     }
 
-    /* Indicamos el layout a "inflar" para usar en la vista
-     */
     @NonNull
     @Override
     public LugarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,7 +46,7 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
 
 
     /** Asocia el contenido a los componentes de la vista,
-     * concretamente con nuestro PeliculaViewHolder que recibimos como parámetro
+     * concretamente con nuestro LugarViewHolder que recibimos como parámetro
      */
     @Override
     public void onBindViewHolder(@NonNull LugarViewHolder holder, int position) {
@@ -79,11 +78,15 @@ public class ListaLugaresAdapter extends RecyclerView.Adapter<ListaLugaresAdapte
                     (TextView)itemView.findViewById(R.id.valorTemperatura));
         }
 
-        // asignar valores a los componentes
+        /**
+         * Metodo que asigna valor a los componentes de la vista
+         * @param lugar
+         * @param listener
+         */
         public void bindUser(final Lugar lugar, final OnItemClickListener listener) {
             ApiManager manager = new ApiManager();
             WeatherCallInfo weatherCallInfo = new WeatherCallInfo(lugar.getIdentificadorLugar(),
-                    MainActivity.getUnit(MainActivity.getSpinnerUnits().getSelectedItem().toString()));
+                    WeatherUtil.getUnit(MainActivity.getSpinnerUnits().getSelectedItem().toString()));
             manager.getWeather(weatherCallInfo,new RecyclerWeatherHandler(lineaReciclerFav,weatherCallInfo));
 
             itemView.setOnClickListener(new View.OnClickListener() {

@@ -72,6 +72,11 @@ public class LugaresDataSource {
         return removeId;
     }
 
+    /**
+     * Metodo que inserta un lugar pasado por parametro a la base de datos
+     * @param lugarToInsert
+     * @return
+     */
     public long createPlace(Lugar lugarToInsert) {
         // Establecemos los valores que se insertaran
         ContentValues values = new ContentValues();
@@ -85,6 +90,11 @@ public class LugaresDataSource {
         return insertId;
     }
 
+    /**
+     * Metodo que busca un lugar en la base de datos
+     * @param lugar
+     * @return
+     */
     public boolean findPlace(Lugar lugar){
         open();
         List<Lugar> lugares = getAllPlaces();
@@ -98,6 +108,10 @@ public class LugaresDataSource {
         return false;
     }
 
+    /**
+     * Metodo que devuelve todos los lugares de la bbdd
+     * @return
+     */
     public List<Lugar> getAllPlaces() {
         // Lista que almacenara el resultado
         List<Lugar> lugarList = new ArrayList<Lugar>();
@@ -108,7 +122,9 @@ public class LugaresDataSource {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 final Lugar actor = new Lugar();
-                actor.setIdentificadorLugar(cursor.getString(0));
+                String lugar = cursor.getString(0);
+                String res = lugar.substring(0, 1).toUpperCase() + lugar.substring(1);
+                actor.setIdentificadorLugar(res);
                 lugarList.add(actor);
                 cursor.moveToNext();
             }

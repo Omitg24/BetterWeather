@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.betterweather.databinding.ActivityMapsBinding;
 import com.example.betterweather.handler.weather.MapWeatherHandler;
-import com.example.betterweather.weather.WeatherCallInfo;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -58,6 +58,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         spinnerTipos = (Spinner) findViewById(R.id.spinnerTipos);
         panelInfo = (HorizontalScrollView) findViewById(R.id.info);
 
+        loadSpinner();
+
+        loadMenu();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    /**
+     * Metodo que carga el spinner de capas
+     */
+    private void loadSpinner() {
         ArrayAdapter<CharSequence> adpt = ArrayAdapter.createFromResource(this,
                 R.array.layers, android.R.layout.simple_spinner_item);
 
@@ -77,7 +89,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+    }
 
+    /**
+     * Metodo que carga el menu de navegacion
+     */
+    private void loadMenu() {
         bottomNav = findViewById(R.id.navigation_menu);
         bottomNav.setSelectedItemId(R.id.map);
 
@@ -101,9 +118,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -157,6 +171,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    /**
+     * Metodo que aniade marcador y obtiene el tiempo para esas coordenadas
+     * @param m
+     */
     private void addMarker(Marker m) {
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 

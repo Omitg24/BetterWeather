@@ -4,8 +4,8 @@ import com.example.betterweather.MainActivity;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
 import com.example.betterweather.util.WeatherUtil;
-import com.example.betterweather.weather.WeatherCallInfo;
-import com.example.betterweather.weather.WeatherHandler;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
+import com.example.betterweather.handler.WeatherHandler;
 
 public class RecyclerWeatherHandler implements WeatherHandler {
 
@@ -21,7 +21,7 @@ public class RecyclerWeatherHandler implements WeatherHandler {
     @Override
     public void handleSuccess(TemperaturaData temperaturaData) {
         lineaReciclerFav.getLugar().setText(weatherCallInfo.getCity());
-        lineaReciclerFav.getTemperatura().setText(temperaturaData.getList().get(0).getMain().getTemp() + MainActivity.getUnitLetter(weatherCallInfo.getUnits()));
+        lineaReciclerFav.getTemperatura().setText(temperaturaData.getList().get(0).getMain().getTemp() + WeatherUtil.getUnitLetter(weatherCallInfo.getUnits()));
         WeatherUtil.updateImage(lineaReciclerFav.getImagen(), temperaturaData.getList().get(0).getWeather().get(0).getDescription());
     }
 

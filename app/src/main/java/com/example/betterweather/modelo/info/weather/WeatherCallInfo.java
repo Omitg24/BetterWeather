@@ -1,4 +1,4 @@
-package com.example.betterweather.weather;
+package com.example.betterweather.modelo.info.weather;
 
 public class WeatherCallInfo {
 
