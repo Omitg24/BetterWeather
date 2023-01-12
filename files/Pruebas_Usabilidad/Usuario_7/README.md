@@ -9,10 +9,10 @@
 |                Edad                 |                                                24 |
 |                Sexo                 |                                         Masculino |
 |     Nivel o pericia informática     |                                                10 |
-|     Tiempo invertido en Tarea 1     |                                              1,25 |
-|     Tiempo invertido en Tarea 2     |                                              1,44 |
-|     Tiempo invertido en Tarea 3     |                                              0,43 |
-|        Tiempo medio invertido       |                                              1,04 |
+|     Tiempo invertido en Tarea 1     |                                                85 |
+|     Tiempo invertido en Tarea 2     |                                               104 |
+|     Tiempo invertido en Tarea 3     |                                                43 |
+|        Tiempo medio invertido       |                                                77 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Problemas de solapamiento en su dispositivo y al cambiar la ciudad |
 | Mejoras solicitadas por el usuario  |                        Corrección de solapamiento |

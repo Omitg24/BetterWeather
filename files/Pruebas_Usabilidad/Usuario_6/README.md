@@ -9,10 +9,10 @@
 |                Edad                 |                                                20 |
 |                Sexo                 |                                         Masculino |
 |     Nivel o pericia informática     |                                                 7 |
-|     Tiempo invertido en Tarea 1     |                                              1,25 |
-|     Tiempo invertido en Tarea 2     |                                              0,52 |
-|     Tiempo invertido en Tarea 3     |                                              1,27 |
-|        Tiempo medio invertido       |                                              1,01 |
+|     Tiempo invertido en Tarea 1     |                                                85 |
+|     Tiempo invertido en Tarea 2     |                                                52 |
+|     Tiempo invertido en Tarea 3     |                                                87 |
+|        Tiempo medio invertido       |                                                75 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Al buscar una ubicación no hay aviso de que se esté buscando |
 | Mejoras solicitadas por el usuario  | Mensaje o muestra de que está buscando los datos de la ubicación introducida |

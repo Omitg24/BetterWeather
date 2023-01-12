@@ -9,10 +9,10 @@
 |                Edad                 |                                                22 |
 |                Sexo                 |                                         Masculino |
 |     Nivel o pericia informática     |                                                 9 |
-|     Tiempo invertido en Tarea 1     |                                              0,54 |
-|     Tiempo invertido en Tarea 2     |                                              0,35 |
-|     Tiempo invertido en Tarea 3     |                                              1,16 |
-|        Tiempo medio invertido       |                                              1,08 |
+|     Tiempo invertido en Tarea 1     |                                                54 |
+|     Tiempo invertido en Tarea 2     |                                                35 |
+|     Tiempo invertido en Tarea 3     |                                                76 |
+|        Tiempo medio invertido       |                                                55 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Las cámaras tardan un poco en mostrar el resultado |
 | Mejoras solicitadas por el usuario  | Mostrar el tiempo de los días previos, botones de abajo mayores, aviso sobre "No tienes lugares favoritos", fecha en otro lugar |

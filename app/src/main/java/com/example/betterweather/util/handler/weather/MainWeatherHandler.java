@@ -110,13 +110,34 @@ public class MainWeatherHandler implements WeatherHandler {
         String lat = result.getList().get(0).getCoord() != null ? String.valueOf(result.getList().get(0).getCoord().getLat()) : "No hay datos";
         String lon = result.getList().get(0).getCoord() != null ? String.valueOf(result.getList().get(0).getCoord().getLon()) : "No hay datos";
 
-        String textIzda = String.format("Humedad: %s/100\n" +
+        if (!direccion.equals("No hay datos")) {
+            double grados = Double.parseDouble(direccion);
+            if (grados > 337.5 || grados < 22.5) {
+                direccion = "N";
+            } else if(grados > 22.5 && grados < 67.5) {
+                direccion = "NO";
+            } else if(grados > 67.5 && grados < 112.5) {
+                direccion = "O";
+            } else if(grados > 112.5 && grados < 157.5) {
+                direccion = "SO";
+            } else if(grados > 157.5 && grados < 202.5) {
+                direccion = "S";
+            } else if(grados > 202.5 && grados < 247.5) {
+                direccion = "SE";
+            } else if (grados > 247.5 && grados < 292.5) {
+                direccion = "SE";
+            } else if (grados > 292.5 && grados < 337.5) {
+                direccion = "E";
+            }
+        }
+
+        String textIzda = String.format("Humedad: %s\n" +
                         "Latitud: %s\n" +
                         "Longitud: %s " ,
-                humedad, lat, lon);
-        String textDcha = String.format("Presión: %s PA\n" +
+                humedad+"%", lat, lon);
+        String textDcha = String.format("Presión: %s hPA\n" +
                         "Viento: %s m/s\n" +
-                        "Dirección: %sº",
+                        "Dirección: %s",
                 presion, velocidad, direccion);
         datosIzda.setText(textIzda);
         datosDcha.setText(textDcha);

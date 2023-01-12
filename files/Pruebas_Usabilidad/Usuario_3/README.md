@@ -9,10 +9,10 @@
 |                Edad                 |                                                21 |
 |                Sexo                 |                                         Masculino |
 |     Nivel o pericia informática     |                                                 8 |
-|     Tiempo invertido en Tarea 1     |                                              0,42 |
-|     Tiempo invertido en Tarea 2     |                                              0,23 |
-|     Tiempo invertido en Tarea 3     |                                              0,29 |
-|        Tiempo medio invertido       |                                              0,31 |
+|     Tiempo invertido en Tarea 1     |                                                42 |
+|     Tiempo invertido en Tarea 2     |                                                23 |
+|     Tiempo invertido en Tarea 3     |                                                31 |
+|        Tiempo medio invertido       |                                                32 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Texto del Spinner más grande y opciones más separadas, Información de la cámara en una linea |
 | Mejoras solicitadas por el usuario  | Las mencionadas en el comentario, pantalla completa a la cámara |

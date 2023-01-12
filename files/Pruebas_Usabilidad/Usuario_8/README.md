@@ -9,10 +9,10 @@
 |                Edad                 |                                                20 |
 |                Sexo                 |                                          Femenino |
 |     Nivel o pericia informática     |                                                 6 |
-|     Tiempo invertido en Tarea 1     |                                              0,36 |
-|     Tiempo invertido en Tarea 2     |                                              0,48 |
-|     Tiempo invertido en Tarea 3     |                                              0,50 |
-|        Tiempo medio invertido       |                                              0,44 |
+|     Tiempo invertido en Tarea 1     |                                                36 |
+|     Tiempo invertido en Tarea 2     |                                                48 |
+|     Tiempo invertido en Tarea 3     |                                                50 |
+|        Tiempo medio invertido       |                                                45 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Fecha en mala ubicación, problemas de solapamiento |
 | Mejoras solicitadas por el usuario  |                      Mayor distinción entre mapas |

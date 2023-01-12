@@ -9,10 +9,10 @@
 |                Edad                 |                                                20 |
 |                Sexo                 |                                          Femenino |
 |     Nivel o pericia informática     |                                                 7 |
-|     Tiempo invertido en Tarea 1     |                                              1,07 |
-|     Tiempo invertido en Tarea 2     |                                              0,36 |
-|     Tiempo invertido en Tarea 3     |                                              0,36 |
-|        Tiempo medio invertido       |                                               0,6 |
+|     Tiempo invertido en Tarea 1     |                                                67 |
+|     Tiempo invertido en Tarea 2     |                                                36 |
+|     Tiempo invertido en Tarea 3     |                                                36 |
+|        Tiempo medio invertido       |                                                46 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        | Dificultad al buscar, al confudir el corazón con la lupa de búsqueda |
 | Mejoras solicitadas por el usuario  | Corregir problemas de visualización en el panel de favoritos |
