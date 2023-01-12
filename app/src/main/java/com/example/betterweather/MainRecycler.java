@@ -10,10 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.betterweather.util.db.LugaresDataSource;
 import com.example.betterweather.modelo.weatherpojos.Lugar;
+import com.example.betterweather.util.db.LugaresDataSource;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -144,7 +143,7 @@ public class MainRecycler extends AppCompatActivity {
         lds.open();
         lds.removePlace(lugar);
         lds.close();
-        Toast.makeText(this, "Se ha borrado" + lugar.getIdentificadorLugar(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Se ha borrado " + lugar.getIdentificadorLugar(), Toast.LENGTH_SHORT).show();
     }
 }
 
