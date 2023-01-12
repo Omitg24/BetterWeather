@@ -5,17 +5,18 @@
 ### *Datos sobre la prueba*
 
 |             Categorías              |                    Resultados                     |
-|:-----------------------------------:|:-------------------------------------------------
-|                Edad                 |                                                   |
-|                Sexo                 |                                                   |
-|     Nivel o pericia informática     |                                                   |
-|     Tiempo invertido en Tarea 1     |                                                   |
-|     Tiempo invertido en Tarea 2     |                                                   |
-|     Tiempo invertido en Tarea 3     |                                                   |
-|        Tiempo medio invertido       |                                                   |
-| Realización correcta de las pruebas |                                                   |
-|      Comentarios del usuario        |                                                   |
-| Mejoras solicitadas por el usuario  |                                                   |
-|       Valoración del usuario        |                                                   |
+|:-----------------------------------:|:-------------------------------------------------:|
+|                Edad                 |                                                20 |
+|                Sexo                 |                                         Masculino |
+|     Nivel o pericia informática     |                                                 7 |
+|     Tiempo invertido en Tarea 1     |                                              1,25 |
+|     Tiempo invertido en Tarea 2     |                                              0,52 |
+|     Tiempo invertido en Tarea 3     |                                              1,27 |
+|        Tiempo medio invertido       |                                              1,01 |
+| Realización correcta de las pruebas |                                                Sí |
+|      Comentarios del usuario        | Al buscar una ubicación no hay aviso de que se esté buscando |
+| Mejoras solicitadas por el usuario  | Mensaje o muestra de que está buscando los datos de la ubicación introducida |
+|       Valoración del usuario        |                                               9,5 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
+Ha realizado las 3 pruebas con éxito, teniendo algun problema al realizar la búsqueda, por falta de notificación de ésta.
