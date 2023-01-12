@@ -6,16 +6,17 @@
 
 |             Categorías              |                    Resultados                     |
 |:-----------------------------------:|:-------------------------------------------------
-|                Edad                 |                                                   |
-|                Sexo                 |                                                   |
-|     Nivel o pericia informática     |                                                   |
-|     Tiempo invertido en Tarea 1     |                                                   |
-|     Tiempo invertido en Tarea 2     |                                                   |
-|     Tiempo invertido en Tarea 3     |                                                   |
-|        Tiempo medio invertido       |                                                   |
-| Realización correcta de las pruebas |                                                   |
-|      Comentarios del usuario        |                                                   |
-| Mejoras solicitadas por el usuario  |                                                   |
-|       Valoración del usuario        |                                                   |
+|                Edad                 |                                                53 |
+|                Sexo                 |                                          Femenino |
+|     Nivel o pericia informática     |                                                 6 |
+|     Tiempo invertido en Tarea 1     |                                              1,18 |
+|     Tiempo invertido en Tarea 2     |                                              0,38 |
+|     Tiempo invertido en Tarea 3     |                                              0,54 |
+|        Tiempo medio invertido       |                                              1,10 |
+| Realización correcta de las pruebas |                                                Sí |
+|      Comentarios del usuario        |                                No hay comentarios |
+| Mejoras solicitadas por el usuario  |                                   Añadir un reloj |
+|       Valoración del usuario        |                                               9,5 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
+Ha realizado las 3 tareas con éxito, a pesar de en ciertos puntos atascarse, sin embargo, ha sido capaz de solucionar esos bloqueos de manera rápida y efectiva.
