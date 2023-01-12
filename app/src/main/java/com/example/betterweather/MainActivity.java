@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO};
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 1);
+        }else{
+            findLocationAndSetText();
         }
         loadListenButton();
 

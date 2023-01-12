@@ -1,0 +1,21 @@
+4T0M1C_CH0P3:
+	Entrega del trabajo en grupo:
+		Integrantes:
+			Israel Solís Iglesias, UO282162
+			Omar Teixeira González, UO281847
+		
+		Enlace al repositorio de GitHub:
+			https://github.com/Omitg24/BetterWeather
+	
+		Comentarios:			
+			Para el uso de BetterWeather solamente es necesario darle ciertos permisos a la aplicación, concretamente:
+				- Permiso de Ubicación actual.
+				- Permiso de Uso del micrófono.
+			De cara a agilizar la experiencia de usuario, se ha hecho que dichos permisos se soliciten en el primer uso
+			de la aplicación en cuestión, por lo que, una vez otorgados, el usuario no necesitará hacer nada más, ya que,
+			son los únicos requisitos para poder usar BetterWeather al 100%.
+			
+			En el informe DocumentacionProy2022, se comenta el comportamiento en las distintas versiones.
+			
+			Se han realizado diversas pruebas de usabilidad, dichas pruebas se encuentran en el directorio files del proyecto. Aunque, también se puede acceder a través del repositorio de GitHub, o 
+			mediante el enlace: https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad
