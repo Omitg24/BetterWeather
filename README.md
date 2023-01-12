@@ -40,6 +40,10 @@ Dicho mapa meteorológico tiene varias funcionalidades, mostrar información sob
 Respecto a las notificaciones, el usuario podrá recibir notificaciones sobre la temperatura en su ubicación actual cada cierto tiempo.
 </p>
 
+<p align="justify">
+Por último, a la hora de realizar una búsqueda también se actualizará una ventana con la cámara más cercana a esa ubicación, mostrando un recurso con la webcam donde se puede reproducir el video grabado en las ultimas 24 horas, el ultimo mes, año, etc...
+</p>
+
 ## *Permisos requeridos*
 <p align="justify">
 Para poder utilizar la app correctamente, debe de permitirse el uso de la ubicación actual del dispositivo, así como el permiso de utilizar el micrófono.
