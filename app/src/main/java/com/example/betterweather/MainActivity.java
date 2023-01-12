@@ -12,6 +12,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -49,10 +52,12 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static WebView web;
 
-    private static TextView titulo,
-                            ciudad,
-                            region,
-                            pais,
-                            continente;
+    private static TextView titulo;
+    private static TextView ciudad;
+    private static TextView region;
+    private static TextView pais;
+    private static TextView continente;
 
     private BottomNavigationView bottomNav;
 
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
-        if(lds.findPlace(new Lugar(placeSearch.getText().toString()))){
+        if (lds.findPlace(new Lugar(placeSearch.getText().toString()))) {
             favButton.setBackgroundResource(R.drawable.ic_favorite_24);
         }
 
@@ -144,22 +149,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        PERMISSIONS = new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO};
+        PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO};
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 1);
         }
-
         loadListenButton();
 
         createWebcamDialog();
     }
 
     /**
-     * Metodo que comprueba si se tienen los permisos pasados por parámetro
+     * Metodo que comprueba si se tienen los permisos de localizacion
      */
     private boolean hasPermissions(Context context, String... PERMISSIONS) {
         if (context != null && PERMISSIONS != null) {
-            for(String p : PERMISSIONS) {
+            for (String p : PERMISSIONS) {
                 if (ActivityCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
@@ -173,14 +177,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadListenButton() {
         ImageButton buttonListen = (ImageButton) findViewById(R.id.botonEscuchar);
-        buttonListen.setOnClickListener(new View.OnClickListener()
-        {
+        buttonListen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if(isGooglePlayServicesAvailable(getActivity())){
+            public void onClick(View v) {
+                if (isGooglePlayServicesAvailable(getActivity())) {
                     escuchar();
-                }else {
+                } else {
                     Snackbar.make(findViewById(R.id.editTextPlaceSearch),
                             "No se ha podido acceder a los servicios de Google Play",
                             Snackbar.LENGTH_SHORT).show();
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.favourites:
                         Intent intentFavourites = new Intent(getApplicationContext(), MainRecycler.class);
                         intentFavourites.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivityForResult(intentFavourites,SOLICITUD_TIEMPO);
+                        startActivityForResult(intentFavourites, SOLICITUD_TIEMPO);
                         return true;
                     case R.id.home:
                         return true;
@@ -217,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Metodo que carga el spinner de unidades
      */
@@ -230,24 +233,26 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(), WeatherUtil.getUnit(parent.getItemAtPosition(position).toString())), new MainWeatherHandler(getActivity()));
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SOLICITUD_TIEMPO) {
             if (resultCode == RESULT_OK) {
                 Lugar lugar = (Lugar) data.getParcelableExtra(LUGAR_SELECCIONADO);
-                if(data.getExtras()==null || lugar ==null){
+                if (data.getExtras() == null || lugar == null) {
                     findLocationAndSetText();
-                }else{
+                } else {
                     placeSearch.setText((lugar).getIdentificadorLugar());
                 }
             }
-        }else if(requestCode == SOLICITUD_VOZ) {
+        } else if (requestCode == SOLICITUD_VOZ) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 placeSearch.setText(matches.get(0).toString());
@@ -260,16 +265,16 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Intent intent = getIntent();
 
-        if(intent.getExtras()!=null){
+        if (intent.getExtras() != null) {
             Lugar lugar = (Lugar) intent.getParcelableExtra(LUGAR_SELECCIONADO);
-            if(lugar !=null) {
+            if (lugar != null) {
                 placeSearch.setText((lugar).getIdentificadorLugar());
                 updateWeather();
             }
         }
 
         Lugar lugar = new Lugar(placeSearch.getText().toString());
-        if(lds.findPlace(lugar)){
+        if (lds.findPlace(lugar)) {
             favButton.setBackgroundResource(R.drawable.ic_favorite_24);
         } else {
             favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
@@ -289,7 +294,31 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    String ciudad = null;
+                    if (location != null) {
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+
+
+                        try {
+                            ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(this, "No hemos podido obtener una ubicación", Toast.LENGTH_SHORT).show();
+                        ciudad = "Madrid";
+                    }
+                    placeSearch.setText(ciudad);
+                    apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(), WeatherUtil.getUnit(spinnerUnits.getSelectedItem().toString())), new MainWeatherHandler(getActivity()));
+                }
             } else {
                 Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
             }
@@ -367,16 +396,19 @@ public class MainActivity extends AppCompatActivity {
             lds.removePlace(lugar);
             lds.close();
             favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
-            Toast.makeText(this, "Se ha borrado de favoritos", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha borrado de favoritos",
+                    Snackbar.LENGTH_SHORT).show();
         } else {
             if(apiManager.getExists()){
                 lds.open();
                 lds.createPlace(lugar);
                 lds.close();
                 favButton.setBackgroundResource(R.drawable.ic_favorite_24);
-                Toast.makeText(this, "Se ha añadido a favoritos", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
+                        Snackbar.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "No se ha podido añadir a favoritos ya que el lugar no existe", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "No se ha podido añadir a favoritos ya que el lugar no existe",
+                        Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -441,7 +473,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void escuchar() {
         if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                     "¿Qué lugar está buscando?");
