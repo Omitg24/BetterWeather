@@ -5,17 +5,18 @@
 ### *Datos sobre la prueba*
 
 |             Categorías              |                    Resultados                     |
-|:-----------------------------------:|:-------------------------------------------------
-|                Edad                 |                                                   |
-|                Sexo                 |                                                   |
-|     Nivel o pericia informática     |                                                   |
-|     Tiempo invertido en Tarea 1     |                                                   |
-|     Tiempo invertido en Tarea 2     |                                                   |
-|     Tiempo invertido en Tarea 3     |                                                   |
-|        Tiempo medio invertido       |                                                   |
-| Realización correcta de las pruebas |                                                   |
-|      Comentarios del usuario        |                                                   |
-| Mejoras solicitadas por el usuario  |                                                   |
-|       Valoración del usuario        |                                                   |
+|:-----------------------------------:|:-------------------------------------------------:|
+|                Edad                 |                                                22 |
+|                Sexo                 |                                         Masculino |
+|     Nivel o pericia informática     |                                                 9 |
+|     Tiempo invertido en Tarea 1     |                                              0,54 |
+|     Tiempo invertido en Tarea 2     |                                              0,35 |
+|     Tiempo invertido en Tarea 3     |                                              1,16 |
+|        Tiempo medio invertido       |                                              1,08 |
+| Realización correcta de las pruebas |                                                Sí |
+|      Comentarios del usuario        | Las cámaras tardan un poco en mostrar el resultado |
+| Mejoras solicitadas por el usuario  | Mostrar el tiempo de los días previos, botones de abajo mayores, aviso sobre "No tienes lugares favoritos", fecha en otro lugar |
+|       Valoración del usuario        |                                                 9 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
+Ha realizado las 3 pruebas con éxito, el único problema que he observado ha sido en la tercera tarea, donde los resultados han tardado en mostrarse.
