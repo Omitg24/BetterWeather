@@ -1,4 +1,4 @@
-package com.example.betterweather.modelo.ui;
+package com.example.betterweather.modelo.recycler;
 
 import android.widget.ImageView;
 import android.widget.TextView;

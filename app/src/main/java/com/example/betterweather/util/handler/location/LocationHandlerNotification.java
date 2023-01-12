@@ -1,15 +1,15 @@
-package com.example.betterweather.handler.location;
+package com.example.betterweather.util.handler.location;
 
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 
-import com.example.betterweather.ApiManager;
-import com.example.betterweather.handler.LocationHandler;
+import com.example.betterweather.util.api.ApiManager;
+import com.example.betterweather.util.handler.LocationHandler;
 import com.example.betterweather.modelo.info.location.LocationInfo;
 import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
-import com.example.betterweather.handler.WeatherHandler;
+import com.example.betterweather.util.handler.WeatherHandler;
 
 import java.io.IOException;
 import java.util.List;

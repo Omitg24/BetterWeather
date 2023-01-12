@@ -77,7 +77,7 @@
         </activity>
 
         <receiver
-            android:name=".notification.AlarmReceiver"
+            android:name=".util.notification.AlarmReceiver"
             android:enabled="true" />
     </application>
 

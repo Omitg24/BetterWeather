@@ -10,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.betterweather.handler.weather.RecyclerWeatherHandler;
+import com.example.betterweather.util.api.ApiManager;
+import com.example.betterweather.util.handler.weather.RecyclerWeatherHandler;
 import com.example.betterweather.modelo.weatherpojos.Lugar;
-import com.example.betterweather.modelo.ui.LineaReciclerFav;
+import com.example.betterweather.modelo.recycler.LineaReciclerFav;
 import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
-import com.example.betterweather.util.WeatherUtil;
+import com.example.betterweather.util.weather.WeatherUtil;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.betterweather.handler;
+package com.example.betterweather.util.handler;
 
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 

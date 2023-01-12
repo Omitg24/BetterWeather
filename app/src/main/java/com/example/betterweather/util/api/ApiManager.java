@@ -1,4 +1,4 @@
-package com.example.betterweather;
+package com.example.betterweather.util.api;
 
 import static com.example.betterweather.MainActivity.updateDatos;
 
@@ -10,16 +10,16 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.betterweather.api.WeatherAPI;
-import com.example.betterweather.api.WebcamIdAPI;
-import com.example.betterweather.api.WebcamMainAPI;
-import com.example.betterweather.handler.LocationHandler;
+import com.example.betterweather.util.api.WeatherAPI;
+import com.example.betterweather.util.api.WebcamIdAPI;
+import com.example.betterweather.util.api.WebcamMainAPI;
+import com.example.betterweather.util.handler.LocationHandler;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.modelo.webcam.webcamid.Result;
 import com.example.betterweather.modelo.webcam.webcamid.WebcamID;
 import com.example.betterweather.modelo.webcam.webcammain.WebcamMain;
 import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
-import com.example.betterweather.handler.WeatherHandler;
+import com.example.betterweather.util.handler.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;

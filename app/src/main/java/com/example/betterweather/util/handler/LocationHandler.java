@@ -1,4 +1,4 @@
-package com.example.betterweather.handler;
+package com.example.betterweather.util.handler;
 
 import android.location.Location;
 

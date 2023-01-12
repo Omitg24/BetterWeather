@@ -1,4 +1,4 @@
-package com.example.betterweather.handler.location;
+package com.example.betterweather.util.handler.location;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -7,8 +7,7 @@ import android.widget.EditText;
 
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
-import com.example.betterweather.handler.LocationHandler;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.example.betterweather.util.handler.LocationHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;

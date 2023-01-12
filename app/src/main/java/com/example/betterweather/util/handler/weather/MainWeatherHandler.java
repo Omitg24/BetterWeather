@@ -1,6 +1,6 @@
-package com.example.betterweather.handler.weather;
+package com.example.betterweather.util.handler.weather;
 
-import static com.example.betterweather.ApiManager.findWebcam;
+import static com.example.betterweather.util.api.ApiManager.findWebcam;
 
 import android.graphics.Color;
 import android.view.Gravity;
@@ -14,8 +14,8 @@ import androidx.gridlayout.widget.GridLayout;
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
-import com.example.betterweather.util.WeatherUtil;
-import com.example.betterweather.handler.WeatherHandler;
+import com.example.betterweather.util.weather.WeatherUtil;
+import com.example.betterweather.util.handler.WeatherHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.example.betterweather.notification;
+package com.example.betterweather.util.notification;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

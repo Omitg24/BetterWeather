@@ -1,13 +1,13 @@
-package com.example.betterweather.notification;
+package com.example.betterweather.util.notification;
 
 import android.app.PendingIntent;
 import android.content.Context;
 
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.betterweather.ApiManager;
-import com.example.betterweather.handler.location.LocationHandlerNotification;
-import com.example.betterweather.handler.weather.WeatherHandlerNotification;
+import com.example.betterweather.util.api.ApiManager;
+import com.example.betterweather.util.handler.location.LocationHandlerNotification;
+import com.example.betterweather.util.handler.weather.WeatherHandlerNotification;
 import com.example.betterweather.modelo.info.location.LocationInfo;
 import com.google.android.gms.location.LocationServices;
 

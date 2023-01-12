@@ -17,7 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.betterweather.databinding.ActivityMapsBinding;
-import com.example.betterweather.handler.weather.MapWeatherHandler;
+import com.example.betterweather.util.api.ApiManager;
+import com.example.betterweather.util.handler.weather.MapWeatherHandler;
 import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -156,7 +157,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     currentMarker.remove();
                 }
                 panelInfo.setVisibility(View.INVISIBLE);
-                currentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Marcador personalizado"));
+                currentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.marcadorPersonalizado)));
                 addMarker(currentMarker);
             }
         });

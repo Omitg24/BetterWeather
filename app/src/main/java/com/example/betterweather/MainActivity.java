@@ -35,13 +35,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.betterweather.db.LugaresDataSource;
-import com.example.betterweather.handler.location.LocationHandlerAndSetInitialText;
-import com.example.betterweather.handler.weather.MainWeatherHandler;
+import com.example.betterweather.util.api.ApiManager;
+import com.example.betterweather.util.db.LugaresDataSource;
+import com.example.betterweather.util.handler.location.LocationHandlerAndSetInitialText;
+import com.example.betterweather.util.handler.weather.MainWeatherHandler;
 import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.example.betterweather.modelo.weatherpojos.Lugar;
-import com.example.betterweather.notification.AlarmReceiver;
-import com.example.betterweather.util.WeatherUtil;
+import com.example.betterweather.util.notification.AlarmReceiver;
+import com.example.betterweather.util.weather.WeatherUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     escuchar();
                 }else {
                     Snackbar.make(findViewById(R.id.editTextPlaceSearch),
-                            "No se ha podido acceder a los servicios de Google Play",
+                            getString(R.string.permisoGooglePlayNoDisponible),
                             Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -289,14 +290,14 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.permisoUbicacionAceptado), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.permisoUbicacionRechazado), Toast.LENGTH_SHORT).show();
             }
             if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permiso de grabación de voz aceptado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.permisoGrabacionAceptado), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Permiso de grabación de voz denegado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.permisoGrabacionRechazado), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -367,16 +368,16 @@ public class MainActivity extends AppCompatActivity {
             lds.removePlace(lugar);
             lds.close();
             favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
-            Toast.makeText(this, "Se ha borrado de favoritos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.borradoFavoritos), Toast.LENGTH_SHORT).show();
         } else {
             if(apiManager.getExists()){
                 lds.open();
                 lds.createPlace(lugar);
                 lds.close();
                 favButton.setBackgroundResource(R.drawable.ic_favorite_24);
-                Toast.makeText(this, "Se ha añadido a favoritos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.anadidoFavoritos), Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "No se ha podido añadir a favoritos ya que el lugar no existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.noPodidoFavoritos), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -441,13 +442,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void escuchar() {
         if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                    "¿Qué lugar está buscando?");
+                    getString(R.string.microfonoBuscar));
             startActivityForResult(intent, 1);
         }else{
-            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "No se ha podido realizar ya que no has aceptado los permisos",
+            Snackbar.make(findViewById(R.id.editTextPlaceSearch), getString(R.string.noPermisosAceptados),
                     Snackbar.LENGTH_SHORT).show();
         }
 
