@@ -94,7 +94,6 @@
         android:id="@+id/infoCamara"
         android:layout_width="360dp"
         android:layout_height="29dp"
-        android:fontFamily="@font/abel"
         android:text="@string/infoCamara"
         android:textAlignment="center"
         android:textSize="20sp"

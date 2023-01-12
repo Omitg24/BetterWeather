@@ -12,9 +12,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -41,9 +38,9 @@ import androidx.core.content.ContextCompat;
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.handler.location.LocationHandlerAndSetInitialText;
 import com.example.betterweather.handler.weather.MainWeatherHandler;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.example.betterweather.modelo.weatherpojos.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
-import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.example.betterweather.util.WeatherUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -52,12 +49,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -81,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static WebView web;
 
-    private static TextView titulo;
-    private static TextView ciudad;
-    private static TextView region;
-    private static TextView pais;
-    private static TextView continente;
+    private static TextView titulo,
+                            ciudad,
+                            region,
+                            pais,
+                            continente;
 
     private BottomNavigationView bottomNav;
 
@@ -98,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int SOLICITUD_TIEMPO = 0;
 
     public static final int SOLICITUD_VOZ = 1;
+
+    private String[] PERMISSIONS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         textViewSystemTime.setText(sdf.format(currentTime));
 
-        Intent intent = getIntent();
-
         lds = new LugaresDataSource(getApplicationContext());
 
         loadSpinner();
@@ -142,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadListenButton();
-
         botonCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,16 +144,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        askPermission();
+        PERMISSIONS = new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO};
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 1);
+        }
+
+        loadListenButton();
 
         createWebcamDialog();
+    }
+
+    /**
+     * Metodo que comprueba si se tienen los permisos pasados por parámetro
+     */
+    private boolean hasPermissions(Context context, String... PERMISSIONS) {
+        if (context != null && PERMISSIONS != null) {
+            for(String p : PERMISSIONS) {
+                if (ActivityCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
      * Metodo que inicializa el boton de escuchar
      */
     private void loadListenButton() {
-        ImageButton buttonListen = (ImageButton) findViewById(R.id.bescuchar);
+        ImageButton buttonListen = (ImageButton) findViewById(R.id.botonEscuchar);
         buttonListen.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -177,22 +189,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Metodo que solicita los permisos de localizacion
-     */
-    private void askPermission() {
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)){
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }else{
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
-        }
-    }
     /**
      * Metodo que carga el menu de navegacion
      */
@@ -291,38 +287,16 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
-
-                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        String ciudad = null;
-                        if(location!=null){
-                            double longitude = location.getLongitude();
-                            double latitude = location.getLatitude();
-
-
-                            try {
-                                ciudad = geocoder.getFromLocation(latitude, longitude, 1).get(0).getLocality();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }else{
-                            Toast.makeText(this, "No hemos podido obtener una ubicación", Toast.LENGTH_SHORT).show();
-                            ciudad = "Madrid";
-                        }
-                        placeSearch.setText(ciudad);
-                        apiManager.getWeather(new WeatherCallInfo(placeSearch.getText().toString(),WeatherUtil.getUnit(spinnerUnits.getSelectedItem().toString())),new MainWeatherHandler(getActivity()));
-                    }
-                } else {
-                    Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
-                }
-                return;
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permiso de ubicación aceptado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+            }
+            if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permiso de grabación de voz aceptado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permiso de grabación de voz denegado", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -393,19 +367,16 @@ public class MainActivity extends AppCompatActivity {
             lds.removePlace(lugar);
             lds.close();
             favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
-            Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha borrado de favoritos",
-                    Snackbar.LENGTH_SHORT).show();
+            Toast.makeText(this, "Se ha borrado de favoritos", Toast.LENGTH_SHORT).show();
         } else {
             if(apiManager.getExists()){
                 lds.open();
                 lds.createPlace(lugar);
                 lds.close();
                 favButton.setBackgroundResource(R.drawable.ic_favorite_24);
-                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "Se ha añadido a favoritos",
-                        Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(this, "Se ha añadido a favoritos", Toast.LENGTH_SHORT).show();
             }else{
-                Snackbar.make(findViewById(R.id.editTextPlaceSearch), "No se ha podido añadir a favoritos ya que el lugar no existe",
-                        Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(this, "No se ha podido añadir a favoritos ya que el lugar no existe", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -465,21 +436,10 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void askPermissionMicro(){
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.RECORD_AUDIO},1);
-
-        }
-    }
-
     /**
      * Metodo que abre el microfono y escucha lo introducido por voz
      */
     private void escuchar() {
-        askPermissionMicro();
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
