@@ -26,5 +26,7 @@ Concretamente, se han realizado 3 tareas, estas son:
   <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_3">Usuario 3</a></li>
   <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_4">Usuario 4</a></li>
   <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_5">Usuario 5</a></li>
-  <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_6">Usuario 6</a></li>
+  <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_6">Usuario 6</a></li>  
+  <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_7">Usuario 7</a></li>  
+  <li><a href="https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad/Usuario_8">Usuario 8</a></li>
 </ul>
