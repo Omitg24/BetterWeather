@@ -1,4 +1,4 @@
-package com.example.betterweather.modelo;
+package com.example.betterweather.modelo.weatherPojos;
 
 import android.os.Parcel;
 import android.os.Parcelable;

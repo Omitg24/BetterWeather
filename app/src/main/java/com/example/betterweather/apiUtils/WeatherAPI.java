@@ -1,6 +1,6 @@
 package com.example.betterweather.apiUtils;
 
-import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

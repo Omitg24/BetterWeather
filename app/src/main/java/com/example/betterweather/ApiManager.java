@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.betterweather.apiUtils.WeatherAPI;
 import com.example.betterweather.location.LocationHandler;
-import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,15 +35,18 @@ public class ApiManager {
 
     private String urlBase = "https://api.openweathermap.org/data/2.5/";
 
+    private String urlBaseWebcam = "https://api.windy.com/api/webcams/v2/list/";
+
     private String urlMapa = "https://tile.openweathermap.org/map/";
 
     public final static String URL = "http://openweathermap.org/img/wn/";
 
     private String tileType = "clouds";
 
-    private Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBase).addConverterFactory(GsonConverterFactory.create()).build();
+    private Retrofit retrofit;
 
     public void getWeather(WeatherCallInfo weatherCallInfo, WeatherHandler weatherHandler){
+        retrofit = new Retrofit.Builder().baseUrl(urlBase).addConverterFactory(GsonConverterFactory.create()).build();
         WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
         Call<TemperaturaData> call = weatherAPI.getCourse(weatherCallInfo.getCity(), weatherCallInfo.getUnits());
         call.enqueue(new Callback<TemperaturaData>() {

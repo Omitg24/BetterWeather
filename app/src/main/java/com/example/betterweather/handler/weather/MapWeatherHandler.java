@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.example.betterweather.MapsActivity;
 import com.example.betterweather.R;
-import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
 

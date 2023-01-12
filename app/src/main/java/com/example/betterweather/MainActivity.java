@@ -41,7 +41,7 @@ import androidx.core.content.ContextCompat;
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.handler.location.LocationHandlerAndSetInitialText;
 import com.example.betterweather.handler.weather.MainWeatherHandler;
-import com.example.betterweather.modelo.Lugar;
+import com.example.betterweather.modelo.weatherPojos.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.google.android.gms.common.ConnectionResult;

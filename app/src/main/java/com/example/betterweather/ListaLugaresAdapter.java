@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.betterweather.handler.weather.RecyclerWeatherHandler;
-import com.example.betterweather.modelo.Lugar;
+import com.example.betterweather.modelo.weatherPojos.Lugar;
 import com.example.betterweather.modelo.ui.LineaReciclerFav;
 import com.example.betterweather.weather.WeatherCallInfo;
 

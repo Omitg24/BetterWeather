@@ -11,7 +11,7 @@ import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
-import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.material.snackbar.Snackbar;

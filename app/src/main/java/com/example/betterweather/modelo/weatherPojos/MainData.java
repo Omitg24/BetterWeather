@@ -1,4 +1,4 @@
-package com.example.betterweather.modelo;
+package com.example.betterweather.modelo.weatherPojos;
 
 public class MainData {
     private String temp;

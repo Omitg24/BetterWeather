@@ -1,20 +1,15 @@
-package com.example.betterweather.notification;
+package com.example.betterweather.handler.weather;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.media.RingtoneManager;
-import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.betterweather.R;
-import com.example.betterweather.modelo.TemperaturaData;
+import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
-
-import java.util.Date;
 
 public class WeatherHandlerNotification implements WeatherHandler {
 

@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.betterweather.modelo.Lugar;
+import com.example.betterweather.modelo.weatherPojos.Lugar;
 
 import java.util.ArrayList;
 import java.util.List;
