@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.betterweather.db.LugaresDataSource;
-import com.example.betterweather.modelo.weatherPojos.Lugar;
+import com.example.betterweather.modelo.weatherpojos.Lugar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 

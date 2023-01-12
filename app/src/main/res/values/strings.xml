@@ -45,4 +45,8 @@
     <string name="cerrar">Cerrar</string>
     <string name="made_by">Powered by</string>
     <string name="autores"><![CDATA[Israel Solís Iglesias & Omar Teixeira González]]></string>
+    <string name="infoCamara">Camara mas Cercana</string>
+    <string name="equipo">4T0M1C_CH0P3</string>
+    <string name="logo">Logo de BetterWeather</string>
+    <string name="microfono">Microfono para uso por voz</string>
 </resources>

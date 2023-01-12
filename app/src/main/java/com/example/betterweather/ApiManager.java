@@ -1,5 +1,7 @@
 package com.example.betterweather;
 
+import static com.example.betterweather.MainActivity.updateDatos;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -8,9 +10,14 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.betterweather.apiUtils.WeatherAPI;
+import com.example.betterweather.apiutils.WeatherAPI;
+import com.example.betterweather.apiutils.WebcamIdAPI;
+import com.example.betterweather.apiutils.WebcamMainAPI;
 import com.example.betterweather.location.LocationHandler;
-import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
+import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
+import com.example.betterweather.modelo.webcam.webcamid.Result;
+import com.example.betterweather.modelo.webcam.webcamid.WebcamID;
+import com.example.betterweather.modelo.webcam.webcammain.WebcamMain;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,13 +42,15 @@ public class ApiManager {
 
     private String urlBase = "https://api.openweathermap.org/data/2.5/";
 
-    private String urlBaseWebcam = "https://api.windy.com/api/webcams/v2/list/";
+    private static String urlBaseWebcam = "https://api.windy.com/api/webcams/v2/list/";
 
     private String urlMapa = "https://tile.openweathermap.org/map/";
 
     public final static String URL = "http://openweathermap.org/img/wn/";
 
     private String tileType = "clouds";
+
+    private static String webcamId = null;
 
     private Retrofit retrofit;
 
@@ -130,6 +139,54 @@ public class ApiManager {
                 tileType = "pressure_new";
                 break;
         }
+    }
+
+    public static void findWebcam(double lat, double lon, int radius) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBaseWebcam).addConverterFactory(GsonConverterFactory.create()).build();
+        WebcamIdAPI webcamIdAPI = retrofit.create(WebcamIdAPI.class);
+        String coords=lat+","+lon;
+        Call<WebcamID> call = webcamIdAPI.getCourse(coords, radius);
+        call.enqueue(new Callback<WebcamID>() {
+            @Override
+            public void onResponse(Call<WebcamID> call, Response<WebcamID> response) {
+                if (response.isSuccessful()) {
+                    Result result = response.body().getResult();
+                    if (result.getWebcams().size() != 0) {
+                        webcamId = result.getWebcams().get(0).getId();
+                        loadWebcam(webcamId);
+                    } else {
+                        findWebcam(lat, lon, radius+5);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<WebcamID> call, Throwable t) { }
+        });
+    }
+
+    private static void loadWebcam(String webcamId) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(urlBaseWebcam).addConverterFactory(GsonConverterFactory.create()).build();
+        WebcamMainAPI webcamMainAPI = retrofit.create(WebcamMainAPI.class);
+        Call<WebcamMain> call = webcamMainAPI.getCourse(webcamId);
+        call.enqueue(new Callback<WebcamMain>() {
+            @Override
+            public void onResponse(Call<WebcamMain> call, Response<WebcamMain> response) {
+                if (response.isSuccessful()) {
+                    WebcamMain result = response.body();
+                    if (result.getResult().getWebcams().size() != 0) {
+                        String url = result.getResult().getWebcams().get(0).getPlayer().getDay().getLink();
+                        String title = result.getResult().getWebcams().get(0).getTitle();
+                        String city = result.getResult().getWebcams().get(0).getLocation().getCity();
+                        String region = result.getResult().getWebcams().get(0).getLocation().getRegion();
+                        String pais = result.getResult().getWebcams().get(0).getLocation().getCountry();
+                        String continent = result.getResult().getWebcams().get(0).getLocation().getContinent();
+                        updateDatos(url, title, city, region, pais, continent);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<WebcamMain> call, Throwable t) {}
+        });
     }
 
     public boolean getExists(){

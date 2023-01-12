@@ -23,6 +23,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,7 +32,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +41,7 @@ import androidx.core.content.ContextCompat;
 import com.example.betterweather.db.LugaresDataSource;
 import com.example.betterweather.handler.location.LocationHandlerAndSetInitialText;
 import com.example.betterweather.handler.weather.MainWeatherHandler;
-import com.example.betterweather.modelo.weatherPojos.Lugar;
+import com.example.betterweather.modelo.weatherpojos.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.google.android.gms.common.ConnectionResult;
@@ -78,7 +78,17 @@ public class MainActivity extends AppCompatActivity {
 
     private Button botonCamara;
 
+    private static WebView web;
+
+    private static TextView titulo;
+    private static TextView ciudad;
+    private static TextView region;
+    private static TextView pais;
+    private static TextView continente;
+
     private BottomNavigationView bottomNav;
+
+    private AlertDialog dialog;
 
     private Timer timer = new Timer();
 
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         botonCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createWebcamDialog();
+                dialog.show();
             }
         });
 
@@ -205,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.RECORD_AUDIO},1);
 
         }
+
+        createWebcamDialog();
     }
 
     @Override
@@ -444,17 +456,17 @@ public class MainActivity extends AppCompatActivity {
     public void createWebcamDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final View popupCameraView = getLayoutInflater().inflate(R.layout.popup_camera, null);
-        VideoView video = popupCameraView.findViewById(R.id.videoView);
-        TextView titulo = popupCameraView.findViewById(R.id.titulo);
-        TextView ciudad = popupCameraView.findViewById(R.id.ciudad);
-        TextView region = popupCameraView.findViewById(R.id.region);
-        TextView pais = popupCameraView.findViewById(R.id.pais);
-        TextView continente = popupCameraView.findViewById(R.id.continente);
+        web = popupCameraView.findViewById(R.id.webView);
+        titulo = popupCameraView.findViewById(R.id.titulo);
+        ciudad = popupCameraView.findViewById(R.id.ciudad);
+        region = popupCameraView.findViewById(R.id.region);
+        pais = popupCameraView.findViewById(R.id.pais);
+        continente = popupCameraView.findViewById(R.id.continente);
         Button botonCerrar = popupCameraView.findViewById(R.id.botonCerrar);
 
+        web.getSettings().setJavaScriptEnabled(true);
         dialogBuilder.setView(popupCameraView);
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
+        dialog = dialogBuilder.create();
 
         botonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,5 +474,14 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    public static void updateDatos(String url, String title, String city, String reg, String country, String continent) {
+        web.loadUrl(url);
+        titulo.setText(title);
+        ciudad.setText(city);
+        region.setText(reg);
+        pais.setText(country);
+        continente.setText(continent);
     }
 }

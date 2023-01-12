@@ -1,5 +1,7 @@
 package com.example.betterweather.handler.weather;
 
+import static com.example.betterweather.ApiManager.findWebcam;
+
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
@@ -11,7 +13,7 @@ import androidx.gridlayout.widget.GridLayout;
 
 import com.example.betterweather.MainActivity;
 import com.example.betterweather.R;
-import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
+import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,7 +39,7 @@ public class MainWeatherHandler implements WeatherHandler {
 
         double lat = result.getList().get(0).getCoord().getLat();
         double lon = result.getList().get(0).getCoord().getLon();
-        loadWebcam(lat, lon);
+        findWebcam(lat, lon, 5);
 
         ImageView imageViewPrincipal = activity.findViewById(R.id.iconWeatherCondition);
         TextView textViewPrincipal = activity.findViewById(R.id.textViewDescripcion);
@@ -52,14 +54,6 @@ public class MainWeatherHandler implements WeatherHandler {
     @Override
     public void handleNotExists() {
         Snackbar.make(activity.findViewById(R.id.editTextPlaceSearch), "El lugar que ha introducido no existe", Snackbar.LENGTH_SHORT).show();
-    }
-
-    private void loadWebcam(double lat, double lon) {
-        int radius = 5;
-
-        //String url = "https://api.windy.com/api/webcams/v2/list/nearby="+lat+","+lon+","+radius+"?key=RVIQq7qhWTW1f0aGSFMGCKf8yQdrKgC3";
-        String url = "https://api.windy.com/api/webcams/v2/list/nearby=40.4165000,%20-3.7025600,5?key=RVIQq7qhWTW1f0aGSFMGCKf8yQdrKgC3";
-        
     }
 
     private void updateInfoViewDays(TemperaturaData result) {

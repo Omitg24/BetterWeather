@@ -7,7 +7,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.betterweather.R;
-import com.example.betterweather.modelo.weatherPojos.TemperaturaData;
+import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.util.WeatherUtil;
 import com.example.betterweather.weather.WeatherHandler;
 
