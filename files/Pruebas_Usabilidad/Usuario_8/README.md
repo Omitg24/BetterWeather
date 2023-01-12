@@ -7,16 +7,16 @@
 |             Categorías              |                    Resultados                     |
 |:-----------------------------------:|:-------------------------------------------------:|
 |                Edad                 |                                                20 |
-|                Sexo                 |                                         Masculino |
-|     Nivel o pericia informática     |                                                 7 |
-|     Tiempo invertido en Tarea 1     |                                              1,25 |
-|     Tiempo invertido en Tarea 2     |                                              0,52 |
-|     Tiempo invertido en Tarea 3     |                                              1,27 |
-|        Tiempo medio invertido       |                                              1,01 |
+|                Sexo                 |                                          Femenino |
+|     Nivel o pericia informática     |                                                 6 |
+|     Tiempo invertido en Tarea 1     |                                              0,36 |
+|     Tiempo invertido en Tarea 2     |                                              0,48 |
+|     Tiempo invertido en Tarea 3     |                                              0,50 |
+|        Tiempo medio invertido       |                                              0,44 |
 | Realización correcta de las pruebas |                                                Sí |
-|      Comentarios del usuario        | Al buscar una ubicación no hay aviso de que se esté buscando |
-| Mejoras solicitadas por el usuario  | Mensaje o muestra de que está buscando los datos de la ubicación introducida |
-|       Valoración del usuario        |                                               9,5 |
+|      Comentarios del usuario        | Fecha en mala ubicación, problemas de solapamiento |
+| Mejoras solicitadas por el usuario  |                      Mayor distinción entre mapas |
+|       Valoración del usuario        |                                                 8 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
-Ha realizado las 3 pruebas con éxito, teniendo algun problema al realizar la búsqueda, por falta de notificación de ésta.
+Ha realizado las 3 pruebas con éxito, pasando por algún problema de solapamiento y dificultades al distinguir entre las capas del mapa.
