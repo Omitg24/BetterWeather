@@ -9,6 +9,13 @@ Tras la finalización de la aplicación BetterWeather, los desarrolladores, Isra
 <p align="justify">
 Aquí se han probado las funcionalidades principales de la aplicación, desde la búsqueda del tiempo en diversos lugares (ya sea mediante texto o voz), añadir a favoritos y/o el mapa meteorológico.
 </p>
+<p align="justify">
+Concretamente, se han realizado 3 tareas, estas son:
+
+  - Tarea 1: Búsqueda de ubicación "Madrid", ver resultados y añadir favoritos. Búsqueda de ubicación "Barcelona" por voz, ver resultados y añadir a favoritos. Ir al panel de favoritos, seleccionar Madrid y ver resultados, después volver al panel de favoritos, borrar Madrid y presionar sobre Barcelona, al final, eliminar de favoritos mediante el corazón.
+  - Tarea 2: Usar el mapa meteorológico, probar entre Nubes, Temperatura y Viento, después, seleccionar ubicación actual y obtener información de la ubicación actual.
+  - Tarea 3: Búsqueda de ubicación "Madrid", ver resultados y ver cámara más cercana, despúes, búsqueda de cualquier lugar (elegido por el usuario) y ver cámara más cercana.
+</p>
 
 ### *Gráficos con los resultados de las pruebas*
 
