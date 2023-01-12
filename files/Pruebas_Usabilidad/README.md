@@ -17,7 +17,48 @@ Concretamente, se han realizado 3 tareas, estas son:
   - Tarea 3: Búsqueda de ubicación "Madrid", ver resultados y ver cámara más cercana, despúes, búsqueda de cualquier lugar (elegido por el usuario) y ver cámara más cercana.
 </p>
 
-### *Gráficos con los resultados de las pruebas*
+### *Resultados*
+  
+  #### *Tiempo invertido Medio*    
+  
+    |   Tareas  |      Resultados      |
+    |:---------:|:--------------------:|
+    |     1     |        61,625        |
+    |     2     |        49,125        |
+    |     3     |        53,25         |
+    |   Media   |        54,667        |
+    
+  #### *Realizado correctamente Media*
+  
+    |   Tareas  |      Resultados      |
+    |:---------:|:--------------------:|
+    |     1     |         100          |
+    |     2     |         100          |
+    |     3     |         100          |
+    |   Media   |         100          |
+  
+  #### *Porcentaje de Hombres y Mujeres*
+  
+    |      Sexo      |      Porcentaje      |
+    |:--------------:|:--------------------:|
+    |    Hombres     |       62,50%         |
+    |    Mujeres     |       37,50%         |
+  
+  #### *Porcentaje de Edades*
+  
+    |      Edades       |      Porcentaje      |
+    |:-----------------:|:--------------------:|
+    |    De 18 a 25     |       75,00%         |
+    |    De 25 a 50     |        0,00%         |
+    |    De 50 a 75     |       25,00%         |
+    |    Más de 75      |        0,00%         |
+  
+---
+#### *Gráficos*
+![imagen](https://user-images.githubusercontent.com/91057639/212204739-a7ff353c-a55c-4905-816e-c71e761d4a62.png)
+![imagen](https://user-images.githubusercontent.com/91057639/212204760-038a127c-048b-4bdd-8f91-c70c41646868.png)
+![imagen](https://user-images.githubusercontent.com/91057639/212204747-607c1253-760b-45d2-b887-6b1dd046736e.png)
+![imagen](https://user-images.githubusercontent.com/91057639/212204770-96bd7450-470e-482b-b5e7-25609119f964.png)
 
 ### *Enlaces a los resultados concretos*
 <ul>
