@@ -1,13 +1,10 @@
 package com.example.betterweather;
 
-import static com.example.betterweather.MainActivity.SOLICITUD_TIEMPO;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.betterweather.databinding.ActivityMapsBinding;
-import com.example.betterweather.handler.weatherHandler.MapWeatherHandler;
+import com.example.betterweather.handler.weather.MapWeatherHandler;
 import com.example.betterweather.weather.WeatherCallInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

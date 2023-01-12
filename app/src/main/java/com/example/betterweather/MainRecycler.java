@@ -1,12 +1,9 @@
 package com.example.betterweather;
 
-import static com.example.betterweather.MainActivity.SOLICITUD_TIEMPO;
-
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -87,6 +84,7 @@ public class MainRecycler extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         bottomNav.setSelectedItemId(R.id.favourites);
+        cargarView();
     }
 
     /**

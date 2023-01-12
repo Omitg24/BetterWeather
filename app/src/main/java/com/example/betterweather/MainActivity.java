@@ -5,6 +5,7 @@ import static com.example.betterweather.MainRecycler.LUGAR_SELECCIONADO;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,17 +20,18 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +39,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.betterweather.db.LugaresDataSource;
-import com.example.betterweather.handler.locationHandler.LocationHandlerAndSetInitialText;
-import com.example.betterweather.handler.weatherHandler.MainWeatherHandler;
+import com.example.betterweather.handler.location.LocationHandlerAndSetInitialText;
+import com.example.betterweather.handler.weather.MainWeatherHandler;
 import com.example.betterweather.modelo.Lugar;
 import com.example.betterweather.notification.AlarmReceiver;
 import com.example.betterweather.weather.WeatherCallInfo;
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton favButton;
 
+    private Button botonCamara;
+
     private BottomNavigationView bottomNav;
 
     private Timer timer = new Timer();
@@ -88,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         establecerAlarma();
         setContentView(R.layout.activity_main);
 
@@ -98,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
         textViewSystemTime = (TextView) findViewById(R.id.textViewFechaSistema);
         spinnerUnits = (Spinner) findViewById(R.id.spinnerUnits);
         favButton = (ImageButton) findViewById(R.id.addFav);
+        botonCamara = (Button) findViewById(R.id.botonCamara);
         bottomNav = findViewById(R.id.navigation_menu);
-        bottomNav.setSelectedItemId(R.id.home);
 
+        bottomNav.setSelectedItemId(R.id.home);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -169,9 +173,16 @@ public class MainActivity extends AppCompatActivity {
                     escuchar();
                 }else {
                     Snackbar.make(findViewById(R.id.editTextPlaceSearch),
-                            "No se puede acceder a los servicios de Google Play",
+                            "No se ha podido acceder a los servicios de Google Play",
                             Snackbar.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        botonCamara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createWebcamDialog();
             }
         });
 
@@ -194,15 +205,6 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.RECORD_AUDIO},1);
 
         }
-    }
-
-    public boolean isGooglePlayServicesAvailable(Activity activity) {
-        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
-        if(status != ConnectionResult.SUCCESS) {
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -238,51 +240,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        bottomNav.setSelectedItemId(R.id.home);
-    }
-
-    public static void procesaCambio(Lugar lugar) {
-        if(lugar !=null) {
-            placeSearch.setText((lugar).getIdentificadorLugar());
+        Lugar lugar = new Lugar(placeSearch.getText().toString());
+        if(lds.findPlace(lugar)){
+            favButton.setBackgroundResource(R.drawable.ic_favorite_24);
+        } else {
+            favButton.setBackgroundResource(R.drawable.ic_favorite_border_24);
         }
+
+        bottomNav.setSelectedItemId(R.id.home);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.tituloNotificationChannel1);
-            String description = getString(R.string.descripcionNotificationChannel1);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("M_CH_ID", name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    public void establecerAlarma() {
-        createNotificationChannel();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Intent intent1 = new Intent(this, AlarmReceiver.class);
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_IMMUTABLE);
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if (pendingIntent != null && am != null) {
-            am.cancel(pendingIntent);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_HOUR, pendingIntent );
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent );
-        }
     }
 
     @Override
@@ -322,6 +292,53 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
             }
+        }
+    }
+
+    public boolean isGooglePlayServicesAvailable(Activity activity) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
+        if(status != ConnectionResult.SUCCESS) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void procesaCambio(Lugar lugar) {
+        if(lugar !=null) {
+            placeSearch.setText((lugar).getIdentificadorLugar());
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.tituloNotificationChannel1);
+            String description = getString(R.string.descripcionNotificationChannel1);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("M_CH_ID", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void establecerAlarma() {
+        createNotificationChannel();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Intent intent1 = new Intent(this, AlarmReceiver.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (pendingIntent != null && am != null) {
+            am.cancel(pendingIntent);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_HOUR, pendingIntent );
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent );
         }
     }
 
@@ -422,5 +439,28 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 "¿Qué lugar está buscando?");
         startActivityForResult(intent, 1);
+    }
+
+    public void createWebcamDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        final View popupCameraView = getLayoutInflater().inflate(R.layout.popup_camera, null);
+        VideoView video = popupCameraView.findViewById(R.id.videoView);
+        TextView titulo = popupCameraView.findViewById(R.id.titulo);
+        TextView ciudad = popupCameraView.findViewById(R.id.ciudad);
+        TextView region = popupCameraView.findViewById(R.id.region);
+        TextView pais = popupCameraView.findViewById(R.id.pais);
+        TextView continente = popupCameraView.findViewById(R.id.continente);
+        Button botonCerrar = popupCameraView.findViewById(R.id.botonCerrar);
+
+        dialogBuilder.setView(popupCameraView);
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        botonCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

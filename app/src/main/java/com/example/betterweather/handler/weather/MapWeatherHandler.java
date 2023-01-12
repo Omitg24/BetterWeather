@@ -1,4 +1,4 @@
-package com.example.betterweather.handler.weatherHandler;
+package com.example.betterweather.handler.weather;
 
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -22,7 +22,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="favDescrip">Acceder al panel de favoritos</string>
-    <string name="addDescrip">Añadir el lugar a favoritos</string>
+    <string name="addDescrip">Add el lugar a favoritos</string>
     <string name="iconDescrip">Icono de la condición del tiempo</string>
 
     <string name="home">Home</string>
@@ -42,4 +42,7 @@
 
     <string name="tituloNotificationChannel1">Temperatura</string>
     <string name="descripcionNotificationChannel1">Notificacion que indica la temperatura de la localizacion del dispositivo</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="made_by">Powered by</string>
+    <string name="autores"><![CDATA[Israel Solís Iglesias & Omar Teixeira González]]></string>
 </resources>
