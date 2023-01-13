@@ -8,15 +8,15 @@
 |:-----------------------------------:|:-------------------------------------------------:|
 |                Edad                 |                                                20 |
 |                Sexo                 |                                          Femenino |
-|     Nivel o pericia informática     |                                                 7 |
-|     Tiempo invertido en Tarea 1     |                                                67 |
-|     Tiempo invertido en Tarea 2     |                                                36 |
-|     Tiempo invertido en Tarea 3     |                                                36 |
-|        Tiempo medio invertido       |                                                46 |
+|     Nivel o pericia informática     |                                                 6 |
+|     Tiempo invertido en Tarea 1     |                                                36 |
+|     Tiempo invertido en Tarea 2     |                                                48 |
+|     Tiempo invertido en Tarea 3     |                                                50 |
+|        Tiempo medio invertido       |                                                45 |
 | Realización correcta de las pruebas |                                                Sí |
-|      Comentarios del usuario        | Dificultad al buscar, al confudir el corazón con la lupa de búsqueda |
-| Mejoras solicitadas por el usuario  | Corregir problemas de visualización en el panel de favoritos |
+|      Comentarios del usuario        | Fecha en mala ubicación, problemas de solapamiento |
+| Mejoras solicitadas por el usuario  |                      Mayor distinción entre mapas |
 |       Valoración del usuario        |                                                 8 |
 
 ### *Opinión del desarrollador sobre lo observado en la prueba*
-Ha realizado las 3 pruebas con éxito, con alguna dificultad en ciertos momentos, pero ha sabido superarlas.
+Ha realizado las 3 pruebas con éxito, pasando por algún problema de solapamiento y dificultades al distinguir entre las capas del mapa.

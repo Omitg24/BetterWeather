@@ -9,10 +9,10 @@
 |                Edad                 |                                                53 |
 |                Sexo                 |                                          Femenino |
 |     Nivel o pericia informática     |                                                 6 |
-|     Tiempo invertido en Tarea 1     |                                              1,18 |
-|     Tiempo invertido en Tarea 2     |                                              0,38 |
-|     Tiempo invertido en Tarea 3     |                                              0,54 |
-|        Tiempo medio invertido       |                                              1,10 |
+|     Tiempo invertido en Tarea 1     |                                                78 |
+|     Tiempo invertido en Tarea 2     |                                                38 |
+|     Tiempo invertido en Tarea 3     |                                                54 |
+|        Tiempo medio invertido       |                                                57 |
 | Realización correcta de las pruebas |                                                Sí |
 |      Comentarios del usuario        |                                No hay comentarios |
 | Mejoras solicitadas por el usuario  |                                   Añadir un reloj |

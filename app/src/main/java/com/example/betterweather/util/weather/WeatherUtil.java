@@ -127,6 +127,6 @@ public class WeatherUtil {
         } else if (unit.equalsIgnoreCase("fahrenheit") || unit.equalsIgnoreCase("imperial")) {
             return "ºF";
         }
-        return "ºK";
+        return "K";
     }
 }
