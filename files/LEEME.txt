@@ -19,3 +19,5 @@
 			
 			Se han realizado diversas pruebas de usabilidad, dichas pruebas se encuentran en el directorio files del proyecto. Aunque, también se puede acceder a través del repositorio de GitHub, o 
 			mediante el enlace: https://github.com/Omitg24/BetterWeather/tree/main/files/Pruebas_Usabilidad
+			
+			Debido al tamaño del video de demostración se adjunta un enlace: https://unioviedo-my.sharepoint.com/:v:/g/personal/uo281847_uniovi_es/Ed8LeJL9WlFLu9nofzb7C3IBzzZFYP-vRF9z0dEjqtP6dA?e=d6UArU

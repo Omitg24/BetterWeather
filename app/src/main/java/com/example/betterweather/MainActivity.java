@@ -128,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadSpinner();
 
-        findLocationAndSetText();
-
         placeSearch.addTextChangedListener(getListenerBusqueda());
 
         if (lds.findPlace(new Lugar(placeSearch.getText().toString()))) {
