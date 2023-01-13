@@ -10,15 +10,12 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.betterweather.util.api.WeatherAPI;
-import com.example.betterweather.util.api.WebcamIdAPI;
-import com.example.betterweather.util.api.WebcamMainAPI;
-import com.example.betterweather.util.handler.LocationHandler;
+import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
 import com.example.betterweather.modelo.weatherpojos.TemperaturaData;
 import com.example.betterweather.modelo.webcam.webcamid.Result;
 import com.example.betterweather.modelo.webcam.webcamid.WebcamID;
 import com.example.betterweather.modelo.webcam.webcammain.WebcamMain;
-import com.example.betterweather.modelo.info.weather.WeatherCallInfo;
+import com.example.betterweather.util.handler.LocationHandler;
 import com.example.betterweather.util.handler.WeatherHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.TileProvider;
@@ -206,7 +203,7 @@ public class ApiManager {
                 if (response.isSuccessful()) {
                     WebcamMain result = response.body();
                     if (result.getResult().getWebcams().size() != 0) {
-                        String url = result.getResult().getWebcams().get(0).getPlayer().getDay().getLink();
+                        String url = result.getResult().getWebcams().get(0).getPlayer().getDay().getEmbed();
                         String title = result.getResult().getWebcams().get(0).getTitle();
                         String city = result.getResult().getWebcams().get(0).getLocation().getCity();
                         String region = result.getResult().getWebcams().get(0).getLocation().getRegion();

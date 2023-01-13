@@ -41,7 +41,7 @@ Respecto a las notificaciones, el usuario podrá recibir notificaciones sobre la
 </p>
 
 <p align="justify">
-Por último, a la hora de realizar una búsqueda también se actualizará una ventana con la cámara más cercana a esa ubicación, mostrando un recurso con la webcam donde se puede reproducir el video grabado en las ultimas 24 horas, el ultimo mes, año, etc...
+Por último, a la hora de realizar una búsqueda también se actualizará una ventana con la cámara más cercana a esa ubicación, mostrando un recurso con la webcam donde se puede reproducir el video grabado en las ultimas 24.
 </p>
 
 ## *Permisos requeridos*
