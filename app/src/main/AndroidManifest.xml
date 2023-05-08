@@ -48,7 +48,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC6j4mF6blrc4kZ54S6vYZ2_FpMY9VzyRU" />
+            android:value= ${{ secrets.MAPS_API_KEY }} />
 
         <activity
             android:name=".MapsActivity"
