@@ -20,38 +20,34 @@ Concretamente, se han realizado 3 tareas, estas son:
 ### *Resultados*
   
   #### *Tiempo invertido Medio*    
-  
-    |   Tareas  |      Resultados      |
-    |:---------:|:--------------------:|
-    |     1     |        61,625        |
-    |     2     |        49,125        |
-    |     3     |        53,25         |
-    |   Media   |        54,667        |
+  |   Tareas  |      Resultados      |
+  |:---------:|:--------------------:|
+  |     1     |        61,625        |
+  |     2     |        49,125        |
+  |     3     |        53,25         |
+  |   Media   |        54,667        |
     
   #### *Realizado correctamente Media*
-  
-    |   Tareas  |      Resultados      |
-    |:---------:|:--------------------:|
-    |     1     |         100          |
-    |     2     |         100          |
-    |     3     |         100          |
-    |   Media   |         100          |
+  |   Tareas  |      Resultados      |
+  |:---------:|:--------------------:|
+  |     1     |         100          |
+  |     2     |         100          |
+  |     3     |         100          |
+  |   Media   |         100          |
   
   #### *Porcentaje de Hombres y Mujeres*
-  
-    |      Sexo      |      Porcentaje      |
-    |:--------------:|:--------------------:|
-    |    Hombres     |       62,50%         |
-    |    Mujeres     |       37,50%         |
+  |      Sexo      |      Porcentaje      |
+  |:--------------:|:--------------------:|
+  |    Hombres     |       62,50%         |
+  |    Mujeres     |       37,50%         |
   
   #### *Porcentaje de Edades*
-  
-    |      Edades       |      Porcentaje      |
-    |:-----------------:|:--------------------:|
-    |    De 18 a 25     |       75,00%         |
-    |    De 25 a 50     |        0,00%         |
-    |    De 50 a 75     |       25,00%         |
-    |    Más de 75      |        0,00%         |
+  |      Edades       |      Porcentaje      |
+  |:-----------------:|:--------------------:|
+  |    De 18 a 25     |       75,00%         |
+  |    De 25 a 50     |        0,00%         |
+  |    De 50 a 75     |       25,00%         |
+  |    Más de 75      |        0,00%         |
   
 ---
 #### *Gráficos*
